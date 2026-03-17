@@ -151,16 +151,28 @@ export interface TierInfo {
   name: string;
   emoji: string;
   minOrders: number;
+  discount: number; // percentage discount on plans
+  perks: string[];
 }
 
 export const tiers: TierInfo[] = [
-  { level: 1, name: "Bronze Camel", emoji: "🐪", minOrders: 0 },
-  { level: 2, name: "Golden Camel", emoji: "🐫", minOrders: 5 },
-  { level: 3, name: "Red Camel", emoji: "🏆🐫", minOrders: 15 },
+  { level: 1, name: "Bronze Camel", emoji: "🐪", minOrders: 0, discount: 0, perks: ["Access to all plans", "Email support"] },
+  { level: 2, name: "Golden Camel", emoji: "🐫", minOrders: 5, discount: 5, perks: ["5% off all plans", "Priority support", "Early access to deals"] },
+  { level: 3, name: "Red Camel", emoji: "🏆🐫", minOrders: 15, discount: 10, perks: ["10% off all plans", "VIP WhatsApp support", "Exclusive bundles", "Free top-ups"] },
 ];
 
 export function getUserTier(orderCount: number): TierInfo {
   if (orderCount >= 15) return tiers[2];
   if (orderCount >= 5) return tiers[1];
   return tiers[0];
+}
+
+export function getNextTier(orderCount: number): { next: TierInfo | null; ordersNeeded: number; progress: number } {
+  const current = getUserTier(orderCount);
+  if (current.level === 3) return { next: null, ordersNeeded: 0, progress: 100 };
+  const next = tiers[current.level]; // level is 1-indexed, array is 0-indexed, so tiers[level] = next
+  const ordersNeeded = next.minOrders - orderCount;
+  const prevMin = tiers[current.level - 1].minOrders;
+  const progress = ((orderCount - prevMin) / (next.minOrders - prevMin)) * 100;
+  return { next, ordersNeeded, progress: Math.min(100, Math.max(0, progress)) };
 }

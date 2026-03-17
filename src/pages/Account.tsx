@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { Switch } from "@/components/ui/switch";
+import TierProgress from "@/components/TierProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
@@ -92,6 +93,11 @@ const Account = () => {
             <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           </motion.button>
         )}
+
+        {/* ── Tier Progress ── */}
+        <motion.div {...anim(0.06)}>
+          <TierProgress orderCount={orders.length} />
+        </motion.div>
 
         {/* ── Section 1: My eSIMs ── */}
         <Section title="My eSIMs" icon={<Wifi className="w-4 h-4" />} delay={0.08}>
