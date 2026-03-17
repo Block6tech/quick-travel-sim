@@ -14,7 +14,7 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const [processing, setProcessing] = useState(false);
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!plan) {
     return (
