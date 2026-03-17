@@ -12,9 +12,9 @@ import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
 
 const globalBundles = [
-  { name: "Global", code: "GL", startingPrice: 15, planCount: 4 },
-  { name: "Global Plus", code: "GP", startingPrice: 25, planCount: 3 },
-];
+{ name: "Global", code: "GL", startingPrice: 15, planCount: 4 },
+{ name: "Global Plus", code: "GP", startingPrice: 25, planCount: 3 }];
+
 
 const regionOnly = regionalBundles.filter((b) => b.code !== "GL");
 
@@ -24,7 +24,7 @@ const continentMap: Record<string, string> = {
   GB: "europe", FR: "europe", DE: "europe", ES: "europe", IT: "europe",
   TH: "asiaPacific", JP: "asiaPacific", MY: "asiaPacific", SG: "asiaPacific",
   AU: "asiaPacific", KR: "asiaPacific",
-  US: "americas",
+  US: "americas"
 };
 
 const continentOrder = ["middleEast", "europe", "asiaPacific", "americas"] as const;
@@ -39,7 +39,7 @@ const continentEmojis: Record<string, string> = {
   middleEast: "🕌",
   europe: "🏰",
   asiaPacific: "⛩️",
-  americas: "🗽",
+  americas: "🗽"
 };
 
 const Index = () => {
@@ -60,7 +60,7 @@ const Index = () => {
   const continentGroups = useMemo(() => {
     return continentOrder.map((key) => ({
       key,
-      countries: countries.filter((c) => continentMap[c.code] === key),
+      countries: countries.filter((c) => continentMap[c.code] === key)
     }));
   }, []);
 
@@ -77,63 +77,63 @@ const Index = () => {
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }} className="relative">
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input type="text" placeholder={t.searchPlaceholder} value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full h-12 ps-10 pe-10 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target" />
-          {query && (
-            <button onClick={() => setQuery("")} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+          {query &&
+          <button onClick={() => setQuery("")} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
               <X className="w-4 h-4" />
             </button>
-          )}
+          }
         </motion.div>
 
-        {filtered ? (
-          <div className="space-y-2">
+        {filtered ?
+        <div className="space-y-2">
             <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.resultCount(filtered.length)}</p>
             <div className="space-y-2">
-              {filtered.map((c, i) => (<CountryCard key={c.code} country={c} delay={i * 30} />))}
+              {filtered.map((c, i) => <CountryCard key={c.code} country={c} delay={i * 30} />)}
               {filtered.length === 0 && <p className="text-sm text-muted-foreground py-8 text-center">{t.noResults}</p>}
             </div>
-          </div>
-        ) : (
-          <>
+          </div> :
+
+        <>
             <SwipeSection title={t.popularDestinations} delay={0.1}>
-              {popular.map((c) => (
-                <DestinationChip key={c.code} country={c} formatPrice={formatPrice} />
-              ))}
+              {popular.map((c) =>
+            <DestinationChip key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />
+            )}
             </SwipeSection>
 
             <SwipeSection title={t.regionalBundles} delay={0.15}>
-              {regionOnly.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
+              {regionOnly.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />)}
             </SwipeSection>
 
             <SwipeSection title={t.globalBundles} delay={0.2}>
-              {globalBundles.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
+              {globalBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />)}
             </SwipeSection>
 
             {/* All Destinations — Grouped by continent */}
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-4">
               <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.allDestinations}</h2>
 
-              {continentGroups.map(({ key, countries: group }) => (
-                <ContinentSection key={key} label={t.continents[key]} emoji={continentEmojis[key]} countries={group} formatPrice={formatPrice} />
-              ))}
+              {continentGroups.map(({ key, countries: group }) =>
+            <ContinentSection key={key} label={t.continents[key]} emoji={continentEmojis[key]} countries={group} formatPrice={formatPrice} />
+            )}
             </motion.div>
           </>
-        )}
+        }
       </div>
-    </AppLayout>
-  );
+    </AppLayout>);
+
 };
 
-function SwipeSection({ title, delay, children }: { title: string; delay: number; children: React.ReactNode }) {
+function SwipeSection({ title, delay, children }: {title: string;delay: number;children: React.ReactNode;}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
       <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{title}</h2>
       <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pb-1" style={{ WebkitOverflowScrolling: "touch" }}>{children}</div>
-    </motion.div>
-  );
+    </motion.div>);
+
 }
 
-function DestinationChip({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
+function DestinationChip({ country, formatPrice: fp }: {country: {name: string;code: string;startingPrice: number;};formatPrice: (n: number) => string;}) {
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
   const flag = countryFlag(country.code);
@@ -147,11 +147,11 @@ function DestinationChip({ country, formatPrice: fp }: { country: { name: string
         <p className="text-xs font-medium">{name}</p>
         <p className="text-[10px] text-muted-foreground font-mono-data">{t.from} {fp(country.startingPrice)}</p>
       </div>
-    </button>
-  );
+    </button>);
+
 }
 
-function BundleCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
+function BundleCard({ country, formatPrice: fp }: {country: {name: string;code: string;startingPrice: number;planCount: number;};formatPrice: (n: number) => string;}) {
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
   const name = getCountryName(country.code, country.name, locale);
@@ -165,15 +165,15 @@ function BundleCard({ country, formatPrice: fp }: { country: { name: string; cod
         <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
         <p className="text-xs font-mono-data font-medium">{fp(country.startingPrice)}</p>
       </div>
-    </button>
-  );
+    </button>);
+
 }
 
-function ContinentSection({ label, emoji, countries: group, formatPrice: fp }: {
-  label: string; emoji: string;
-  countries: { name: string; code: string; startingPrice: number; planCount: number }[];
-  formatPrice: (n: number) => string;
-}) {
+function ContinentSection({ label, emoji, countries: group, formatPrice: fp
+
+
+
+}: {label: string;emoji: string;countries: {name: string;code: string;startingPrice: number;planCount: number;}[];formatPrice: (n: number) => string;}) {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
@@ -182,8 +182,8 @@ function ContinentSection({ label, emoji, countries: group, formatPrice: fp }: {
     <div className="rounded-xl bg-card shadow-card overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-3 px-4 py-3 text-start hover:bg-accent/30 transition-colors"
-      >
+        className="w-full flex items-center gap-3 px-4 py-3 text-start hover:bg-accent/30 transition-colors">
+        
         <span className="text-lg">{emoji}</span>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold">{label}</p>
@@ -191,30 +191,30 @@ function ContinentSection({ label, emoji, countries: group, formatPrice: fp }: {
         </div>
         <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${open ? "" : "-rotate-90 rtl:rotate-90"}`} />
       </button>
-      {open && (
-        <div className="divide-y divide-border/50 border-t border-border/50">
+      {open &&
+      <div className="divide-y divide-border/50 border-t border-border/50">
           {group.map((c) => {
-            const flag = countryFlag(c.code);
-            const name = getCountryName(c.code, c.name, locale);
-            return (
-              <button
-                key={c.code}
-                onClick={() => navigate(`/plans/${c.code}`)}
-                className="flex items-center gap-3 w-full px-4 py-2.5 text-start hover:bg-accent/50 transition-colors active:bg-accent"
-              >
+          const flag = countryFlag(c.code);
+          const name = getCountryName(c.code, c.name, locale);
+          return (
+            <button
+              key={c.code}
+              onClick={() => navigate(`/plans/${c.code}`)}
+              className="flex items-center gap-3 w-full px-4 py-2.5 text-start hover:bg-accent/50 transition-colors active:bg-accent">
+              
                 <span className="text-xl leading-none">{flag}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{name}</p>
                 </div>
                 <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(c.startingPrice)}</p>
                 <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 flex-shrink-0 rtl:rotate-180" />
-              </button>
-            );
-          })}
+              </button>);
+
+        })}
         </div>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
 
 export default Index;
