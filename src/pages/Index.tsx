@@ -28,7 +28,8 @@ const Index = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const cn = (code: string, name: string) => getCountryName(code, name, locale);
 
   const popular = useMemo(() => countries.filter((c) => popularCodes.includes(c.code)), []);
 
