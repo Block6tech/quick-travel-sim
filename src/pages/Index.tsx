@@ -127,7 +127,7 @@ const Index = () => {
             {/* Global Bundles — horizontal swipe */}
             <SwipeSection title="Global bundles" delay={0.2}>
               {globalBundles.map((c) => (
-                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || regionIcons.GL} />
+                <BundleCard key={c.code} country={c} />
               ))}
             </SwipeSection>
 
