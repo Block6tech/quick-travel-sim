@@ -50,16 +50,12 @@ const Index = () => {
     return countries.filter((c) => c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q));
   }, [query]);
 
-  const grouped = useMemo(() => {
-    const map: Record<string, typeof countries> = {};
-    countries.forEach((c) => {
-      const translated = cn(c.code, c.name);
-      const letter = translated[0].toUpperCase();
-      if (!map[letter]) map[letter] = [];
-      map[letter].push(c);
-    });
-    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b, locale));
-  }, [locale]);
+  const continentGroups = useMemo(() => {
+    return continentOrder.map((key) => ({
+      key,
+      countries: countries.filter((c) => continentMap[c.code] === key),
+    }));
+  }, []);
 
   return (
     <AppLayout>
