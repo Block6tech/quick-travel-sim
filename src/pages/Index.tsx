@@ -1,12 +1,19 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import CountryCard from "@/components/CountryCard";
 import { countries, regionalBundles } from "@/data/esim-data";
 
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
+
+const globalBundles = [
+  { name: "Global", code: "GL", startingPrice: 15, planCount: 4 },
+  { name: "Global Plus", code: "GP", startingPrice: 25, planCount: 3 },
+];
+
+const regionOnly = regionalBundles.filter((b) => b.code !== "GL");
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -90,71 +97,40 @@ const Index = () => {
           </div>
         ) : (
           <>
-            {/* Popular */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
-              className="space-y-3"
-            >
-              <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                Popular destinations
-              </h2>
-              <div className="grid grid-cols-3 gap-2">
-                {popular.map((c, i) => (
-                  <button
-                    key={c.code}
-                    onClick={() => navigate(`/plans/${c.code}`)}
-                    className="flex flex-col items-center gap-2 p-3 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target"
-                  >
-                    <div className="w-10 h-10 rounded-md bg-foreground flex items-center justify-center">
-                      <span className="text-primary-foreground text-xs font-bold font-mono-data">
-                        {c.code}
-                      </span>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xs font-medium truncate max-w-full">
-                        {c.name.length > 10 ? c.code : c.name}
-                      </p>
-                      <p className="text-[10px] text-muted-foreground font-mono-data">
-                        ${c.startingPrice.toFixed(2)}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
+            {/* Popular — horizontal swipe */}
+            <SwipeSection title="Popular destinations" delay={0.1}>
+              {popular.map((c) => (
+                <DestinationChip key={c.code} country={c} />
+              ))}
+            </SwipeSection>
 
-            {/* Regional */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-              className="space-y-3"
-            >
-              <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                Regional bundles
-              </h2>
-              <div className="space-y-2">
-                {regionalBundles.map((c, i) => (
-                  <CountryCard key={c.code} country={c} delay={i * 30} />
-                ))}
-              </div>
-            </motion.div>
+            {/* Regional Bundles — horizontal swipe */}
+            <SwipeSection title="Regional bundles" delay={0.15}>
+              {regionOnly.map((c) => (
+                <BundleCard key={c.code} country={c} />
+              ))}
+            </SwipeSection>
 
-            {/* All Countries */}
+            {/* Global Bundles — horizontal swipe */}
+            <SwipeSection title="Global bundles" delay={0.2}>
+              {globalBundles.map((c) => (
+                <BundleCard key={c.code} country={c} />
+              ))}
+            </SwipeSection>
+
+            {/* All Countries — compact grid */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
               className="space-y-3"
             >
               <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
                 All destinations
               </h2>
-              <div className="space-y-2">
-                {countries.map((c, i) => (
-                  <CountryCard key={c.code} country={c} delay={i * 20} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {countries.map((c) => (
+                  <CompactCountryCard key={c.code} country={c} />
                 ))}
               </div>
             </motion.div>
@@ -164,5 +140,120 @@ const Index = () => {
     </AppLayout>
   );
 };
+
+/* ── Swipeable horizontal section ── */
+function SwipeSection({
+  title,
+  delay,
+  children,
+}: {
+  title: string;
+  delay: number;
+  children: React.ReactNode;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay, ease: [0.2, 0.8, 0.2, 1] }}
+      className="space-y-3"
+    >
+      <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+        {title}
+      </h2>
+      <div
+        ref={scrollRef}
+        className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pb-1"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Popular destination chip (compact, swipeable) ── */
+function DestinationChip({
+  country,
+}: {
+  country: { name: string; code: string; startingPrice: number };
+}) {
+  const navigate = useNavigate();
+  return (
+    <button
+      onClick={() => navigate(`/plans/${country.code}`)}
+      className="flex-shrink-0 snap-start flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target"
+    >
+      <div className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center">
+        <span className="text-primary-foreground text-[10px] font-bold font-mono-data">
+          {country.code}
+        </span>
+      </div>
+      <div className="text-left whitespace-nowrap">
+        <p className="text-xs font-medium">{country.name}</p>
+        <p className="text-[10px] text-muted-foreground font-mono-data">
+          from ${country.startingPrice.toFixed(2)}
+        </p>
+      </div>
+    </button>
+  );
+}
+
+/* ── Bundle card (regional / global) ── */
+function BundleCard({
+  country,
+}: {
+  country: { name: string; code: string; startingPrice: number; planCount: number };
+}) {
+  const navigate = useNavigate();
+  return (
+    <button
+      onClick={() => navigate(`/plans/${country.code}`)}
+      className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
+    >
+      <div className="w-10 h-10 rounded-lg bg-foreground flex items-center justify-center mb-3">
+        <span className="text-primary-foreground text-xs font-bold font-mono-data">
+          {country.code}
+        </span>
+      </div>
+      <p className="text-sm font-medium">{country.name}</p>
+      <div className="flex items-baseline justify-between mt-1">
+        <p className="text-xs text-muted-foreground">{country.planCount} plans</p>
+        <p className="text-xs font-mono-data font-medium">
+          ${country.startingPrice.toFixed(2)}
+        </p>
+      </div>
+    </button>
+  );
+}
+
+/* ── Compact country card for "All destinations" grid ── */
+function CompactCountryCard({
+  country,
+}: {
+  country: { name: string; code: string; startingPrice: number };
+}) {
+  const navigate = useNavigate();
+  return (
+    <button
+      onClick={() => navigate(`/plans/${country.code}`)}
+      className="flex items-center gap-2 p-2.5 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
+    >
+      <div className="w-8 h-8 rounded-md bg-foreground flex items-center justify-center flex-shrink-0">
+        <span className="text-primary-foreground text-[10px] font-bold font-mono-data">
+          {country.code}
+        </span>
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs font-medium truncate">{country.name}</p>
+        <p className="text-[10px] text-muted-foreground font-mono-data">
+          ${country.startingPrice.toFixed(2)}
+        </p>
+      </div>
+    </button>
+  );
+}
 
 export default Index;
