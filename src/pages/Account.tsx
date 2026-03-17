@@ -22,9 +22,9 @@ function flag(code: string) {
 }
 
 const anim = (d = 0) => ({
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.3, delay: d, ease: [0.2, 0.8, 0.2, 1] as number[] },
+  initial: { opacity: 0, y: 8 } as const,
+  animate: { opacity: 1, y: 0 } as const,
+  transition: { duration: 0.3, delay: d, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
 });
 
 /* ─────────────────────── Page ─────────────────────── */
