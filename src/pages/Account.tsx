@@ -165,7 +165,43 @@ const Account = () => {
         <Section title="Settings" icon={<Settings className="w-4 h-4" />} delay={0.24}>
           <div className="space-y-1">
             <SettingRow icon={<Globe className="w-4 h-4" />} label="Language" value="English" />
-            <SettingRow icon={<DollarSign className="w-4 h-4" />} label="Currency" value="USD" />
+            <div className="relative">
+              <button
+                onClick={() => setShowCurrencyPicker(!showCurrencyPicker)}
+                className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors btn-press touch-target"
+              >
+                <div className="flex items-center gap-3">
+                  <DollarSign className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-xs font-medium">Currency</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-[10px] text-muted-foreground">{currency.symbol} {currency.code}</span>
+                  <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-90" : ""}`} />
+                </div>
+              </button>
+              {showCurrencyPicker && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  className="overflow-hidden"
+                >
+                  <div className="max-h-48 overflow-y-auto rounded-lg bg-secondary/50 mx-3 mb-2">
+                    {currencies.map((c) => (
+                      <button
+                        key={c.code}
+                        onClick={() => { setCurrencyByCode(c.code); setShowCurrencyPicker(false); }}
+                        className={`w-full flex items-center justify-between px-3 py-2.5 text-xs hover:bg-secondary transition-colors ${
+                          c.code === currency.code ? "font-bold" : ""
+                        }`}
+                      >
+                        <span>{c.symbol} {c.name}</span>
+                        <span className="text-muted-foreground font-mono-data">{c.code}</span>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </div>
             <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
               <div className="flex items-center gap-3">
                 {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
