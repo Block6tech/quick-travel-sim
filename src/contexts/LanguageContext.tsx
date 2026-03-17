@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useCallback, useEffect, type React
 
 export type Locale = "en" | "ar";
 
-const translations = {
+const translations: Record<Locale, Record<string, any>> = {
   en: {
     // App
     appName: "CamelSim",
