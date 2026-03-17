@@ -289,6 +289,44 @@ const translations: Record<Locale, Record<string, any>> = {
   },
 } as const;
 
+/** Country/region name translations keyed by ISO code */
+const countryNames: Record<Locale, Record<string, string>> = {
+  en: {},
+  ar: {
+    // Countries
+    AE: "الإمارات العربية المتحدة",
+    TR: "تركيا",
+    GB: "المملكة المتحدة",
+    US: "الولايات المتحدة",
+    FR: "فرنسا",
+    DE: "ألمانيا",
+    TH: "تايلاند",
+    JP: "اليابان",
+    SA: "المملكة العربية السعودية",
+    EG: "مصر",
+    ES: "إسبانيا",
+    IT: "إيطاليا",
+    MY: "ماليزيا",
+    SG: "سنغافورة",
+    AU: "أستراليا",
+    KR: "كوريا الجنوبية",
+    // Regional / Global bundles
+    EU: "أوروبا",
+    AS: "آسيا",
+    ME: "الشرق الأوسط",
+    GL: "عالمية",
+    GP: "عالمية بلس",
+  },
+};
+
+/**
+ * Returns the translated country name for the current locale.
+ * Falls back to the original English name.
+ */
+export function getCountryName(code: string, englishName: string, locale: Locale): string {
+  return countryNames[locale]?.[code] || englishName;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Translations = Record<string, any>;
 
