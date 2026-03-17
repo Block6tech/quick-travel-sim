@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { EsimPlan } from "@/data/esim-data";
 import { ChevronRight, Wifi } from "lucide-react";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 interface PlanCardProps {
   plan: EsimPlan;
@@ -9,6 +10,7 @@ interface PlanCardProps {
 
 const PlanCard = ({ plan, delay = 0 }: PlanCardProps) => {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
 
   return (
     <button
@@ -41,7 +43,7 @@ const PlanCard = ({ plan, delay = 0 }: PlanCardProps) => {
             </span>
           )}
           <span className="text-lg font-mono-data font-semibold">
-            ${plan.price.toFixed(2)}
+            {formatPrice(plan.price)}
           </span>
         </div>
         <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
