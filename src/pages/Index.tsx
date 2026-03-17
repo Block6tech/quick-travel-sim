@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef } from "react";
+import travelersImg from "@/assets/travelers-esim.png";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ChevronRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -68,9 +69,12 @@ const Index = () => {
     <AppLayout>
       <div className="px-4 pt-6 pb-4 space-y-6">
         {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}>
-          <h1 className="text-2xl font-bold tracking-display whitespace-pre-line">{t.heroTitle}</h1>
-          <p className="text-sm text-muted-foreground mt-1 leading-body">{t.heroSubtitle}</p>
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} className="flex items-start gap-3">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-2xl font-bold tracking-display whitespace-pre-line">{t.heroTitle}</h1>
+            <p className="text-sm text-muted-foreground mt-1 leading-body">{t.heroSubtitle}</p>
+          </div>
+          <img src={travelersImg} alt="Travelers using eSIM" className="w-28 h-28 object-contain flex-shrink-0 -mt-2" />
         </motion.div>
 
         {/* Search */}
@@ -96,16 +100,16 @@ const Index = () => {
         <>
             <SwipeSection title={t.popularDestinations} delay={0.1}>
               {popular.map((c) =>
-            <DestinationChip key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />
+            <DestinationChip key={c.code} country={c} formatPrice={formatPrice} />
             )}
             </SwipeSection>
 
             <SwipeSection title={t.regionalBundles} delay={0.15}>
-              {regionOnly.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />)}
+              {regionOnly.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
             </SwipeSection>
 
             <SwipeSection title={t.globalBundles} delay={0.2}>
-              {globalBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} className="my-[2px]" />)}
+              {globalBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
             </SwipeSection>
 
             {/* All Destinations — Grouped by continent */}
