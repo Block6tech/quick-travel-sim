@@ -15,7 +15,7 @@ import {
   sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
 } from "@/data/esim-data";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 function flag(code: string) {
   if (code.length !== 2) return "";
