@@ -18,6 +18,17 @@ const globalBundles = [
 
 const regionOnly = regionalBundles.filter((b) => b.code !== "GL");
 
+/** Map each country code to its continent group */
+const continentMap: Record<string, string> = {
+  AE: "middleEast", SA: "middleEast", EG: "middleEast", TR: "middleEast",
+  GB: "europe", FR: "europe", DE: "europe", ES: "europe", IT: "europe",
+  TH: "asiaPacific", JP: "asiaPacific", MY: "asiaPacific", SG: "asiaPacific",
+  AU: "asiaPacific", KR: "asiaPacific",
+  US: "americas",
+};
+
+const continentOrder = ["middleEast", "europe", "asiaPacific", "americas"] as const;
+
 function countryFlag(code: string): string {
   if (code.length !== 2) return "";
   const offset = 0x1f1e6 - 65;
