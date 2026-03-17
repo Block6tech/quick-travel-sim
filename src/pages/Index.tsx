@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, ChevronRight } from "lucide-react";
+import { Search, X, Globe, Earth, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import CountryCard from "@/components/CountryCard";
@@ -14,6 +14,25 @@ const globalBundles = [
 ];
 
 const regionOnly = regionalBundles.filter((b) => b.code !== "GL");
+
+/** Convert ISO 3166-1 alpha-2 to flag emoji */
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65; // 'A' = 65
+  return String.fromCodePoint(
+    code.charCodeAt(0) + offset,
+    code.charCodeAt(1) + offset
+  );
+}
+
+/** Continent / region icons */
+const regionIcons: Record<string, string> = {
+  EU: "🌍",
+  AS: "🌏",
+  ME: "🕌",
+  GL: "🌐",
+  GP: "🌐",
+};
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -107,14 +126,14 @@ const Index = () => {
             {/* Regional Bundles — horizontal swipe */}
             <SwipeSection title="Regional bundles" delay={0.15}>
               {regionOnly.map((c) => (
-                <BundleCard key={c.code} country={c} />
+                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || "🌍"} />
               ))}
             </SwipeSection>
 
             {/* Global Bundles — horizontal swipe */}
             <SwipeSection title="Global bundles" delay={0.2}>
               {globalBundles.map((c) => (
-                <BundleCard key={c.code} country={c} />
+                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || "🌐"} />
               ))}
             </SwipeSection>
 
@@ -174,22 +193,22 @@ function SwipeSection({
   );
 }
 
-/* ── Popular destination chip (compact, swipeable) ── */
+/* ── Popular destination chip with flag emoji ── */
 function DestinationChip({
   country,
 }: {
   country: { name: string; code: string; startingPrice: number };
 }) {
   const navigate = useNavigate();
+  const flag = countryFlag(country.code);
+
   return (
     <button
       onClick={() => navigate(`/plans/${country.code}`)}
       className="flex-shrink-0 snap-start flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target"
     >
-      <div className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center">
-        <span className="text-primary-foreground text-[10px] font-bold font-mono-data">
-          {country.code}
-        </span>
+      <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center">
+        <span className="text-lg leading-none">{flag}</span>
       </div>
       <div className="text-left whitespace-nowrap">
         <p className="text-xs font-medium">{country.name}</p>
@@ -201,11 +220,13 @@ function DestinationChip({
   );
 }
 
-/* ── Bundle card (regional / global) ── */
+/* ── Bundle card with continent/globe emoji icon ── */
 function BundleCard({
   country,
+  icon,
 }: {
   country: { name: string; code: string; startingPrice: number; planCount: number };
+  icon: string;
 }) {
   const navigate = useNavigate();
   return (
@@ -213,10 +234,8 @@ function BundleCard({
       onClick={() => navigate(`/plans/${country.code}`)}
       className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
     >
-      <div className="w-10 h-10 rounded-lg bg-foreground flex items-center justify-center mb-3">
-        <span className="text-primary-foreground text-xs font-bold font-mono-data">
-          {country.code}
-        </span>
+      <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center mb-3">
+        <span className="text-xl leading-none">{icon}</span>
       </div>
       <p className="text-sm font-medium">{country.name}</p>
       <div className="flex items-baseline justify-between mt-1">
@@ -229,22 +248,22 @@ function BundleCard({
   );
 }
 
-/* ── Compact country card for "All destinations" grid ── */
+/* ── Compact country card with flag for "All destinations" grid ── */
 function CompactCountryCard({
   country,
 }: {
   country: { name: string; code: string; startingPrice: number };
 }) {
   const navigate = useNavigate();
+  const flag = countryFlag(country.code);
+
   return (
     <button
       onClick={() => navigate(`/plans/${country.code}`)}
       className="flex items-center gap-2 p-2.5 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
     >
-      <div className="w-8 h-8 rounded-md bg-foreground flex items-center justify-center flex-shrink-0">
-        <span className="text-primary-foreground text-[10px] font-bold font-mono-data">
-          {country.code}
-        </span>
+      <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center flex-shrink-0">
+        <span className="text-base leading-none">{flag}</span>
       </div>
       <div className="min-w-0">
         <p className="text-xs font-medium truncate">{country.name}</p>
