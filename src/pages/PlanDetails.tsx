@@ -4,33 +4,35 @@ import { Check, Wifi, Smartphone, Signal } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const PlanDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const plan = location.state?.plan as EsimPlan | undefined;
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
 
   if (!plan) {
     return (
-      <AppLayout showBack title="Plan">
+      <AppLayout showBack title={t.plan}>
         <div className="flex items-center justify-center h-64">
-          <p className="text-muted-foreground">Plan not found.</p>
+          <p className="text-muted-foreground">{t.planNotFound}</p>
         </div>
       </AppLayout>
     );
   }
 
   const features = [
-    { icon: <Signal className="w-4 h-4" />, label: "Speed", value: plan.speed },
-    { icon: <Wifi className="w-4 h-4" />, label: "Hotspot", value: plan.hotspot ? "Supported" : "Not supported" },
-    { icon: <Smartphone className="w-4 h-4" />, label: "Type", value: "eSIM (Digital)" },
+    { icon: <Signal className="w-4 h-4" />, label: t.speed, value: plan.speed },
+    { icon: <Wifi className="w-4 h-4" />, label: t.hotspotLabel, value: plan.hotspot ? t.supported : t.notSupported },
+    { icon: <Smartphone className="w-4 h-4" />, label: t.type, value: t.esimDigital },
   ];
 
   const faqs = [
-    { q: "Will it work when I land?", a: "Yes. Your eSIM activates instantly once connected to a local network. Just turn on data roaming in your settings." },
-    { q: "Can I share data via hotspot?", a: plan.hotspot ? "Yes, hotspot / tethering is fully supported with this plan." : "No, this plan does not support hotspot." },
-    { q: "What if I run out of data?", a: "You can buy a top-up at any time from your dashboard. Your number stays the same." },
+    { q: t.faqQ1, a: t.faqA1 },
+    { q: t.faqQ2, a: plan.hotspot ? t.faqA2Yes : t.faqA2No },
+    { q: t.faqQ3, a: t.faqA3 },
   ];
 
   return (
@@ -48,9 +50,9 @@ const PlanDetails = () => {
               <h1 className="text-4xl font-bold tracking-display">{plan.data}</h1>
               <p className="text-sm text-muted-foreground mt-1">{plan.validity}</p>
             </div>
-            <div className="text-right">
+            <div className="text-end">
               {plan.isBestValue && (
-                <span className="inline-block mb-1 px-2 py-0.5 bg-foreground text-primary-foreground text-[10px] font-bold uppercase rounded-sm tracking-wider">Best Value</span>
+                <span className="inline-block mb-1 px-2 py-0.5 bg-foreground text-primary-foreground text-[10px] font-bold uppercase rounded-sm tracking-wider">{t.bestValue}</span>
               )}
               <p className="text-3xl font-mono-data font-bold">{formatPrice(plan.price)}</p>
             </div>
@@ -58,7 +60,7 @@ const PlanDetails = () => {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
-          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Details</h2>
+          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.details}</h2>
           <div className="bg-card rounded-lg shadow-card divide-y divide-border">
             {features.map((f) => (
               <div key={f.label} className="flex items-center justify-between p-3">
@@ -70,7 +72,7 @@ const PlanDetails = () => {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
-          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Works on</h2>
+          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.worksOn}</h2>
           <div className="flex flex-wrap gap-2">
             {plan.networks.map((n) => (
               <span key={n} className="px-3 py-1.5 bg-secondary text-secondary-foreground text-xs font-medium rounded-md">{n}</span>
@@ -81,13 +83,13 @@ const PlanDetails = () => {
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }} className="bg-secondary rounded-lg p-4 space-y-2">
           <div className="flex items-center gap-2">
             <Check className="w-4 h-4 text-foreground" />
-            <span className="text-sm font-medium">Works instantly when you land</span>
+            <span className="text-sm font-medium">{t.worksInstantly}</span>
           </div>
-          <p className="text-xs text-muted-foreground leading-body pl-6">Turn on data roaming and you're connected. No physical SIM swap needed.</p>
+          <p className="text-xs text-muted-foreground leading-body ps-6">{t.worksInstantlyDesc}</p>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
-          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Common questions</h2>
+          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.commonQuestions}</h2>
           <div className="space-y-3">
             {faqs.map((faq) => (
               <div key={faq.q} className="space-y-1">
@@ -101,7 +103,7 @@ const PlanDetails = () => {
 
       <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 max-w-[480px] mx-auto">
         <button onClick={() => navigate("/checkout", { state: { plan } })} className="w-full h-12 bg-foreground text-primary-foreground font-semibold rounded-lg btn-press transition-all duration-200 touch-target text-sm">
-          Buy Now · {formatPrice(plan.price)}
+          {t.buyNow} · {formatPrice(plan.price)}
         </button>
       </div>
     </AppLayout>

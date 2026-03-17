@@ -7,6 +7,7 @@ import CountryCard from "@/components/CountryCard";
 import { countries, regionalBundles } from "@/data/esim-data";
 import { ContinentIcon } from "@/components/ContinentIcons";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
 
@@ -27,6 +28,7 @@ const Index = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
 
   const popular = useMemo(() => countries.filter((c) => popularCodes.includes(c.code)), []);
 
@@ -41,16 +43,16 @@ const Index = () => {
       <div className="px-4 pt-6 pb-4 space-y-6">
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}>
-          <h1 className="text-2xl font-bold tracking-display">Stay connected,<br />anywhere you go.</h1>
-          <p className="text-sm text-muted-foreground mt-1 leading-body">Instant eSIM activation. No roaming fees.</p>
+          <h1 className="text-2xl font-bold tracking-display whitespace-pre-line">{t.heroTitle}</h1>
+          <p className="text-sm text-muted-foreground mt-1 leading-body">{t.heroSubtitle}</p>
         </motion.div>
 
         {/* Search */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }} className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input type="text" placeholder="Where are you going?" value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full h-12 pl-10 pr-10 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target" />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input type="text" placeholder={t.searchPlaceholder} value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full h-12 ps-10 pe-10 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target" />
           {query && (
-            <button onClick={() => setQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+            <button onClick={() => setQuery("")} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
               <X className="w-4 h-4" />
             </button>
           )}
@@ -58,30 +60,30 @@ const Index = () => {
 
         {filtered ? (
           <div className="space-y-2">
-            <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{filtered.length} result{filtered.length !== 1 ? "s" : ""}</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.resultCount(filtered.length)}</p>
             <div className="space-y-2">
               {filtered.map((c, i) => (<CountryCard key={c.code} country={c} delay={i * 30} />))}
-              {filtered.length === 0 && <p className="text-sm text-muted-foreground py-8 text-center">No destinations found. Try a different search.</p>}
+              {filtered.length === 0 && <p className="text-sm text-muted-foreground py-8 text-center">{t.noResults}</p>}
             </div>
           </div>
         ) : (
           <>
-            <SwipeSection title="Popular destinations" delay={0.1}>
+            <SwipeSection title={t.popularDestinations} delay={0.1}>
               {popular.map((c) => (
                 <DestinationChip key={c.code} country={c} formatPrice={formatPrice} />
               ))}
             </SwipeSection>
 
-            <SwipeSection title="Regional bundles" delay={0.15}>
+            <SwipeSection title={t.regionalBundles} delay={0.15}>
               {regionOnly.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
             </SwipeSection>
 
-            <SwipeSection title="Global bundles" delay={0.2}>
+            <SwipeSection title={t.globalBundles} delay={0.2}>
               {globalBundles.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
             </SwipeSection>
 
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
-              <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">All destinations</h2>
+              <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.allDestinations}</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                 {countries.map((c) => (<CompactCountryCard key={c.code} country={c} formatPrice={formatPrice} />))}
               </div>
@@ -105,15 +107,16 @@ function SwipeSection({ title, delay, children }: { title: string; delay: number
 
 function DestinationChip({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const flag = countryFlag(country.code);
   return (
-    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target">
+    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start flex items-center gap-2.5 ps-1.5 pe-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target">
       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center">
         <span className="text-lg leading-none">{flag}</span>
       </div>
-      <div className="text-left whitespace-nowrap">
+      <div className="text-start whitespace-nowrap">
         <p className="text-xs font-medium">{country.name}</p>
-        <p className="text-[10px] text-muted-foreground font-mono-data">from {fp(country.startingPrice)}</p>
+        <p className="text-[10px] text-muted-foreground font-mono-data">{t.from} {fp(country.startingPrice)}</p>
       </div>
     </button>
   );
@@ -121,14 +124,15 @@ function DestinationChip({ country, formatPrice: fp }: { country: { name: string
 
 function BundleCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   return (
-    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target">
+    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start touch-target">
       <div className="w-10 h-10 rounded-lg bg-secondary text-foreground flex items-center justify-center mb-3">
         <ContinentIcon code={country.code} />
       </div>
       <p className="text-sm font-medium">{country.name}</p>
       <div className="flex items-baseline justify-between mt-1">
-        <p className="text-xs text-muted-foreground">{country.planCount} plans</p>
+        <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
         <p className="text-xs font-mono-data font-medium">{fp(country.startingPrice)}</p>
       </div>
     </button>
@@ -137,9 +141,10 @@ function BundleCard({ country, formatPrice: fp }: { country: { name: string; cod
 
 function CompactCountryCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const flag = countryFlag(country.code);
   return (
-    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex items-center gap-2 p-2.5 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target">
+    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex items-center gap-2 p-2.5 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start touch-target">
       <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center flex-shrink-0">
         <span className="text-base leading-none">{flag}</span>
       </div>
