@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { Switch } from "@/components/ui/switch";
+import TierProgress from "@/components/TierProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
