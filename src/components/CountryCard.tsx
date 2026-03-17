@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { EsimCountry } from "@/data/esim-data";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 function countryFlag(code: string): string {
   if (code.length !== 2) return "";
@@ -12,7 +13,6 @@ function countryFlag(code: string): string {
 
 import { ContinentIcon } from "@/components/ContinentIcons";
 
-
 interface CountryCardProps {
   country: EsimCountry;
   delay?: number;
@@ -20,6 +20,7 @@ interface CountryCardProps {
 
 const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
   const isRegion = ["EU", "AS", "ME", "GL", "GP"].includes(country.code);
   const icon = isRegion ? null : countryFlag(country.code);
 
@@ -42,7 +43,7 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
       </div>
       <div className="text-right flex-shrink-0">
         <p className="text-sm font-mono-data font-medium">
-          ${country.startingPrice.toFixed(2)}
+          {formatPrice(country.startingPrice)}
         </p>
         <p className="text-[10px] text-muted-foreground uppercase tracking-wider">from</p>
       </div>
