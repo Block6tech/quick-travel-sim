@@ -5,7 +5,7 @@ import {
   Wifi, ShoppingBag, CreditCard, HelpCircle, Settings,
   ChevronRight, LogOut, Bell, Globe, DollarSign,
   MessageCircle, BookOpen, Smartphone, Phone, Plus,
-  Shield, ExternalLink,
+  Shield, ExternalLink, Moon, Sun,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { Switch } from "@/components/ui/switch";
