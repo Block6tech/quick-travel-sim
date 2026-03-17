@@ -101,40 +101,13 @@ const Index = () => {
               {globalBundles.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
             </SwipeSection>
 
-            {/* All Destinations — Alphabetical grouped list */}
-            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
+            {/* All Destinations — Grouped by continent */}
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-4">
               <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.allDestinations}</h2>
 
-              {/* Alphabet quick-jump bar */}
-              <div className="flex flex-wrap gap-1 pb-1">
-                {grouped.map(([letter]) => (
-                  <button
-                    key={letter}
-                    onClick={() => document.getElementById(`letter-${letter}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="w-7 h-7 rounded-md bg-secondary text-muted-foreground text-[11px] font-medium flex items-center justify-center hover:bg-accent hover:text-foreground transition-colors"
-                  >
-                    {letter}
-                  </button>
-                ))}
-              </div>
-
-              {/* Grouped country list */}
-              <div className="rounded-xl bg-card shadow-card overflow-hidden divide-y divide-border">
-                {grouped.map(([letter, group]) => (
-                  <div key={letter} id={`letter-${letter}`}>
-                    {/* Letter header — sticky */}
-                    <div className="px-3 py-1.5 bg-secondary/60 sticky top-0 z-10">
-                      <span className="text-[11px] font-semibold text-muted-foreground uppercase">{letter}</span>
-                    </div>
-                    {/* Countries in this letter */}
-                    <div className="divide-y divide-border/50">
-                      {group.map((c) => (
-                        <AlphabetCountryRow key={c.code} country={c} formatPrice={formatPrice} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {continentGroups.map(({ key, countries: group }) => (
+                <ContinentSection key={key} label={t.continents[key]} emoji={continentEmojis[key]} countries={group} formatPrice={formatPrice} />
+              ))}
             </motion.div>
           </>
         )}
