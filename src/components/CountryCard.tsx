@@ -61,7 +61,7 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="w-10 h-10 rounded-md bg-secondary text-foreground flex items-center justify-center flex-shrink-0">
-        {isRegion ? regionIconSvg : (
+        {isRegion ? (regionIconMap[country.code] || regionIconMap.GL) : (
           <span className="text-lg leading-none">{icon}</span>
         )}
       </div>
