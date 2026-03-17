@@ -42,12 +42,13 @@ const Index = () => {
   const grouped = useMemo(() => {
     const map: Record<string, typeof countries> = {};
     countries.forEach((c) => {
-      const letter = c.name[0].toUpperCase();
+      const translated = cn(c.code, c.name);
+      const letter = translated[0].toUpperCase();
       if (!map[letter]) map[letter] = [];
       map[letter].push(c);
     });
-    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b));
-  }, []);
+    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b, locale));
+  }, [locale]);
 
   return (
     <AppLayout>
