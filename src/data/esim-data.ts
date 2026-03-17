@@ -116,4 +116,51 @@ export const sampleActiveEsims: ActiveEsim[] = [
     expiresAt: "2026-04-15",
     status: "active",
   },
+  {
+    id: "active-2",
+    country: "Turkey",
+    countryCode: "TR",
+    plan: "5GB • 30 days",
+    dataUsed: 5,
+    dataTotal: 5,
+    expiresAt: "2026-02-10",
+    status: "expired",
+  },
 ];
+
+export interface OrderHistory {
+  id: string;
+  orderNumber: string;
+  country: string;
+  countryCode: string;
+  planSize: string;
+  price: number;
+  date: string;
+}
+
+export const sampleOrders: OrderHistory[] = [
+  { id: "ord-1", orderNumber: "CS-20260301", country: "United Kingdom", countryCode: "GB", planSize: "10GB", price: 19, date: "2026-03-01" },
+  { id: "ord-2", orderNumber: "CS-20260115", country: "Turkey", countryCode: "TR", planSize: "5GB", price: 13, date: "2026-01-15" },
+  { id: "ord-3", orderNumber: "CS-20251220", country: "United Arab Emirates", countryCode: "AE", planSize: "3GB", price: 9, date: "2025-12-20" },
+];
+
+export type TierLevel = 1 | 2 | 3;
+
+export interface TierInfo {
+  level: TierLevel;
+  name: string;
+  emoji: string;
+  minOrders: number;
+}
+
+export const tiers: TierInfo[] = [
+  { level: 1, name: "Bronze Camel", emoji: "🐪", minOrders: 0 },
+  { level: 2, name: "Golden Camel", emoji: "🐫", minOrders: 5 },
+  { level: 3, name: "Red Camel", emoji: "🏆🐫", minOrders: 15 },
+];
+
+export function getUserTier(orderCount: number): TierInfo {
+  if (orderCount >= 15) return tiers[2];
+  if (orderCount >= 5) return tiers[1];
+  return tiers[0];
+}

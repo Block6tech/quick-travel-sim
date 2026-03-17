@@ -9,6 +9,7 @@ import PlanDetails from "./pages/PlanDetails.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Installation from "./pages/Installation.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Account from "./pages/Account.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
