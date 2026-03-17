@@ -184,8 +184,9 @@ function BundleCard({ country, formatPrice: fp }: { country: { name: string; cod
 
 function AlphabetCountryRow({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const flag = countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button
       onClick={() => navigate(`/plans/${country.code}`)}
@@ -193,7 +194,7 @@ function AlphabetCountryRow({ country, formatPrice: fp }: { country: { name: str
     >
       <span className="text-xl leading-none">{flag}</span>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{country.name}</p>
+        <p className="text-sm font-medium truncate">{name}</p>
         <p className="text-[11px] text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
       <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(country.startingPrice)}</p>

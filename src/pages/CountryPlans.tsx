@@ -37,7 +37,7 @@ const CountryPlans = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-display">
-                {t.dataFor(country.name)}
+                {t.dataFor(getCountryName(country.code, country.name, locale))}
               </h1>
               <p className="text-xs text-muted-foreground leading-body">
                 {t.instantActivation}

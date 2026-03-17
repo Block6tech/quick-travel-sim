@@ -252,7 +252,7 @@ function Section({ title, icon, delay, children }: { title: string; icon: React.
 }
 
 function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: string) => void }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   if (esims.length === 0) {
     return (
       <div className="text-center py-8 space-y-2">

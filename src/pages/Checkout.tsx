@@ -45,7 +45,7 @@ const Checkout = () => {
                 <span className="text-primary-foreground text-xs font-bold font-mono-data">{plan.countryCode}</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">{plan.country}</p>
+                <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
                 <p className="text-xs text-muted-foreground">{plan.data} · {plan.validity} · {plan.speed}</p>
               </div>
               <p className="text-lg font-mono-data font-bold">{formatPrice(plan.price)}</p>

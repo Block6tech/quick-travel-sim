@@ -38,7 +38,7 @@ const Installation = () => {
           </motion.div>
           <h1 className="text-xl font-bold tracking-display">{t.purchaseComplete}</h1>
           <p className="text-sm text-muted-foreground leading-body whitespace-pre-line">
-            {t.esimReady(plan?.country || "")}
+            {t.esimReady(getCountryName(plan?.countryCode || "", plan?.country || "", locale))}
           </p>
         </motion.div>
 

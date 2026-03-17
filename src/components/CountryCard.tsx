@@ -35,7 +35,7 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{country.name}</p>
+        <p className="text-sm font-medium truncate">{name}</p>
         <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
       <div className="text-end flex-shrink-0">

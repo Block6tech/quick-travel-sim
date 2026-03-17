@@ -48,7 +48,7 @@ const Dashboard = () => {
                         <span className="text-primary-foreground text-xs font-bold font-mono-data">{esim.countryCode}</span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium">{esim.country}</p>
+                        <p className="text-sm font-medium">{getCountryName(esim.countryCode, esim.country, locale)}</p>
                         <p className="text-xs text-muted-foreground font-mono-data">{esim.plan}</p>
                       </div>
                     </div>

@@ -43,7 +43,7 @@ const PlanDetails = () => {
             <div className="w-8 h-8 rounded-md bg-foreground flex items-center justify-center">
               <span className="text-primary-foreground text-[10px] font-bold font-mono-data">{plan.countryCode}</span>
             </div>
-            <span className="text-sm text-muted-foreground">{plan.country}</span>
+            <span className="text-sm text-muted-foreground">{getCountryName(plan.countryCode, plan.country, locale)}</span>
           </div>
           <div className="flex items-end justify-between">
             <div>
