@@ -9,7 +9,7 @@ const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
   const country = [...countries, ...regionalBundles].find((c) => c.code === code);
   const plans = getPlansForCountry(code || "");
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!country) {
     return (
