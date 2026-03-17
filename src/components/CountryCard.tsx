@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { EsimCountry } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 import { ContinentIcon } from "@/components/ContinentIcons";
 
 function countryFlag(code: string): string {
