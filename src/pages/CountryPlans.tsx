@@ -3,17 +3,19 @@ import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
   const country = [...countries, ...regionalBundles].find((c) => c.code === code);
   const plans = getPlansForCountry(code || "");
+  const { t } = useLanguage();
 
   if (!country) {
     return (
-      <AppLayout showBack title="Not Found">
+      <AppLayout showBack title={t.notFound}>
         <div className="flex items-center justify-center h-64">
-          <p className="text-muted-foreground">Destination not found.</p>
+          <p className="text-muted-foreground">{t.destinationNotFound}</p>
         </div>
       </AppLayout>
     );
@@ -35,10 +37,10 @@ const CountryPlans = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-display">
-                Data for {country.name}
+                {t.dataFor(country.name)}
               </h1>
               <p className="text-xs text-muted-foreground leading-body">
-                Instant activation · No roaming fees
+                {t.instantActivation}
               </p>
             </div>
           </div>

@@ -1,17 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { EsimCountry } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { ContinentIcon } from "@/components/ContinentIcons";
 
 function countryFlag(code: string): string {
   if (code.length !== 2) return "";
   const offset = 0x1f1e6 - 65;
-  return String.fromCodePoint(
-    code.charCodeAt(0) + offset,
-    code.charCodeAt(1) + offset
-  );
+  return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
 }
-
-import { ContinentIcon } from "@/components/ContinentIcons";
 
 interface CountryCardProps {
   country: EsimCountry;
@@ -21,13 +18,14 @@ interface CountryCardProps {
 const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
   const isRegion = ["EU", "AS", "ME", "GL", "GP"].includes(country.code);
   const icon = isRegion ? null : countryFlag(country.code);
 
   return (
     <button
       onClick={() => navigate(`/plans/${country.code}`)}
-      className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left w-full touch-target"
+      className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start w-full touch-target"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="w-10 h-10 rounded-md bg-secondary text-foreground flex items-center justify-center flex-shrink-0">
@@ -37,15 +35,11 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{country.name}</p>
-        <p className="text-xs text-muted-foreground">
-          {country.planCount} plans
-        </p>
+        <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
-      <div className="text-right flex-shrink-0">
-        <p className="text-sm font-mono-data font-medium">
-          {formatPrice(country.startingPrice)}
-        </p>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">from</p>
+      <div className="text-end flex-shrink-0">
+        <p className="text-sm font-mono-data font-medium">{formatPrice(country.startingPrice)}</p>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t.from}</p>
       </div>
     </button>
   );

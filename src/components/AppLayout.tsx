@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Search, Wifi, User } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ interface AppLayoutProps {
 const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t, isRTL } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-[480px] mx-auto">
@@ -25,13 +27,13 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
               aria-label="Go back"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-foreground">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d={isRTL ? "M9 18L15 12L9 6" : "M15 18L9 12L15 6"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           ) : (
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="CamelSim" className="w-7 h-7" />
-              <span className="text-lg font-bold tracking-display">CamelSim</span>
+              <span className="text-lg font-bold tracking-display">{t.appName}</span>
             </div>
           )}
           {title && (
@@ -52,19 +54,19 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
           <div className="flex items-center justify-around h-14">
             <NavItem
               icon={<Search className="w-5 h-5" />}
-              label="Explore"
+              label={t.navExplore}
               active={location.pathname === "/"}
               onClick={() => navigate("/")}
             />
             <NavItem
               icon={<Wifi className="w-5 h-5" />}
-              label="My eSIMs"
+              label={t.navMyEsims}
               active={location.pathname === "/dashboard"}
               onClick={() => navigate("/dashboard")}
             />
             <NavItem
               icon={<User className="w-5 h-5" />}
-              label="Account"
+              label={t.navAccount}
               active={location.pathname === "/account"}
               onClick={() => navigate("/account")}
             />
