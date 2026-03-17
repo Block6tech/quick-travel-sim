@@ -10,39 +10,8 @@ function countryFlag(code: string): string {
   );
 }
 
-const regionIconMap: Record<string, React.ReactNode> = {
-  EU: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M12 6l.45 1.4h1.47l-1.19.86.46 1.4L12 8.8l-1.19.86.46-1.4-1.19-.86h1.47zM7.5 8.5l.45 1.4h1.47l-1.19.86.46 1.4-1.19-.86-1.19.86.46-1.4-1.19-.86h1.47zM16.5 8.5l.45 1.4h1.47l-1.19.86.46 1.4-1.19-.86-1.19.86.46-1.4-1.19-.86h1.47zM5.5 13l.45 1.4h1.47l-1.19.86.46 1.4L5.5 15.8l-1.19.86.46-1.4-1.19-.86h1.47zM18.5 13l.45 1.4h1.47l-1.19.86.46 1.4-1.19-.86-1.19.86.46-1.4-1.19-.86h1.47zM7.5 17l.45 1.4h1.47l-1.19.86.46 1.4-1.19-.86-1.19.86.46-1.4-1.19-.86h1.47zM16.5 17l.45 1.4h1.47l-1.19.86.46 1.4-1.19-.86-1.19.86.46-1.4-1.19-.86h1.47z" opacity=".4"/>
-    </svg>
-  ),
-  AS: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <path d="M12 2v1M12 3C10 5 8 6 8 8h8c0-2-2-3-4-5z"/>
-      <path d="M7 8c-1 1-2 2-2 3h14c0-1-1-2-2-3"/>
-      <path d="M5 11c-1 1-1.5 2-1.5 3H20.5c0-1-.5-2-1.5-3"/>
-      <path d="M3.5 14v1h17v-1"/><rect x="9" y="15" width="6" height="7" rx="0.5"/>
-      <line x1="6" y1="22" x2="18" y2="22"/>
-    </svg>
-  ),
-  ME: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <path d="M15 4a8 8 0 1 0 0 16 6 6 0 0 1 0-16z"/>
-      <path d="M17.5 8l.6 1.9h2l-1.6 1.2.6 1.9-1.6-1.2-1.6 1.2.6-1.9-1.6-1.2h2z" fill="currentColor" stroke="none"/>
-    </svg>
-  ),
-  GL: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M4.63 5h14.74M4.63 19h14.74"/>
-    </svg>
-  ),
-  GP: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M4.63 5h14.74M4.63 19h14.74"/>
-    </svg>
-  ),
-};
+import { ContinentIcon } from "@/components/ContinentIcons";
+
 
 interface CountryCardProps {
   country: EsimCountry;
