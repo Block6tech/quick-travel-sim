@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, ChevronRight } from "lucide-react";
+import { Search, X, ChevronRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import CountryCard from "@/components/CountryCard";
