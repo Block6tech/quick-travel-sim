@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
