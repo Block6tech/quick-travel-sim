@@ -5,7 +5,7 @@ import { Lock, Wifi } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const Checkout = () => {
   const location = useLocation();
@@ -14,7 +14,7 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const [processing, setProcessing] = useState(false);
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!plan) {
     return (
@@ -45,7 +45,7 @@ const Checkout = () => {
                 <span className="text-primary-foreground text-xs font-bold font-mono-data">{plan.countryCode}</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">{plan.country}</p>
+                <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
                 <p className="text-xs text-muted-foreground">{plan.data} · {plan.validity} · {plan.speed}</p>
               </div>
               <p className="text-lg font-mono-data font-bold">{formatPrice(plan.price)}</p>

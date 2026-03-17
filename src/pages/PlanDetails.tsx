@@ -4,14 +4,14 @@ import { Check, Wifi, Smartphone, Signal } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const PlanDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const plan = location.state?.plan as EsimPlan | undefined;
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!plan) {
     return (
@@ -43,7 +43,7 @@ const PlanDetails = () => {
             <div className="w-8 h-8 rounded-md bg-foreground flex items-center justify-center">
               <span className="text-primary-foreground text-[10px] font-bold font-mono-data">{plan.countryCode}</span>
             </div>
-            <span className="text-sm text-muted-foreground">{plan.country}</span>
+            <span className="text-sm text-muted-foreground">{getCountryName(plan.countryCode, plan.country, locale)}</span>
           </div>
           <div className="flex items-end justify-between">
             <div>

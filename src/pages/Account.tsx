@@ -15,7 +15,7 @@ import {
   sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
 } from "@/data/esim-data";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 function flag(code: string) {
   if (code.length !== 2) return "";
@@ -118,7 +118,7 @@ const Account = () => {
               <div key={o.id} className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card">
                 <span className="text-lg leading-none">{flag(o.countryCode)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium truncate">{o.country} — {o.planSize}</p>
+                  <p className="text-xs font-medium truncate">{getCountryName(o.countryCode, o.country, locale)} — {o.planSize}</p>
                   <p className="text-[10px] text-muted-foreground font-mono-data">{o.orderNumber} · {o.date}</p>
                 </div>
                 <span className="text-xs font-bold font-mono-data">{formatPrice(o.price)}</span>
@@ -252,7 +252,7 @@ function Section({ title, icon, delay, children }: { title: string; icon: React.
 }
 
 function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: string) => void }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   if (esims.length === 0) {
     return (
       <div className="text-center py-8 space-y-2">
@@ -273,7 +273,7 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
               <div className="flex items-center gap-3">
                 <span className="text-lg leading-none">{flag(esim.countryCode)}</span>
                 <div>
-                  <p className="text-xs font-medium">{esim.country}</p>
+                  <p className="text-xs font-medium">{getCountryName(esim.countryCode, esim.country, locale)}</p>
                   <p className="text-[10px] text-muted-foreground font-mono-data">{esim.plan}</p>
                 </div>
               </div>

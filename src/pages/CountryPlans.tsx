@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
   const country = [...countries, ...regionalBundles].find((c) => c.code === code);
   const plans = getPlansForCountry(code || "");
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!country) {
     return (
@@ -22,7 +22,7 @@ const CountryPlans = () => {
   }
 
   return (
-    <AppLayout showBack title={`${country.name}`}>
+    <AppLayout showBack title={getCountryName(country.code, country.name, locale)}>
       <div className="px-4 pt-6 pb-4 space-y-5">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -37,7 +37,7 @@ const CountryPlans = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-display">
-                {t.dataFor(country.name)}
+                {t.dataFor(getCountryName(country.code, country.name, locale))}
               </h1>
               <p className="text-xs text-muted-foreground leading-body">
                 {t.instantActivation}

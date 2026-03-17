@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { EsimCountry } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 import { ContinentIcon } from "@/components/ContinentIcons";
 
 function countryFlag(code: string): string {
@@ -18,9 +18,10 @@ interface CountryCardProps {
 const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const isRegion = ["EU", "AS", "ME", "GL", "GP"].includes(country.code);
   const icon = isRegion ? null : countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
 
   return (
     <button
@@ -34,7 +35,7 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{country.name}</p>
+        <p className="text-sm font-medium truncate">{name}</p>
         <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
       <div className="text-end flex-shrink-0">

@@ -7,7 +7,7 @@ import CountryCard from "@/components/CountryCard";
 import { countries, regionalBundles } from "@/data/esim-data";
 import { ContinentIcon } from "@/components/ContinentIcons";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
 
@@ -28,7 +28,8 @@ const Index = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const cn = (code: string, name: string) => getCountryName(code, name, locale);
 
   const popular = useMemo(() => countries.filter((c) => popularCodes.includes(c.code)), []);
 
@@ -41,12 +42,13 @@ const Index = () => {
   const grouped = useMemo(() => {
     const map: Record<string, typeof countries> = {};
     countries.forEach((c) => {
-      const letter = c.name[0].toUpperCase();
+      const translated = cn(c.code, c.name);
+      const letter = translated[0].toUpperCase();
       if (!map[letter]) map[letter] = [];
       map[letter].push(c);
     });
-    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b));
-  }, []);
+    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b, locale));
+  }, [locale]);
 
   return (
     <AppLayout>
@@ -146,15 +148,16 @@ function SwipeSection({ title, delay, children }: { title: string; delay: number
 
 function DestinationChip({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const flag = countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start flex items-center gap-2.5 ps-1.5 pe-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target">
       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center">
         <span className="text-lg leading-none">{flag}</span>
       </div>
       <div className="text-start whitespace-nowrap">
-        <p className="text-xs font-medium">{country.name}</p>
+        <p className="text-xs font-medium">{name}</p>
         <p className="text-[10px] text-muted-foreground font-mono-data">{t.from} {fp(country.startingPrice)}</p>
       </div>
     </button>
@@ -163,13 +166,14 @@ function DestinationChip({ country, formatPrice: fp }: { country: { name: string
 
 function BundleCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start touch-target">
       <div className="w-10 h-10 rounded-lg bg-secondary text-foreground flex items-center justify-center mb-3">
         <ContinentIcon code={country.code} />
       </div>
-      <p className="text-sm font-medium">{country.name}</p>
+      <p className="text-sm font-medium">{name}</p>
       <div className="flex items-baseline justify-between mt-1">
         <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
         <p className="text-xs font-mono-data font-medium">{fp(country.startingPrice)}</p>
@@ -180,8 +184,9 @@ function BundleCard({ country, formatPrice: fp }: { country: { name: string; cod
 
 function AlphabetCountryRow({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const flag = countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button
       onClick={() => navigate(`/plans/${country.code}`)}
@@ -189,7 +194,7 @@ function AlphabetCountryRow({ country, formatPrice: fp }: { country: { name: str
     >
       <span className="text-xl leading-none">{flag}</span>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{country.name}</p>
+        <p className="text-sm font-medium truncate">{name}</p>
         <p className="text-[11px] text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
       <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(country.startingPrice)}</p>

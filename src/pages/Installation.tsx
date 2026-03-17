@@ -4,14 +4,14 @@ import { Check, Copy, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const Installation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const plan = location.state?.plan as EsimPlan | undefined;
   const [copied, setCopied] = useState(false);
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const smdpAddress = "smdp.io.simlink.com";
   const activationCode = "K2-29FJ-LKSD9";
@@ -38,7 +38,7 @@ const Installation = () => {
           </motion.div>
           <h1 className="text-xl font-bold tracking-display">{t.purchaseComplete}</h1>
           <p className="text-sm text-muted-foreground leading-body whitespace-pre-line">
-            {t.esimReady(plan?.country || "")}
+            {t.esimReady(getCountryName(plan?.countryCode || "", plan?.country || "", locale))}
           </p>
         </motion.div>
 
