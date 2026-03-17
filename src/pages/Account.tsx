@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
 } from "@/data/esim-data";
+import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 
 /** Convert ISO alpha-2 → flag emoji */
 function flag(code: string) {
