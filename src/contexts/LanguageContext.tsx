@@ -22,6 +22,12 @@ const translations: Record<Locale, Record<string, any>> = {
     regionalBundles: "Regional bundles",
     globalBundles: "Global bundles",
     allDestinations: "All destinations",
+    continents: {
+      middleEast: "Middle East",
+      europe: "Europe",
+      asiaPacific: "Asia Pacific",
+      americas: "Americas",
+    },
     from: "from",
     plans: (n: number) => `${n} plans`,
 
