@@ -4,7 +4,7 @@ import { Check, Copy, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const Installation = () => {
   const location = useLocation();
