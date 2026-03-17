@@ -11,7 +11,7 @@ const PlanDetails = () => {
   const navigate = useNavigate();
   const plan = location.state?.plan as EsimPlan | undefined;
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!plan) {
     return (
