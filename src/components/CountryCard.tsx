@@ -18,9 +18,10 @@ interface CountryCardProps {
 const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const isRegion = ["EU", "AS", "ME", "GL", "GP"].includes(country.code);
   const icon = isRegion ? null : countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
 
   return (
     <button
