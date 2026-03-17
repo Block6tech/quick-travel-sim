@@ -148,15 +148,16 @@ function SwipeSection({ title, delay, children }: { title: string; delay: number
 
 function DestinationChip({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const flag = countryFlag(country.code);
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start flex items-center gap-2.5 ps-1.5 pe-4 py-1.5 rounded-full bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press touch-target">
       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center">
         <span className="text-lg leading-none">{flag}</span>
       </div>
       <div className="text-start whitespace-nowrap">
-        <p className="text-xs font-medium">{country.name}</p>
+        <p className="text-xs font-medium">{name}</p>
         <p className="text-[10px] text-muted-foreground font-mono-data">{t.from} {fp(country.startingPrice)}</p>
       </div>
     </button>
