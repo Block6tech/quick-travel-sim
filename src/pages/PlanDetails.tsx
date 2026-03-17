@@ -4,7 +4,7 @@ import { Check, Wifi, Smartphone, Signal } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const PlanDetails = () => {
   const location = useLocation();
