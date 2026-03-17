@@ -30,10 +30,8 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-foreground rounded-md flex items-center justify-center">
-                <Wifi className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <span className="text-lg font-bold tracking-display">simlink</span>
+              <img src="/logo.png" alt="CamelSim" className="w-7 h-7" />
+              <span className="text-lg font-bold tracking-display">CamelSim</span>
             </div>
           )}
           {title && (
