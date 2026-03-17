@@ -217,10 +217,8 @@ function DestinationChip({
 /* ── Bundle card with continent/globe B&W icon ── */
 function BundleCard({
   country,
-  icon,
 }: {
   country: { name: string; code: string; startingPrice: number; planCount: number };
-  icon: React.ReactNode;
 }) {
   const navigate = useNavigate();
   return (
@@ -229,7 +227,7 @@ function BundleCard({
       className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
     >
       <div className="w-10 h-10 rounded-lg bg-secondary text-foreground flex items-center justify-center mb-3">
-        {icon}
+        <ContinentIcon code={country.code} />
       </div>
       <p className="text-sm font-medium">{country.name}</p>
       <div className="flex items-baseline justify-between mt-1">
