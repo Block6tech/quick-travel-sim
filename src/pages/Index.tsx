@@ -166,13 +166,14 @@ function DestinationChip({ country, formatPrice: fp }: { country: { name: string
 
 function BundleCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const name = getCountryName(country.code, country.name, locale);
   return (
     <button onClick={() => navigate(`/plans/${country.code}`)} className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start touch-target">
       <div className="w-10 h-10 rounded-lg bg-secondary text-foreground flex items-center justify-center mb-3">
         <ContinentIcon code={country.code} />
       </div>
-      <p className="text-sm font-medium">{country.name}</p>
+      <p className="text-sm font-medium">{name}</p>
       <div className="flex items-baseline justify-between mt-1">
         <p className="text-xs text-muted-foreground">{t.plans(country.planCount)}</p>
         <p className="text-xs font-mono-data font-medium">{fp(country.startingPrice)}</p>
