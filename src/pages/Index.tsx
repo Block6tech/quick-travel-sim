@@ -35,6 +35,13 @@ function countryFlag(code: string): string {
   return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
 }
 
+const continentEmojis: Record<string, string> = {
+  middleEast: "🕌",
+  europe: "🏰",
+  asiaPacific: "⛩️",
+  americas: "🗽",
+};
+
 const Index = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
