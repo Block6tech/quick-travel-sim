@@ -94,6 +94,11 @@ const Account = () => {
           </motion.button>
         )}
 
+        {/* ── Tier Progress ── */}
+        <motion.div {...anim(0.06)}>
+          <TierProgress orderCount={orders.length} />
+        </motion.div>
+
         {/* ── Section 1: My eSIMs ── */}
         <Section title="My eSIMs" icon={<Wifi className="w-4 h-4" />} delay={0.08}>
           <Tabs defaultValue="active" className="w-full">
