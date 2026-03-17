@@ -31,6 +31,12 @@ const anim = (d = 0) => ({
 const Account = () => {
   const navigate = useNavigate();
   const [notifs, setNotifs] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains("dark"));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   // Mock user
   const user = { name: "Ali M.", email: "ali@example.com", verified: true, phone: "" };
