@@ -22,7 +22,7 @@ const CountryPlans = () => {
   }
 
   return (
-    <AppLayout showBack title={`${country.name}`}>
+    <AppLayout showBack title={getCountryName(country.code, country.name, locale)}>
       <div className="px-4 pt-6 pb-4 space-y-5">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
