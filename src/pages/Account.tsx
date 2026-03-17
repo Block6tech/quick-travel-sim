@@ -2,18 +2,31 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
-  Wifi, ShoppingBag, CreditCard, HelpCircle, Settings,
-  ChevronRight, ChevronLeft, LogOut, Bell, Globe, DollarSign,
-  MessageCircle, BookOpen, Smartphone, Phone, Plus,
-  Shield, Moon, Sun,
+  Wifi,
+  ShoppingBag,
+  CreditCard,
+  HelpCircle,
+  Settings,
+  ChevronRight,
+  ChevronLeft,
+  LogOut,
+  Bell,
+  Globe,
+  DollarSign,
+  MessageCircle,
+  BookOpen,
+  Smartphone,
+  Phone,
+  Plus,
+  Shield,
+  Moon,
+  Sun,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { Switch } from "@/components/ui/switch";
 import TierProgress from "@/components/TierProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim,
-} from "@/data/esim-data";
+import { sampleActiveEsims, sampleOrders, getUserTier, type ActiveEsim } from "@/data/esim-data";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
@@ -44,7 +57,7 @@ const Account = () => {
   const { currency, setCurrencyByCode, formatPrice } = useCurrency();
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
 
-  const user = { name: "Ali M.", email: "ali@example.com", verified: true, phone: "" };
+  const user = { name: "Naser A.", email: "naser@example.com", verified: true, phone: "" };
   const tier = getUserTier(sampleOrders.length);
   const esims = sampleActiveEsims;
   const orders = sampleOrders;
@@ -55,7 +68,9 @@ const Account = () => {
         {/* Identity */}
         <motion.div {...anim(0)} className="flex items-center gap-4">
           <div className="relative">
-            <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">{tier.emoji}</div>
+            <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
+              {tier.emoji}
+            </div>
             {user.verified && (
               <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
                 <Shield className="w-3 h-3 text-primary-foreground" />
@@ -66,7 +81,9 @@ const Account = () => {
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold tracking-display truncate">{user.name}</h1>
               {user.verified && (
-                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">{t.verified}</span>
+                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
+                  {t.verified}
+                </span>
               )}
             </div>
             <p className="text-xs text-muted-foreground truncate">{user.email}</p>
@@ -78,7 +95,10 @@ const Account = () => {
 
         {/* Phone prompt */}
         {!user.phone && (
-          <motion.button {...anim(0.04)} className="w-full flex items-center gap-3 p-3 rounded-lg bg-secondary text-start btn-press touch-target">
+          <motion.button
+            {...anim(0.04)}
+            className="w-full flex items-center gap-3 p-3 rounded-lg bg-secondary text-start btn-press touch-target"
+          >
             <div className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center flex-shrink-0">
               <Phone className="w-4 h-4 text-primary-foreground" />
             </div>
@@ -99,14 +119,18 @@ const Account = () => {
         <Section title={t.myEsimsSection} icon={<Wifi className="w-4 h-4" />} delay={0.08}>
           <Tabs defaultValue="active" className="w-full">
             <TabsList className="w-full">
-              <TabsTrigger value="active" className="flex-1 text-xs">{t.activeTab}</TabsTrigger>
-              <TabsTrigger value="expired" className="flex-1 text-xs">{t.expiredTab}</TabsTrigger>
+              <TabsTrigger value="active" className="flex-1 text-xs">
+                {t.activeTab}
+              </TabsTrigger>
+              <TabsTrigger value="expired" className="flex-1 text-xs">
+                {t.expiredTab}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="active">
-              <EsimList esims={esims.filter(e => e.status === "active")} navigate={navigate} />
+              <EsimList esims={esims.filter((e) => e.status === "active")} navigate={navigate} />
             </TabsContent>
             <TabsContent value="expired">
-              <EsimList esims={esims.filter(e => e.status === "expired")} navigate={navigate} />
+              <EsimList esims={esims.filter((e) => e.status === "expired")} navigate={navigate} />
             </TabsContent>
           </Tabs>
         </Section>
@@ -118,8 +142,12 @@ const Account = () => {
               <div key={o.id} className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card">
                 <span className="text-lg leading-none">{flag(o.countryCode)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium truncate">{getCountryName(o.countryCode, o.country, locale)} — {o.planSize}</p>
-                  <p className="text-[10px] text-muted-foreground font-mono-data">{o.orderNumber} · {o.date}</p>
+                  <p className="text-xs font-medium truncate">
+                    {getCountryName(o.countryCode, o.country, locale)} — {o.planSize}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground font-mono-data">
+                    {o.orderNumber} · {o.date}
+                  </p>
                 </div>
                 <span className="text-xs font-bold font-mono-data">{formatPrice(o.price)}</span>
               </div>
@@ -151,7 +179,12 @@ const Account = () => {
           <div className="space-y-1">
             <SupportRow icon={<HelpCircle className="w-4 h-4" />} label={t.helpCenter} chevron={Chevron} />
             <SupportRow icon={<MessageCircle className="w-4 h-4" />} label={t.contactSupport} chevron={Chevron} />
-            <SupportRow icon={<BookOpen className="w-4 h-4" />} label={t.installationGuide} onClick={() => navigate("/installation")} chevron={Chevron} />
+            <SupportRow
+              icon={<BookOpen className="w-4 h-4" />}
+              label={t.installationGuide}
+              onClick={() => navigate("/installation")}
+              chevron={Chevron}
+            />
             <SupportRow icon={<Smartphone className="w-4 h-4" />} label={t.deviceCompatibility} chevron={Chevron} />
           </div>
         </Section>
@@ -185,20 +218,33 @@ const Account = () => {
                   <span className="text-xs font-medium">{t.currency}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-[10px] text-muted-foreground">{currency.symbol} {currency.code}</span>
-                  <Chevron className={`w-4 h-4 text-muted-foreground transition-transform ${showCurrencyPicker ? (isRTL ? "-rotate-90" : "rotate-90") : ""}`} />
+                  <span className="text-[10px] text-muted-foreground">
+                    {currency.symbol} {currency.code}
+                  </span>
+                  <Chevron
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${showCurrencyPicker ? (isRTL ? "-rotate-90" : "rotate-90") : ""}`}
+                  />
                 </div>
               </button>
               {showCurrencyPicker && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="overflow-hidden">
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  className="overflow-hidden"
+                >
                   <div className="max-h-48 overflow-y-auto rounded-lg bg-secondary/50 mx-3 mb-2">
                     {currencies.map((c) => (
                       <button
                         key={c.code}
-                        onClick={() => { setCurrencyByCode(c.code); setShowCurrencyPicker(false); }}
+                        onClick={() => {
+                          setCurrencyByCode(c.code);
+                          setShowCurrencyPicker(false);
+                        }}
                         className={`w-full flex items-center justify-between px-3 py-2.5 text-xs hover:bg-secondary transition-colors ${c.code === currency.code ? "font-bold" : ""}`}
                       >
-                        <span>{c.symbol} {c.name}</span>
+                        <span>
+                          {c.symbol} {c.name}
+                        </span>
                         <span className="text-muted-foreground font-mono-data">{c.code}</span>
                       </button>
                     ))}
@@ -210,7 +256,11 @@ const Account = () => {
             {/* Dark Mode */}
             <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
               <div className="flex items-center gap-3">
-                {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
+                {darkMode ? (
+                  <Moon className="w-4 h-4 text-muted-foreground" />
+                ) : (
+                  <Sun className="w-4 h-4 text-muted-foreground" />
+                )}
                 <span className="text-xs font-medium">{t.darkMode}</span>
               </div>
               <Switch checked={darkMode} onCheckedChange={setDarkMode} />
@@ -239,7 +289,17 @@ const Account = () => {
 
 /* ─── Helpers ─── */
 
-function Section({ title, icon, delay, children }: { title: string; icon: React.ReactNode; delay: number; children: React.ReactNode }) {
+function Section({
+  title,
+  icon,
+  delay,
+  children,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  delay: number;
+  children: React.ReactNode;
+}) {
   return (
     <motion.div {...anim(delay)} className="space-y-3">
       <div className="flex items-center gap-2">
@@ -257,7 +317,9 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
     return (
       <div className="text-center py-8 space-y-2">
         <p className="text-xs text-muted-foreground">{t.noEsimsHere}</p>
-        <button onClick={() => navigate("/")} className="text-xs font-medium underline underline-offset-2 btn-press">{t.browsePlansLink}</button>
+        <button onClick={() => navigate("/")} className="text-xs font-medium underline underline-offset-2 btn-press">
+          {t.browsePlansLink}
+        </button>
       </div>
     );
   }
@@ -277,9 +339,15 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
                   <p className="text-[10px] text-muted-foreground font-mono-data">{esim.plan}</p>
                 </div>
               </div>
-              <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-sm ${
-                esim.status === "active" ? "bg-foreground text-primary-foreground" : "bg-secondary text-secondary-foreground"
-              }`}>{esim.status === "active" ? t.active : t.expired}</span>
+              <span
+                className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-sm ${
+                  esim.status === "active"
+                    ? "bg-foreground text-primary-foreground"
+                    : "bg-secondary text-secondary-foreground"
+                }`}
+              >
+                {esim.status === "active" ? t.active : t.expired}
+              </span>
             </div>
             <div className="space-y-1.5">
               <div className="flex justify-between text-[10px] text-muted-foreground font-mono-data">
@@ -292,7 +360,10 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
             </div>
             <div className="flex gap-2">
               {esim.status === "active" && (
-                <button onClick={() => navigate("/")} className="flex-1 h-8 bg-foreground text-primary-foreground font-medium rounded-md btn-press text-[11px] touch-target">
+                <button
+                  onClick={() => navigate("/")}
+                  className="flex-1 h-8 bg-foreground text-primary-foreground font-medium rounded-md btn-press text-[11px] touch-target"
+                >
                   {t.topUp}
                 </button>
               )}
@@ -307,9 +378,22 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
   );
 }
 
-function SupportRow({ icon, label, onClick, chevron: Chevron }: { icon: React.ReactNode; label: string; onClick?: () => void; chevron: typeof ChevronRight }) {
+function SupportRow({
+  icon,
+  label,
+  onClick,
+  chevron: Chevron,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  onClick?: () => void;
+  chevron: typeof ChevronRight;
+}) {
   return (
-    <button onClick={onClick} className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors btn-press touch-target">
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors btn-press touch-target"
+    >
       <div className="flex items-center gap-3">
         <span className="text-muted-foreground">{icon}</span>
         <span className="text-xs font-medium">{label}</span>
