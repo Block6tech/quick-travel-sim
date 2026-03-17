@@ -126,7 +126,7 @@ const Account = () => {
                   <p className="text-xs font-medium truncate">{o.country} — {o.planSize}</p>
                   <p className="text-[10px] text-muted-foreground font-mono-data">{o.orderNumber} · {o.date}</p>
                 </div>
-                <span className="text-xs font-bold font-mono-data">${o.price}</span>
+                <span className="text-xs font-bold font-mono-data">{formatPrice(o.price)}</span>
               </div>
             ))}
           </div>
