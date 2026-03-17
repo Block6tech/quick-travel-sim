@@ -11,7 +11,7 @@ const Installation = () => {
   const navigate = useNavigate();
   const plan = location.state?.plan as EsimPlan | undefined;
   const [copied, setCopied] = useState(false);
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const smdpAddress = "smdp.io.simlink.com";
   const activationCode = "K2-29FJ-LKSD9";
