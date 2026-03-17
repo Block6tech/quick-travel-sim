@@ -25,13 +25,33 @@ function countryFlag(code: string): string {
   );
 }
 
-/** Continent / region icons */
-const regionIcons: Record<string, string> = {
-  EU: "🌍",
-  AS: "🌏",
-  ME: "🕌",
-  GL: "🌐",
-  GP: "🌐",
+/** Continent / region icons (black & white SVGs) */
+const regionIcons: Record<string, React.ReactNode> = {
+  EU: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+    </svg>
+  ),
+  AS: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+    </svg>
+  ),
+  ME: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <path d="M12 2L8 10h8L12 2z"/><path d="M6 22h12M8 22v-6a4 4 0 0 1 8 0v6"/><circle cx="12" cy="6" r="1" fill="currentColor" stroke="none"/>
+    </svg>
+  ),
+  GL: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M4.63 5h14.74M4.63 19h14.74"/>
+    </svg>
+  ),
+  GP: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M4.63 5h14.74M4.63 19h14.74"/>
+    </svg>
+  ),
 };
 
 const Index = () => {
@@ -126,14 +146,14 @@ const Index = () => {
             {/* Regional Bundles — horizontal swipe */}
             <SwipeSection title="Regional bundles" delay={0.15}>
               {regionOnly.map((c) => (
-                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || "🌍"} />
+                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || regionIcons.EU} />
               ))}
             </SwipeSection>
 
             {/* Global Bundles — horizontal swipe */}
             <SwipeSection title="Global bundles" delay={0.2}>
               {globalBundles.map((c) => (
-                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || "🌐"} />
+                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || regionIcons.GL} />
               ))}
             </SwipeSection>
 
@@ -220,13 +240,13 @@ function DestinationChip({
   );
 }
 
-/* ── Bundle card with continent/globe emoji icon ── */
+/* ── Bundle card with continent/globe B&W icon ── */
 function BundleCard({
   country,
   icon,
 }: {
   country: { name: string; code: string; startingPrice: number; planCount: number };
-  icon: string;
+  icon: React.ReactNode;
 }) {
   const navigate = useNavigate();
   return (
@@ -234,8 +254,8 @@ function BundleCard({
       onClick={() => navigate(`/plans/${country.code}`)}
       className="flex-shrink-0 snap-start w-40 p-4 rounded-xl bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left touch-target"
     >
-      <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center mb-3">
-        <span className="text-xl leading-none">{icon}</span>
+      <div className="w-10 h-10 rounded-lg bg-secondary text-foreground flex items-center justify-center mb-3">
+        {icon}
       </div>
       <p className="text-sm font-medium">{country.name}</p>
       <div className="flex items-baseline justify-between mt-1">
