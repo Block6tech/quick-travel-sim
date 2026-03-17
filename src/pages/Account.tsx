@@ -118,7 +118,7 @@ const Account = () => {
               <div key={o.id} className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card">
                 <span className="text-lg leading-none">{flag(o.countryCode)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium truncate">{o.country} — {o.planSize}</p>
+                  <p className="text-xs font-medium truncate">{getCountryName(o.countryCode, o.country, locale)} — {o.planSize}</p>
                   <p className="text-[10px] text-muted-foreground font-mono-data">{o.orderNumber} · {o.date}</p>
                 </div>
                 <span className="text-xs font-bold font-mono-data">{formatPrice(o.price)}</span>
