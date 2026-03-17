@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { sampleActiveEsims } from "@/data/esim-data";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
