@@ -1,6 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { EsimCountry } from "@/data/esim-data";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(
+    code.charCodeAt(0) + offset,
+    code.charCodeAt(1) + offset
+  );
+}
+
+const regionIcons: Record<string, string> = {
+  EU: "🌍", AS: "🌏", ME: "🕌", GL: "🌐", GP: "🌐",
+};
+
 interface CountryCardProps {
   country: EsimCountry;
   delay?: number;
@@ -8,6 +21,8 @@ interface CountryCardProps {
 
 const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
   const navigate = useNavigate();
+  const isRegion = ["EU", "AS", "ME", "GL", "GP"].includes(country.code);
+  const icon = isRegion ? regionIcons[country.code] || "🌍" : countryFlag(country.code);
 
   return (
     <button
@@ -15,9 +30,9 @@ const CountryCard = ({ country, delay = 0 }: CountryCardProps) => {
       className="flex items-center gap-3 p-3 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-left w-full touch-target"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="w-10 h-10 rounded-md bg-foreground flex items-center justify-center flex-shrink-0">
-        <span className="text-primary-foreground text-xs font-bold font-mono-data">
-          {country.code}
+      <div className="w-10 h-10 rounded-md bg-secondary flex items-center justify-center flex-shrink-0">
+        <span className={isRegion ? "text-xl leading-none" : "text-lg leading-none"}>
+          {icon}
         </span>
       </div>
       <div className="flex-1 min-w-0">
