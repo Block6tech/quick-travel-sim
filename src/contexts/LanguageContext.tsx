@@ -289,7 +289,8 @@ const translations: Record<Locale, Record<string, any>> = {
   },
 } as const;
 
-export type Translations = (typeof translations)["en"];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Translations = Record<string, any>;
 
 interface LanguageContextType {
   locale: Locale;
