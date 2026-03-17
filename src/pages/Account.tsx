@@ -161,6 +161,13 @@ const Account = () => {
             <SettingRow icon={<DollarSign className="w-4 h-4" />} label="Currency" value="USD" />
             <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
               <div className="flex items-center gap-3">
+                {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
+                <span className="text-xs font-medium">Dark Mode</span>
+              </div>
+              <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-3">
                 <Bell className="w-4 h-4 text-muted-foreground" />
                 <span className="text-xs font-medium">Notifications</span>
               </div>
