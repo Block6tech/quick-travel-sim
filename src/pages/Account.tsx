@@ -273,7 +273,7 @@ function EsimList({ esims, navigate }: { esims: ActiveEsim[]; navigate: (p: stri
               <div className="flex items-center gap-3">
                 <span className="text-lg leading-none">{flag(esim.countryCode)}</span>
                 <div>
-                  <p className="text-xs font-medium">{esim.country}</p>
+                  <p className="text-xs font-medium">{getCountryName(esim.countryCode, esim.country, locale)}</p>
                   <p className="text-[10px] text-muted-foreground font-mono-data">{esim.plan}</p>
                 </div>
               </div>
