@@ -40,6 +40,9 @@ const Account = () => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  const { currency, setCurrencyByCode, formatPrice } = useCurrency();
+  const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+
   // Mock user
   const user = { name: "Ali M.", email: "ali@example.com", verified: true, phone: "" };
   const tier = getUserTier(sampleOrders.length);
