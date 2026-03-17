@@ -8,7 +8,7 @@ import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 const Dashboard = () => {
   const navigate = useNavigate();
   const esims = sampleActiveEsims;
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <AppLayout>
