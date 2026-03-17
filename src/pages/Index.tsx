@@ -7,7 +7,7 @@ import CountryCard from "@/components/CountryCard";
 import { countries, regionalBundles } from "@/data/esim-data";
 import { ContinentIcon } from "@/components/ContinentIcons";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
 
