@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import AppLayout from "@/components/AppLayout";
 import CountryCard from "@/components/CountryCard";
@@ -37,6 +37,16 @@ const Index = () => {
     const q = query.toLowerCase();
     return countries.filter((c) => c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q));
   }, [query]);
+
+  const grouped = useMemo(() => {
+    const map: Record<string, typeof countries> = {};
+    countries.forEach((c) => {
+      const letter = c.name[0].toUpperCase();
+      if (!map[letter]) map[letter] = [];
+      map[letter].push(c);
+    });
+    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b));
+  }, []);
 
   return (
     <AppLayout>
@@ -82,10 +92,39 @@ const Index = () => {
               {globalBundles.map((c) => (<BundleCard key={c.code} country={c} formatPrice={formatPrice} />))}
             </SwipeSection>
 
-            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+            {/* All Destinations — Alphabetical grouped list */}
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
               <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.allDestinations}</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                {countries.map((c) => (<CompactCountryCard key={c.code} country={c} formatPrice={formatPrice} />))}
+
+              {/* Alphabet quick-jump bar */}
+              <div className="flex flex-wrap gap-1 pb-1">
+                {grouped.map(([letter]) => (
+                  <button
+                    key={letter}
+                    onClick={() => document.getElementById(`letter-${letter}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                    className="w-7 h-7 rounded-md bg-secondary text-muted-foreground text-[11px] font-medium flex items-center justify-center hover:bg-accent hover:text-foreground transition-colors"
+                  >
+                    {letter}
+                  </button>
+                ))}
+              </div>
+
+              {/* Grouped country list */}
+              <div className="rounded-xl bg-card shadow-card overflow-hidden divide-y divide-border">
+                {grouped.map(([letter, group]) => (
+                  <div key={letter} id={`letter-${letter}`}>
+                    {/* Letter header — sticky */}
+                    <div className="px-3 py-1.5 bg-secondary/60 sticky top-0 z-10">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase">{letter}</span>
+                    </div>
+                    {/* Countries in this letter */}
+                    <div className="divide-y divide-border/50">
+                      {group.map((c) => (
+                        <AlphabetCountryRow key={c.code} country={c} formatPrice={formatPrice} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </>
@@ -139,19 +178,22 @@ function BundleCard({ country, formatPrice: fp }: { country: { name: string; cod
   );
 }
 
-function CompactCountryCard({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number }; formatPrice: (n: number) => string }) {
+function AlphabetCountryRow({ country, formatPrice: fp }: { country: { name: string; code: string; startingPrice: number; planCount: number }; formatPrice: (n: number) => string }) {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const flag = countryFlag(country.code);
   return (
-    <button onClick={() => navigate(`/plans/${country.code}`)} className="flex items-center gap-2 p-2.5 rounded-lg bg-card shadow-card hover:shadow-card-hover transition-all duration-200 btn-press text-start touch-target">
-      <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center flex-shrink-0">
-        <span className="text-base leading-none">{flag}</span>
+    <button
+      onClick={() => navigate(`/plans/${country.code}`)}
+      className="flex items-center gap-3 w-full px-3 py-2.5 text-start hover:bg-accent/50 transition-colors active:bg-accent"
+    >
+      <span className="text-xl leading-none">{flag}</span>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium truncate">{country.name}</p>
+        <p className="text-[11px] text-muted-foreground">{t.plans(country.planCount)}</p>
       </div>
-      <div className="min-w-0">
-        <p className="text-xs font-medium truncate">{country.name}</p>
-        <p className="text-[10px] text-muted-foreground font-mono-data">{fp(country.startingPrice)}</p>
-      </div>
+      <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(country.startingPrice)}</p>
+      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 flex-shrink-0 rtl:rotate-180" />
     </button>
   );
 }
