@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Wifi, ShoppingBag, CreditCard, HelpCircle, Settings,
   ChevronRight, LogOut, Bell, Globe, DollarSign,
   MessageCircle, BookOpen, Smartphone, Phone, Plus,
-  Shield, ExternalLink,
+  Shield, ExternalLink, Moon, Sun,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { Switch } from "@/components/ui/switch";
@@ -31,6 +31,12 @@ const anim = (d = 0) => ({
 const Account = () => {
   const navigate = useNavigate();
   const [notifs, setNotifs] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains("dark"));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   // Mock user
   const user = { name: "Ali M.", email: "ali@example.com", verified: true, phone: "" };
@@ -153,6 +159,13 @@ const Account = () => {
           <div className="space-y-1">
             <SettingRow icon={<Globe className="w-4 h-4" />} label="Language" value="English" />
             <SettingRow icon={<DollarSign className="w-4 h-4" />} label="Currency" value="USD" />
+            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-3">
+                {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
+                <span className="text-xs font-medium">Dark Mode</span>
+              </div>
+              <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+            </div>
             <div className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors">
               <div className="flex items-center gap-3">
                 <Bell className="w-4 h-4 text-muted-foreground" />
