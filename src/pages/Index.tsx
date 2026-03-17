@@ -120,7 +120,7 @@ const Index = () => {
             {/* Regional Bundles — horizontal swipe */}
             <SwipeSection title="Regional bundles" delay={0.15}>
               {regionOnly.map((c) => (
-                <BundleCard key={c.code} country={c} icon={regionIcons[c.code] || regionIcons.EU} />
+                <BundleCard key={c.code} country={c} />
               ))}
             </SwipeSection>
 
