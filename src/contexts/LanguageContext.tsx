@@ -174,6 +174,12 @@ const translations: Record<Locale, Record<string, any>> = {
     regionalBundles: "الباقات الإقليمية",
     globalBundles: "الباقات العالمية",
     allDestinations: "جميع الوجهات",
+    continents: {
+      middleEast: "الشرق الأوسط",
+      europe: "أوروبا",
+      asiaPacific: "آسيا والمحيط الهادئ",
+      americas: "الأمريكتين",
+    },
     from: "من",
     plans: (n: number) => `${n} باقات`,
 
