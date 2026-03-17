@@ -9,6 +9,7 @@ import PlanDetails from "./pages/PlanDetails.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Installation from "./pages/Installation.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Account from "./pages/Account.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/installation" element={<Installation />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/account" element={<Account />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
