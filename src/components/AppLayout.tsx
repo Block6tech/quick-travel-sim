@@ -32,7 +32,8 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="CamelSim" className="w-7 h-7" />
+              <img src="/logo.png" alt="CamelSim" className="w-7 h-7 dark:hidden" />
+              <img src="/logo-dark.png" alt="CamelSim" className="w-7 h-7 hidden dark:block" />
               <span className="text-lg font-bold tracking-display">{t.appName}</span>
             </div>
           )}
