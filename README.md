@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# CamelSim
 
-TODO: Document your project here
+Travel eSIM store — instant activation, no roaming fees.
