@@ -132,7 +132,7 @@ function SwipeSection({ title, delay, children }: {title: string;delay: number;c
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
       <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{title}</h2>
-      <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pb-1" style={{ WebkitOverflowScrolling: "touch" }}>{children}</div>
+      <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pt-1 pb-1" style={{ WebkitOverflowScrolling: "touch" }}>{children}</div>
     </motion.div>);
 
 }
