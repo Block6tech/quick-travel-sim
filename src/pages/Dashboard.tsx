@@ -84,7 +84,7 @@ const Dashboard = () => {
           <div className="text-center py-16">
             <div className="w-6 h-6 border-2 border-foreground/30 border-t-foreground rounded-full animate-spin mx-auto" />
           </div>
-        ) : !user || activeOrders.length === 0 ? (
+        ) : activeOrders.length === 0 ? (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }} className="text-center py-16 space-y-4">
             <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mx-auto">
               <span className="text-2xl">📡</span>
