@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Wifi, User } from "lucide-react";
+import { Search, Wifi, User, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AppLayoutProps {
@@ -13,7 +13,9 @@ interface AppLayoutProps {
 const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t, isRTL } = useLanguage();
+  const { t, isRTL, locale, setLocale } = useLanguage();
+
+  const toggleLang = () => setLocale(locale === "en" ? "ar" : "en");
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-[480px] mx-auto">
@@ -40,7 +42,14 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
           {title && (
             <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2">{title}</h1>
           )}
-          <div className="w-10" />
+          <button
+            onClick={toggleLang}
+            className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
+            aria-label="Switch language"
+          >
+            <Languages className="w-4 h-4 text-muted-foreground" />
+            <span className="text-xs font-medium text-muted-foreground">{locale === "en" ? "عربي" : "EN"}</span>
+          </button>
         </div>
       </header>
 
