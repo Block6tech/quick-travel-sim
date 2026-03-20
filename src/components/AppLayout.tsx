@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Wifi, User } from "lucide-react";
+import { Search, Wifi, User, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AppLayoutProps {
