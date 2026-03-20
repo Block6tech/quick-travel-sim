@@ -98,24 +98,18 @@ const Account = () => {
             <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
               {tier.emoji}
             </div>
-            {user && (
-              <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
-                <Shield className="w-3 h-3 text-primary-foreground" />
-              </div>
-            )}
+            <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
+              <Shield className="w-3 h-3 text-primary-foreground" />
+            </div>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-bold tracking-display truncate">
-                {user?.email?.split("@")[0] || "Guest"}
-              </h1>
-              {user && (
-                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
-                  {t.verified}
-                </span>
-              )}
+              <h1 className="text-lg font-bold tracking-display truncate">{displayName}</h1>
+              <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
+                {t.verified}
+              </span>
             </div>
-            <p className="text-xs text-muted-foreground truncate">{user?.email || ""}</p>
+            <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
             <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
               {tier.name} {t.tier}
             </span>
