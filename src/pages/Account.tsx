@@ -41,6 +41,14 @@ interface Order {
   created_at: string;
 }
 
+const MOCK_ORDERS: Order[] = [
+  { id: "m1", country: "United Kingdom", country_code: "GB", plan_data: "10GB", plan_validity: "30 days", plan_price: 19, status: "active", data_used: 3.2, data_total: 10, expires_at: new Date(Date.now() + 18 * 864e5).toISOString(), created_at: "2026-03-01" },
+  { id: "m2", country: "Turkey", country_code: "TR", plan_data: "5GB", plan_validity: "30 days", plan_price: 13, status: "active", data_used: 1.1, data_total: 5, expires_at: new Date(Date.now() + 25 * 864e5).toISOString(), created_at: "2026-02-20" },
+  { id: "m3", country: "United Arab Emirates", country_code: "AE", plan_data: "3GB", plan_validity: "15 days", plan_price: 9, status: "expired", data_used: 3, data_total: 3, expires_at: new Date(Date.now() - 5 * 864e5).toISOString(), created_at: "2025-12-20" },
+];
+
+const MOCK_USER = { email: "naser@camelsim.com", name: "Naser A." };
+
 const Account = () => {
   const navigate = useNavigate();
   const [notifs, setNotifs] = useState(true);
@@ -57,17 +65,22 @@ const Account = () => {
   }, [darkMode]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setOrders(MOCK_ORDERS);
+      return;
+    }
     supabase
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => setOrders((data as Order[]) || []));
+      .then(({ data }) => setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]));
   }, [user]);
 
   const { currency, setCurrencyByCode, formatPrice } = useCurrency();
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
 
+  const displayName = user?.email?.split("@")[0] || MOCK_USER.name;
+  const displayEmail = user?.email || MOCK_USER.email;
   const tier = getUserTier(orders.length);
   const userPhone = user?.user_metadata?.phone || "";
 
@@ -85,24 +98,18 @@ const Account = () => {
             <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
               {tier.emoji}
             </div>
-            {user && (
-              <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
-                <Shield className="w-3 h-3 text-primary-foreground" />
-              </div>
-            )}
+            <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
+              <Shield className="w-3 h-3 text-primary-foreground" />
+            </div>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-bold tracking-display truncate">
-                {user?.email?.split("@")[0] || "Guest"}
-              </h1>
-              {user && (
-                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
-                  {t.verified}
-                </span>
-              )}
+              <h1 className="text-lg font-bold tracking-display truncate">{displayName}</h1>
+              <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
+                {t.verified}
+              </span>
             </div>
-            <p className="text-xs text-muted-foreground truncate">{user?.email || ""}</p>
+            <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
             <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
               {tier.name} {t.tier}
             </span>
