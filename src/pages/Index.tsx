@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import travelersImg from "@/assets/travelers-esim.png";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ChevronRight, ChevronDown } from "lucide-react";
@@ -129,10 +129,46 @@ const Index = () => {
 
 function SwipeSection({ title, delay, children }: {title: string;delay: number;children: React.ReactNode;}) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [totalDots, setTotalDots] = useState(1);
+
+  const updateDots = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const itemCount = el.children.length;
+    if (itemCount === 0) return;
+    const firstChild = el.children[0] as HTMLElement;
+    const itemWidth = firstChild.offsetWidth + 8; // gap-2 = 8px
+    const visible = Math.max(1, Math.round(el.offsetWidth / itemWidth));
+    const dots = Math.max(1, itemCount - visible + 1);
+    setTotalDots(dots);
+    const scrollProgress = el.scrollLeft / (el.scrollWidth - el.offsetWidth || 1);
+    setActiveIndex(Math.min(Math.round(scrollProgress * (dots - 1)), dots - 1));
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateDots();
+    const onScroll = () => {
+      const scrollProgress = el.scrollLeft / (el.scrollWidth - el.offsetWidth || 1);
+      setActiveIndex(Math.min(Math.round(scrollProgress * (totalDots - 1)), totalDots - 1));
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [totalDots, updateDots]);
+
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
       <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{title}</h2>
       <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pt-1 pb-1" style={{ WebkitOverflowScrolling: "touch" }}>{children}</div>
+      {totalDots > 1 && (
+        <div className="flex justify-center gap-1">
+          {Array.from({ length: totalDots }).map((_, i) => (
+            <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors duration-200 ${i === activeIndex ? "bg-foreground" : "bg-muted-foreground/30"}`} />
+          ))}
+        </div>
+      )}
     </motion.div>);
 
 }
