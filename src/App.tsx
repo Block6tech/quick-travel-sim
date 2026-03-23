@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Account from "./pages/Account.tsx";
 import Auth from "./pages/Auth.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
+import HelpCenter from "./pages/HelpCenter.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
