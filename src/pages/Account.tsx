@@ -58,6 +58,7 @@ const Account = () => {
   const { t, locale, setLocale, isRTL } = useLanguage();
   const Chevron = isRTL ? ChevronLeft : ChevronRight;
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdmin();
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [referralEarnings, setReferralEarnings] = useState<{ count: number; value: number; type: string } | null>(null);
