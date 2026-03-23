@@ -168,6 +168,32 @@ const translations: Record<Locale, Record<string, any>> = {
     // Data labels
     gbRemaining: (n: string) => `${n} GB left`,
     dRemaining: (n: number) => `${n}d remaining`,
+
+    // Auth
+    authLogin: "Welcome back",
+    authRegister: "Create account",
+    authForgot: "Reset password",
+    authLoginSub: "Sign in to manage your eSIMs",
+    authRegisterSub: "Get started with CamelSim",
+    authForgotSub: "We'll send you a reset link",
+    authGoogle: "Continue with Google",
+    authOr: "or",
+    authForgotLink: "Forgot password?",
+    authLoginBtn: "Sign in",
+    authRegisterBtn: "Create account",
+    authResetBtn: "Send reset link",
+    authNoAccount: "Don't have an account?",
+    authHaveAccount: "Already have an account?",
+    authBackToLogin: "Back to sign in",
+    authResetSent: "Password reset link sent! Check your email.",
+    authCheckEmail: "Check your email to verify your account.",
+    authNewPassword: "Set new password",
+    authNewPasswordSub: "Enter your new password below",
+    authNewPasswordLabel: "New password",
+    authUpdatePassword: "Update password",
+    authPasswordUpdated: "Password updated!",
+    authRedirecting: "Redirecting...",
+    authSignIn: "Sign in",
   },
 
   ar: {
