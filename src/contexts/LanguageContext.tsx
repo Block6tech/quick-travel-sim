@@ -143,6 +143,41 @@ const translations: Record<Locale, Record<string, any>> = {
     contactSupport: "Contact Support (WhatsApp)",
     installationGuide: "Installation Guide",
     deviceCompatibility: "Device Compatibility",
+    faqCategories: [
+      {
+        title: "Getting Started",
+        items: [
+          { q: "What is an eSIM?", a: "An eSIM is a digital SIM embedded in your device. It lets you activate a cellular plan without a physical SIM card — just scan a QR code and you're connected." },
+          { q: "Which devices support eSIM?", a: "Most recent iPhones (XS and newer), Samsung Galaxy S20+, Google Pixel 3+, and many other modern smartphones support eSIM. Check your device settings for 'Add eSIM' or 'Add Cellular Plan'." },
+          { q: "How do I install my eSIM?", a: "After purchase you'll receive a QR code. Go to Settings → Cellular → Add eSIM, scan the QR code, and confirm. It takes about 2 minutes." },
+        ],
+      },
+      {
+        title: "Plans & Data",
+        items: [
+          { q: "Will my eSIM work when I land?", a: "Yes! Your eSIM activates instantly once connected to a local network. Just make sure Data Roaming is turned on in your settings." },
+          { q: "Can I share data via hotspot?", a: "It depends on the plan. Plans with the 'Hotspot' badge support tethering. Check the plan details page before purchasing." },
+          { q: "What happens when I run out of data?", a: "You can buy a top-up anytime from your dashboard. Your eSIM stays active and your number remains the same." },
+          { q: "Can I use multiple eSIMs?", a: "Yes, most devices support multiple eSIM profiles. You can switch between them in your device settings." },
+        ],
+      },
+      {
+        title: "Billing & Account",
+        items: [
+          { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards, as well as Apple Pay." },
+          { q: "Can I get a refund?", a: "Unused eSIMs can be refunded within 7 days of purchase. Once data has been consumed, the plan is non-refundable." },
+          { q: "How do I reset my password?", a: "Go to the sign-in page and tap 'Forgot password?' — we'll send you a reset link via email." },
+        ],
+      },
+      {
+        title: "Troubleshooting",
+        items: [
+          { q: "My eSIM isn't connecting", a: "Make sure Data Roaming is enabled: Settings → Cellular → your eSIM plan → Data Roaming → On. If the issue persists, try restarting your device." },
+          { q: "I can't scan the QR code", a: "You can enter the activation details manually. On the installation page, tap 'Or enter manually' to see the SM-DP+ address and activation code." },
+          { q: "How do I contact support?", a: "Tap 'Contact Support (WhatsApp)' in the Account page, or email us at support@camelsim.com. We typically respond within a few hours." },
+        ],
+      },
+    ],
     settings: "Settings",
     language: "Language",
     languageValue: "English",
@@ -337,6 +372,41 @@ const translations: Record<Locale, Record<string, any>> = {
     contactSupport: "تواصل مع الدعم (واتساب)",
     installationGuide: "دليل التثبيت",
     deviceCompatibility: "توافق الأجهزة",
+    faqCategories: [
+      {
+        title: "البداية",
+        items: [
+          { q: "ما هي شريحة eSIM؟", a: "شريحة eSIM هي شريحة رقمية مدمجة في جهازك. تتيح لك تفعيل خطة خلوية بدون شريحة فعلية — فقط امسح رمز QR وستكون متصلاً." },
+          { q: "ما الأجهزة التي تدعم eSIM؟", a: "معظم أجهزة iPhone الحديثة (XS وأحدث)، Samsung Galaxy S20+، Google Pixel 3+ والعديد من الهواتف الحديثة تدعم eSIM." },
+          { q: "كيف أثبّت شريحة eSIM؟", a: "بعد الشراء ستحصل على رمز QR. اذهب إلى الإعدادات ← الخلوي ← إضافة eSIM، امسح الرمز وأكّد. يستغرق الأمر دقيقتين تقريباً." },
+        ],
+      },
+      {
+        title: "الباقات والبيانات",
+        items: [
+          { q: "هل ستعمل شريحتي عند وصولي؟", a: "نعم! تُفعّل شريحتك فوراً عند الاتصال بشبكة محلية. تأكد من تفعيل تجوال البيانات في إعداداتك." },
+          { q: "هل يمكنني مشاركة البيانات عبر نقطة اتصال؟", a: "يعتمد على الباقة. الباقات التي تحمل شارة 'نقطة اتصال' تدعم المشاركة. تحقق من تفاصيل الباقة قبل الشراء." },
+          { q: "ماذا يحدث عند نفاد بياناتي؟", a: "يمكنك شراء رصيد إضافي في أي وقت من لوحة التحكم. شريحتك تبقى نشطة ورقمك لا يتغير." },
+          { q: "هل يمكنني استخدام عدة شرائح eSIM؟", a: "نعم، معظم الأجهزة تدعم عدة ملفات eSIM. يمكنك التبديل بينها في إعدادات جهازك." },
+        ],
+      },
+      {
+        title: "الفواتير والحساب",
+        items: [
+          { q: "ما طرق الدفع المتاحة؟", a: "نقبل جميع بطاقات الائتمان والخصم الرئيسية، بالإضافة إلى Apple Pay." },
+          { q: "هل يمكنني استرداد المبلغ؟", a: "يمكن استرداد الشرائح غير المستخدمة خلال 7 أيام من الشراء. بمجرد استهلاك البيانات، لا يمكن الاسترداد." },
+          { q: "كيف أعيد تعيين كلمة المرور؟", a: "اذهب إلى صفحة تسجيل الدخول واضغط 'نسيت كلمة المرور؟' — سنرسل لك رابط إعادة التعيين عبر البريد." },
+        ],
+      },
+      {
+        title: "استكشاف الأخطاء",
+        items: [
+          { q: "شريحتي لا تتصل", a: "تأكد من تفعيل تجوال البيانات: الإعدادات ← الخلوي ← خطة eSIM ← تجوال البيانات ← تشغيل. إذا استمرت المشكلة، أعد تشغيل جهازك." },
+          { q: "لا أستطيع مسح رمز QR", a: "يمكنك إدخال تفاصيل التفعيل يدوياً. في صفحة التثبيت، اضغط 'أو أدخل يدوياً' لرؤية عنوان SM-DP+ ورمز التفعيل." },
+          { q: "كيف أتواصل مع الدعم؟", a: "اضغط 'تواصل مع الدعم (واتساب)' في صفحة الحساب، أو راسلنا على support@camelsim.com. نرد عادةً خلال ساعات قليلة." },
+        ],
+      },
+    ],
     settings: "الإعدادات",
     language: "اللغة",
     languageValue: "العربية",
