@@ -191,9 +191,7 @@ const Account = () => {
         <Section title={t.support} icon={<HelpCircle className="w-4 h-4" />} delay={0.2}>
           <div className="space-y-1">
             <SupportRow icon={<HelpCircle className="w-4 h-4" />} label={t.helpCenter} onClick={() => navigate("/help")} chevron={Chevron} />
-            <SupportRow icon={<MessageCircle className="w-4 h-4" />} label={t.contactSupport} chevron={Chevron} />
             <SupportRow icon={<BookOpen className="w-4 h-4" />} label={t.installationGuide} onClick={() => navigate("/installation")} chevron={Chevron} />
-            <SupportRow icon={<Smartphone className="w-4 h-4" />} label={t.deviceCompatibility} chevron={Chevron} />
           </div>
         </Section>
 

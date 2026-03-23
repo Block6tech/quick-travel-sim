@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { Check, Copy, ExternalLink, Smartphone } from "lucide-react";
 import { useState } from "react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
@@ -89,6 +89,22 @@ const Installation = () => {
                   <p className="text-sm font-medium">{s.title}</p>
                   <p className="text-xs text-muted-foreground leading-body">{s.desc}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Device Compatibility */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.28, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium flex items-center gap-1.5">
+            <Smartphone className="w-3.5 h-3.5" />
+            {t.deviceCompatibility}
+          </h2>
+          <div className="bg-card rounded-lg shadow-card p-4 space-y-3">
+            {(t.compatibleDevices as { brand: string; models: string }[]).map((d, i) => (
+              <div key={i}>
+                <p className="text-xs font-semibold text-foreground">{d.brand}</p>
+                <p className="text-xs text-muted-foreground leading-body">{d.models}</p>
               </div>
             ))}
           </div>

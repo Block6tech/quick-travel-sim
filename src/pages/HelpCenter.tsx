@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
@@ -69,6 +70,31 @@ export default function HelpCenter() {
               </div>
             </motion.div>
           ))}
+
+          {/* Contact Support */}
+          <motion.div {...anim(categories.length * 0.08)}>
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+              {t.contactSupport}
+            </h2>
+            <div className="space-y-2">
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-12 rounded-xl"
+                onClick={() => window.open("https://wa.me/96500000000", "_blank")}
+              >
+                <MessageCircle className="w-4 h-4 text-green-500" />
+                <span className="text-sm font-medium">{t.contactWhatsApp}</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-12 rounded-xl"
+                onClick={() => window.open("mailto:support@camelsim.com")}
+              >
+                <Mail className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm font-medium">{t.contactEmail}</span>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </div>
     </AppLayout>
