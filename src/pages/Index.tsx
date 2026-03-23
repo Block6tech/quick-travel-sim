@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import Onboarding from "@/components/Onboarding";
 import travelersImg from "@/assets/travelers-esim.png";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ChevronRight, ChevronDown } from "lucide-react";
