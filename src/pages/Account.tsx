@@ -221,6 +221,7 @@ const Account = () => {
             {isAdmin && (
               <SupportRow icon={<Lock className="w-4 h-4" />} label="Admin Panel" onClick={() => navigate("/admin")} chevron={Chevron} />
             )}
+          </div>
         </Section>
 
         {/* Settings */}
