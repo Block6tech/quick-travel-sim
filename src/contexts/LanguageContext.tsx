@@ -380,6 +380,14 @@ const translations: Record<Locale, Record<string, any>> = {
     contactSupport: "تواصل مع الدعم (واتساب)",
     installationGuide: "دليل التثبيت",
     deviceCompatibility: "توافق الأجهزة",
+    compatibleDevices: [
+      { brand: "Apple", models: "iPhone XS, XR, 11, 12, 13, 14, 15, 16 و iPad Pro/Air (2018+)" },
+      { brand: "Samsung", models: "Galaxy S20–S25, Z Flip/Fold, Note 20, A54 5G" },
+      { brand: "Google", models: "Pixel 3, 4, 5, 6, 7, 8, 9" },
+      { brand: "أخرى", models: "Motorola Razr, Xiaomi 13, OPPO Find X5+" },
+    ],
+    contactWhatsApp: "تواصل عبر واتساب",
+    contactEmail: "راسلنا على support@camelsim.com",
     faqCategories: [
       {
         title: "البداية",
