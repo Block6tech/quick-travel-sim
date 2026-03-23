@@ -522,6 +522,8 @@ const translations: Record<Locale, Record<string, any>> = {
     referralEarningsDesc: (val: string, type: string) => `${val}${type === "percentage" ? "%" : "$"} مكافأة لكل إحالة`,
     referralTotalEarned: (n: number) => `${n} مكافأة مكتسبة`,
     earned: "مكتسب",
+    referralEarnedLabel: "من الإحالات",
+    referralPotentialLabel: "اكسب $5 لكل إحالة",
   },
 } as const;
 
