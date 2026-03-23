@@ -139,6 +139,9 @@ const Account = () => {
           <TierProgress orderCount={orders.length} />
         </motion.div>
 
+        {/* Referral Code */}
+        {user && <ReferralSection userId={user.id} />}
+
         {/* My eSIMs */}
         <Section title={t.myEsimsSection} icon={<Wifi className="w-4 h-4" />} delay={0.08}>
           <Tabs defaultValue="active" className="w-full">
