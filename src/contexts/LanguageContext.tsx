@@ -160,6 +160,17 @@ const translations: Record<Locale, Record<string, any>> = {
     orders: (n: number) => `${n}+ orders`,
     off: (n: number) => `${n}% off`,
 
+    // Onboarding
+    onboardTitle1: "Travel eSIMs, simplified",
+    onboardDesc1: "Browse 100+ destinations and find the perfect data plan for your trip.",
+    onboardTitle2: "Instant activation",
+    onboardDesc2: "No SIM swaps, no store visits. Get connected in under 60 seconds.",
+    onboardTitle3: "Manage on the go",
+    onboardDesc3: "Track your data usage, top up anytime, and manage all your eSIMs in one place.",
+    onboardSkip: "Skip",
+    onboardNext: "Next",
+    onboardGetStarted: "Get Started",
+
     // NotFound
     notFoundTitle: "404",
     notFoundMsg: "Oops! Page not found",
@@ -341,6 +352,17 @@ const translations: Record<Locale, Record<string, any>> = {
     yourPerks: "مزاياك",
     orders: (n: number) => `${n}+ طلب`,
     off: (n: number) => `خصم ${n}%`,
+
+    // Onboarding
+    onboardTitle1: "شرائح eSIM للسفر، ببساطة",
+    onboardDesc1: "تصفح أكثر من 100 وجهة واعثر على باقة البيانات المثالية لرحلتك.",
+    onboardTitle2: "تفعيل فوري",
+    onboardDesc2: "بدون تبديل شرائح أو زيارة متاجر. اتصل في أقل من 60 ثانية.",
+    onboardTitle3: "تحكّم أثناء التنقل",
+    onboardDesc3: "تتبع استهلاك بياناتك، اشحن في أي وقت، وأدر جميع شرائحك من مكان واحد.",
+    onboardSkip: "تخطي",
+    onboardNext: "التالي",
+    onboardGetStarted: "ابدأ الآن",
 
     notFoundTitle: "404",
     notFoundMsg: "عذراً! الصفحة غير موجودة",

@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import Onboarding from "@/components/Onboarding";
 import travelersImg from "@/assets/travelers-esim.png";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ChevronRight, ChevronDown } from "lucide-react";
@@ -67,6 +68,7 @@ const Index = () => {
 
   return (
     <AppLayout>
+      <Onboarding />
       <div className="px-4 pt-6 pb-4 space-y-6">
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} className="flex items-start gap-3">
