@@ -353,6 +353,17 @@ const translations: Record<Locale, Record<string, any>> = {
     orders: (n: number) => `${n}+ طلب`,
     off: (n: number) => `خصم ${n}%`,
 
+    // Onboarding
+    onboardTitle1: "شرائح eSIM للسفر، ببساطة",
+    onboardDesc1: "تصفح أكثر من 100 وجهة واعثر على باقة البيانات المثالية لرحلتك.",
+    onboardTitle2: "تفعيل فوري",
+    onboardDesc2: "بدون تبديل شرائح أو زيارة متاجر. اتصل في أقل من 60 ثانية.",
+    onboardTitle3: "تحكّم أثناء التنقل",
+    onboardDesc3: "تتبع استهلاك بياناتك، اشحن في أي وقت، وأدر جميع شرائحك من مكان واحد.",
+    onboardSkip: "تخطي",
+    onboardNext: "التالي",
+    onboardGetStarted: "ابدأ الآن",
+
     notFoundTitle: "404",
     notFoundMsg: "عذراً! الصفحة غير موجودة",
     returnHome: "العودة للرئيسية",
