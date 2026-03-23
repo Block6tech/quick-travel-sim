@@ -263,6 +263,9 @@ const translations: Record<Locale, Record<string, any>> = {
     referralShare: "Share",
     referralCount: (n: number) => `${n} referral${n !== 1 ? "s" : ""}`,
     referralReward: "10% off for friends",
+    referralEarnings: "Your Earnings",
+    referralEarningsDesc: (val: string, type: string) => `${val}${type === "percentage" ? "%" : "$"} reward per referral`,
+    referralTotalEarned: (n: number) => `${n} reward${n !== 1 ? "s" : ""} earned`,
   },
 
   ar: {
