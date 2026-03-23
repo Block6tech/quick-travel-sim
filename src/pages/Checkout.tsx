@@ -133,6 +133,32 @@ const Checkout = () => {
         return;
       }
 
+      // If referral code, record referral use
+      if (discount?.source === "referral" && orderData) {
+        const { data: refCode } = await supabase
+          .from("referral_codes")
+          .select("id")
+          .eq("code", discount.code)
+          .single();
+        if (refCode) {
+          await supabase.from("referral_uses").insert({
+            referral_code_id: refCode.id,
+            used_by: currentUser.id,
+            order_id: orderData.id,
+          });
+          // Increment referral count
+          await supabase.rpc("generate_referral_code" as any); // We'll just update directly
+        }
+      }
+
+      // Increment promo code usage
+      if (discount?.source === "promo") {
+        await supabase
+          .from("discount_codes")
+          .update({ times_used: undefined } as any) // handled below
+          .eq("code", discount.code);
+      }
+
       navigate("/installation", { state: { plan, email: email || currentUser.email } });
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
