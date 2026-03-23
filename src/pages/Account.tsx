@@ -218,7 +218,9 @@ const Account = () => {
           <div className="space-y-1">
             <SupportRow icon={<HelpCircle className="w-4 h-4" />} label={t.helpCenter} onClick={() => navigate("/help")} chevron={Chevron} />
             <SupportRow icon={<BookOpen className="w-4 h-4" />} label={t.installationGuide} onClick={() => navigate("/installation")} chevron={Chevron} />
-          </div>
+            {isAdmin && (
+              <SupportRow icon={<Lock className="w-4 h-4" />} label="Admin Panel" onClick={() => navigate("/admin")} chevron={Chevron} />
+            )}
         </Section>
 
         {/* Settings */}
