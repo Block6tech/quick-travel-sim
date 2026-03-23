@@ -267,6 +267,8 @@ const translations: Record<Locale, Record<string, any>> = {
     referralEarningsDesc: (val: string, type: string) => `${val}${type === "percentage" ? "%" : "$"} reward per referral`,
     referralTotalEarned: (n: number) => `${n} reward${n !== 1 ? "s" : ""} earned`,
     earned: "earned",
+    referralEarnedLabel: "from referrals",
+    referralPotentialLabel: "Earn $5 per referral",
   },
 
   ar: {
@@ -520,6 +522,8 @@ const translations: Record<Locale, Record<string, any>> = {
     referralEarningsDesc: (val: string, type: string) => `${val}${type === "percentage" ? "%" : "$"} مكافأة لكل إحالة`,
     referralTotalEarned: (n: number) => `${n} مكافأة مكتسبة`,
     earned: "مكتسب",
+    referralEarnedLabel: "من الإحالات",
+    referralPotentialLabel: "اكسب $5 لكل إحالة",
   },
 } as const;
 

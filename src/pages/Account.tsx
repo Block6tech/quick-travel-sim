@@ -125,9 +125,13 @@ const Account = () => {
               <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
                 {tier.name} {t.tier}
               </span>
-              {referralEarnings && referralEarnings.count > 0 && (
+              {referralEarnings && referralEarnings.count > 0 ? (
                 <span className="px-2 py-0.5 text-[10px] font-bold rounded-sm bg-accent text-accent-foreground font-mono-data">
-                  💰 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.earned || "earned"}
+                  🎁 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.referralEarnedLabel}
+                </span>
+              ) : (
+                <span className="px-2 py-0.5 text-[10px] font-medium rounded-sm bg-secondary text-muted-foreground">
+                  🎁 {t.referralPotentialLabel}
                 </span>
               )}
             </div>
