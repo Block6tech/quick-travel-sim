@@ -27,6 +27,7 @@ const Checkout = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [discount, setDiscount] = useState<DiscountResult | null>(null);
 
   if (!plan) {
     return (
