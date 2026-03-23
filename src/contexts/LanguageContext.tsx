@@ -497,6 +497,21 @@ const translations: Record<Locale, Record<string, any>> = {
     authPasswordUpdated: "تم تحديث كلمة المرور!",
     authRedirecting: "جاري التوجيه...",
     authSignIn: "تسجيل الدخول",
+
+    // Discount / Referral
+    discountCode: "كود خصم / إحالة",
+    discountPlaceholder: "أدخل الكود",
+    discountApply: "تطبيق",
+    discountApplied: "مُطبّق",
+    discountInvalid: "كود غير صالح أو منتهي",
+    discountRemove: "إزالة",
+    yourReferralCode: "كود الإحالة الخاص بك",
+    referralDesc: "شارك كودك — أصدقاؤك يحصلون على خصم 10%، وأنت تكسب مكافآت!",
+    referralCopied: "تم النسخ!",
+    referralCopy: "نسخ الكود",
+    referralShare: "مشاركة",
+    referralCount: (n: number) => `${n} إحالة`,
+    referralReward: "خصم 10% للأصدقاء",
   },
 } as const;
 
