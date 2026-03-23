@@ -94,6 +94,21 @@ const Installation = () => {
           </div>
         </motion.div>
 
+        {/* Device Compatibility */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.28, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+          <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium flex items-center gap-1.5">
+            <Smartphone className="w-3.5 h-3.5" />
+            {t.deviceCompatibility}
+          </h2>
+          <div className="bg-card rounded-lg shadow-card p-4 space-y-3">
+            {(t.compatibleDevices as { brand: string; models: string }[]).map((d, i) => (
+              <div key={i}>
+                <p className="text-xs font-semibold text-foreground">{d.brand}</p>
+                <p className="text-xs text-muted-foreground leading-body">{d.models}</p>
+              </div>
+            ))}
+          </div>
+
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}>
           <button className="w-full h-12 bg-secondary text-secondary-foreground font-medium rounded-lg btn-press transition-all duration-200 touch-target text-sm flex items-center justify-center gap-2">
             <ExternalLink className="w-4 h-4" />
