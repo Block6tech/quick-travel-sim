@@ -75,6 +75,15 @@ const Account = () => {
       .select("*")
       .order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]));
+    
+    supabase
+      .from("referral_codes")
+      .select("referral_count, reward_value, reward_type")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setReferralEarnings({ count: data.referral_count, value: data.reward_value, type: data.reward_type });
+      });
   }, [user]);
 
   const { currency, setCurrencyByCode, formatPrice } = useCurrency();
