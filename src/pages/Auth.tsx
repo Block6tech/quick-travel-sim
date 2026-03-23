@@ -85,9 +85,17 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-[480px] mx-auto">
       {/* Header */}
-      <header className="px-4 h-14 flex items-center">
+      <header className="px-4 h-14 flex items-center justify-between">
         <button onClick={() => navigate(-1)} className="touch-target btn-press" aria-label="Back">
           <BackArrow className="w-5 h-5 text-foreground" />
+        </button>
+        <button
+          onClick={() => setLocale(locale === "en" ? "ar" : "en")}
+          className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
+          aria-label="Switch language"
+        >
+          <Languages className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground">{locale === "en" ? "عربي" : "EN"}</span>
         </button>
       </header>
 
