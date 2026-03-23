@@ -301,7 +301,11 @@ const Checkout = () => {
             disabled={!canPurchase || processing}
             className="w-full h-12 bg-secondary text-secondary-foreground font-medium rounded-lg btn-press transition-all duration-200 touch-target text-sm disabled:opacity-40 disabled:pointer-events-none"
           >
-            {processing ? t.creatingAccount : t.payWithCard(formatPrice(plan.price))}
+            {processing ? t.creatingAccount : t.payWithCard(formatPrice(
+              discount
+                ? Math.max(0, plan.price - (discount.discount_type === "percentage" ? (plan.price * discount.discount_value) / 100 : discount.discount_value))
+                : plan.price
+            ))}
           </button>
         </motion.div>
 
