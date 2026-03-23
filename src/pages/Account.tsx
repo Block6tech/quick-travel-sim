@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Wifi, ShoppingBag, CreditCard, HelpCircle, Settings, ChevronRight, ChevronLeft,
-  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun,
+  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun, Lock,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import ReferralSection from "@/components/ReferralSection";
@@ -15,6 +15,7 @@ import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdmin } from "@/hooks/useAdmin";
 
 function flag(code: string) {
   if (code.length !== 2) return "";
@@ -57,6 +58,7 @@ const Account = () => {
   const { t, locale, setLocale, isRTL } = useLanguage();
   const Chevron = isRTL ? ChevronLeft : ChevronRight;
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdmin();
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [referralEarnings, setReferralEarnings] = useState<{ count: number; value: number; type: string } | null>(null);
@@ -217,6 +219,9 @@ const Account = () => {
           <div className="space-y-1">
             <SupportRow icon={<HelpCircle className="w-4 h-4" />} label={t.helpCenter} onClick={() => navigate("/help")} chevron={Chevron} />
             <SupportRow icon={<BookOpen className="w-4 h-4" />} label={t.installationGuide} onClick={() => navigate("/installation")} chevron={Chevron} />
+            {isAdmin && (
+              <SupportRow icon={<Lock className="w-4 h-4" />} label="Admin Panel" onClick={() => navigate("/admin")} chevron={Chevron} />
+            )}
           </div>
         </Section>
 

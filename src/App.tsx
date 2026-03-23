@@ -17,6 +17,12 @@ import Auth from "./pages/Auth.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import HelpCenter from "./pages/HelpCenter.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminLayout from "./pages/admin/AdminLayout.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminOrders from "./pages/admin/AdminOrders.tsx";
+import AdminUsers from "./pages/admin/AdminUsers.tsx";
+import AdminDiscounts from "./pages/admin/AdminDiscounts.tsx";
+import AdminReferrals from "./pages/admin/AdminReferrals.tsx";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +46,13 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/help" element={<HelpCenter />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="orders" element={<AdminOrders />} />
+                  <Route path="users" element={<AdminUsers />} />
+                  <Route path="discounts" element={<AdminDiscounts />} />
+                  <Route path="referrals" element={<AdminReferrals />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

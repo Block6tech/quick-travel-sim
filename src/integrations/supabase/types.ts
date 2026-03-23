@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       discount_codes: {
         Row: {
           active: boolean
@@ -190,7 +208,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_get_stats: {
+        Args: never
+        Returns: {
+          active_orders: number
+          total_orders: number
+          total_referrals: number
+          total_revenue: number
+          total_users: number
+        }[]
+      }
+      admin_get_users: {
+        Args: never
+        Returns: {
+          created_at: string
+          email: string
+          id: string
+          last_sign_in_at: string
+        }[]
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
