@@ -252,10 +252,15 @@ const Account = () => {
               <Switch checked={notifs} onCheckedChange={setNotifs} />
             </div>
 
-            {user && (
+            {user ? (
               <button onClick={handleLogout} className="w-full flex items-center gap-3 p-3 rounded-lg text-destructive hover:bg-destructive/10 transition-colors btn-press touch-target">
                 <LogOut className="w-4 h-4" />
                 <span className="text-xs font-medium">{t.logOut}</span>
+              </button>
+            ) : (
+              <button onClick={() => navigate("/auth")} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/50 transition-colors btn-press touch-target">
+                <LogOut className="w-4 h-4 text-muted-foreground" />
+                <span className="text-xs font-medium">{t.authSignIn || "Sign in"}</span>
               </button>
             )}
           </div>
