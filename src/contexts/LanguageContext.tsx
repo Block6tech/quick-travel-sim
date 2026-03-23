@@ -160,6 +160,17 @@ const translations: Record<Locale, Record<string, any>> = {
     orders: (n: number) => `${n}+ orders`,
     off: (n: number) => `${n}% off`,
 
+    // Onboarding
+    onboardTitle1: "Travel eSIMs, simplified",
+    onboardDesc1: "Browse 100+ destinations and find the perfect data plan for your trip.",
+    onboardTitle2: "Instant activation",
+    onboardDesc2: "No SIM swaps, no store visits. Get connected in under 60 seconds.",
+    onboardTitle3: "Manage on the go",
+    onboardDesc3: "Track your data usage, top up anytime, and manage all your eSIMs in one place.",
+    onboardSkip: "Skip",
+    onboardNext: "Next",
+    onboardGetStarted: "Get Started",
+
     // NotFound
     notFoundTitle: "404",
     notFoundMsg: "Oops! Page not found",
