@@ -59,7 +59,7 @@ const Account = () => {
   const { user, signOut } = useAuth();
 
   const [orders, setOrders] = useState<Order[]>([]);
-
+  const [referralEarnings, setReferralEarnings] = useState<{ count: number; value: number; type: string } | null>(null);
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
