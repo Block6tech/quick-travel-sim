@@ -6,6 +6,7 @@ import {
   LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
+import ReferralSection from "@/components/ReferralSection";
 import { Switch } from "@/components/ui/switch";
 import TierProgress from "@/components/TierProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -137,6 +138,9 @@ const Account = () => {
         <motion.div {...anim(0.06)}>
           <TierProgress orderCount={orders.length} />
         </motion.div>
+
+        {/* Referral Code */}
+        {user && <ReferralSection userId={user.id} />}
 
         {/* My eSIMs */}
         <Section title={t.myEsimsSection} icon={<Wifi className="w-4 h-4" />} delay={0.08}>

@@ -9,6 +9,7 @@ import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import DiscountCodeInput, { type DiscountResult } from "@/components/DiscountCodeInput";
 
 const Checkout = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const Checkout = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [discount, setDiscount] = useState<DiscountResult | null>(null);
 
   if (!plan) {
     return (
@@ -99,26 +101,56 @@ const Checkout = () => {
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + validityDays);
 
+      // Calculate discount
+      const discountAmt = discount
+        ? discount.discount_type === "percentage"
+          ? (plan.price * discount.discount_value) / 100
+          : Math.min(discount.discount_value, plan.price)
+        : 0;
+      const finalPrice = Math.max(0, plan.price - discountAmt);
+
       // Create order
-      const { error: orderError } = await supabase.from("orders").insert({
+      const { data: orderData, error: orderError } = await supabase.from("orders").insert({
         user_id: currentUser.id,
         country: plan.country,
         country_code: plan.countryCode,
         plan_data: plan.data,
         plan_validity: plan.validity,
         plan_speed: plan.speed,
-        plan_price: plan.price,
+        plan_price: finalPrice,
         phone_number: phone.trim() || null,
         status: "active",
         data_used: 0,
         data_total: dataNum,
         expires_at: expiresAt.toISOString(),
-      });
+        discount_code: discount?.code || null,
+        discount_amount: discountAmt,
+      }).select("id").single();
 
       if (orderError) {
         toast.error(orderError.message);
         setProcessing(false);
         return;
+      }
+
+      // Track referral usage
+      if (discount?.source === "referral" && orderData) {
+        const { data: refCode } = await supabase
+          .from("referral_codes")
+          .select("id, referral_count")
+          .eq("code", discount.code)
+          .single();
+        if (refCode) {
+          await supabase.from("referral_uses").insert({
+            referral_code_id: refCode.id,
+            used_by: currentUser!.id,
+            order_id: orderData.id,
+          } as any);
+          await supabase
+            .from("referral_codes")
+            .update({ referral_count: (refCode.referral_count || 0) + 1 } as any)
+            .eq("id", refCode.id);
+        }
       }
 
       navigate("/installation", { state: { plan, email: email || currentUser.email } });
@@ -146,9 +178,21 @@ const Checkout = () => {
                 <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
                 <p className="text-xs text-muted-foreground">{plan.data} · {plan.validity} · {plan.speed}</p>
               </div>
-              <p className="text-lg font-mono-data font-bold">{formatPrice(plan.price)}</p>
+              <div className="flex items-center gap-3">
+                <p className={`text-lg font-mono-data font-bold ${discount ? "line-through text-muted-foreground text-sm" : ""}`}>{formatPrice(plan.price)}</p>
+                {discount && (
+                  <p className="text-lg font-mono-data font-bold text-foreground">
+                    {formatPrice(Math.max(0, plan.price - (discount.discount_type === "percentage" ? (plan.price * discount.discount_value) / 100 : discount.discount_value)))}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Discount Code */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.03, ease: [0.2, 0.8, 0.2, 1] }}>
+          <DiscountCodeInput planPrice={plan.price} onApply={setDiscount} userId={user?.id} />
         </motion.div>
 
         {/* Account Section */}
@@ -257,7 +301,11 @@ const Checkout = () => {
             disabled={!canPurchase || processing}
             className="w-full h-12 bg-secondary text-secondary-foreground font-medium rounded-lg btn-press transition-all duration-200 touch-target text-sm disabled:opacity-40 disabled:pointer-events-none"
           >
-            {processing ? t.creatingAccount : t.payWithCard(formatPrice(plan.price))}
+            {processing ? t.creatingAccount : t.payWithCard(formatPrice(
+              discount
+                ? Math.max(0, plan.price - (discount.discount_type === "percentage" ? (plan.price * discount.discount_value) / 100 : discount.discount_value))
+                : plan.price
+            ))}
           </button>
         </motion.div>
 

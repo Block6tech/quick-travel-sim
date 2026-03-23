@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      discount_codes: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          expires_at: string | null
+          id: string
+          max_uses: number | null
+          min_order_amount: number | null
+          times_used: number
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          discount_type: string
+          discount_value: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order_amount?: number | null
+          times_used?: number
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order_amount?: number | null
+          times_used?: number
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           country: string
@@ -21,6 +60,8 @@ export type Database = {
           created_at: string
           data_total: number
           data_used: number
+          discount_amount: number | null
+          discount_code: string | null
           expires_at: string | null
           id: string
           phone_number: string | null
@@ -37,6 +78,8 @@ export type Database = {
           created_at?: string
           data_total?: number
           data_used?: number
+          discount_amount?: number | null
+          discount_code?: string | null
           expires_at?: string | null
           id?: string
           phone_number?: string | null
@@ -53,6 +96,8 @@ export type Database = {
           created_at?: string
           data_total?: number
           data_used?: number
+          discount_amount?: number | null
+          discount_code?: string | null
           expires_at?: string | null
           id?: string
           phone_number?: string | null
@@ -64,6 +109,81 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      referral_codes: {
+        Row: {
+          code: string
+          created_at: string
+          friend_discount_type: string
+          friend_discount_value: number
+          id: string
+          referral_count: number
+          reward_type: string
+          reward_value: number
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          friend_discount_type?: string
+          friend_discount_value?: number
+          id?: string
+          referral_count?: number
+          reward_type?: string
+          reward_value?: number
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          friend_discount_type?: string
+          friend_discount_value?: number
+          id?: string
+          referral_count?: number
+          reward_type?: string
+          reward_value?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      referral_uses: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string | null
+          referral_code_id: string
+          used_by: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          referral_code_id: string
+          used_by: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          referral_code_id?: string
+          used_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_uses_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_uses_referral_code_id_fkey"
+            columns: ["referral_code_id"]
+            isOneToOne: false
+            referencedRelation: "referral_codes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
