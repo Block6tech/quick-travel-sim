@@ -59,7 +59,7 @@ const Account = () => {
   const { user, signOut } = useAuth();
 
   const [orders, setOrders] = useState<Order[]>([]);
-
+  const [referralEarnings, setReferralEarnings] = useState<{ count: number; value: number; type: string } | null>(null);
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
@@ -75,6 +75,15 @@ const Account = () => {
       .select("*")
       .order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]));
+    
+    supabase
+      .from("referral_codes")
+      .select("referral_count, reward_value, reward_type")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setReferralEarnings({ count: data.referral_count, value: data.reward_value, type: data.reward_type });
+      });
   }, [user]);
 
   const { currency, setCurrencyByCode, formatPrice } = useCurrency();
@@ -111,9 +120,16 @@ const Account = () => {
               </span>
             </div>
             <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
-            <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
-              {tier.name} {t.tier}
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
+                {tier.name} {t.tier}
+              </span>
+              {referralEarnings && referralEarnings.count > 0 && (
+                <span className="px-2 py-0.5 text-[10px] font-bold rounded-sm bg-accent text-accent-foreground font-mono-data">
+                  💰 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.earned || "earned"}
+                </span>
+              )}
+            </div>
           </div>
         </motion.div>
 
