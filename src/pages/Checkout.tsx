@@ -178,9 +178,21 @@ const Checkout = () => {
                 <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
                 <p className="text-xs text-muted-foreground">{plan.data} · {plan.validity} · {plan.speed}</p>
               </div>
-              <p className="text-lg font-mono-data font-bold">{formatPrice(plan.price)}</p>
+              <div className="flex items-center gap-3">
+                <p className={`text-lg font-mono-data font-bold ${discount ? "line-through text-muted-foreground text-sm" : ""}`}>{formatPrice(plan.price)}</p>
+                {discount && (
+                  <p className="text-lg font-mono-data font-bold text-foreground">
+                    {formatPrice(Math.max(0, plan.price - (discount.discount_type === "percentage" ? (plan.price * discount.discount_value) / 100 : discount.discount_value)))}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Discount Code */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.03, ease: [0.2, 0.8, 0.2, 1] }}>
+          <DiscountCodeInput planPrice={plan.price} onApply={setDiscount} userId={user?.id} />
         </motion.div>
 
         {/* Account Section */}
