@@ -12,7 +12,7 @@ type AuthMode = "login" | "register" | "forgot";
 const Auth = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { t, isRTL } = useLanguage();
+  const { t, isRTL, locale, setLocale } = useLanguage();
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
