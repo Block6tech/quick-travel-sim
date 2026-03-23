@@ -101,21 +101,31 @@ const Checkout = () => {
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + validityDays);
 
+      // Calculate discount
+      const discountAmt = discount
+        ? discount.discount_type === "percentage"
+          ? (plan.price * discount.discount_value) / 100
+          : Math.min(discount.discount_value, plan.price)
+        : 0;
+      const finalPrice = Math.max(0, plan.price - discountAmt);
+
       // Create order
-      const { error: orderError } = await supabase.from("orders").insert({
+      const { data: orderData, error: orderError } = await supabase.from("orders").insert({
         user_id: currentUser.id,
         country: plan.country,
         country_code: plan.countryCode,
         plan_data: plan.data,
         plan_validity: plan.validity,
         plan_speed: plan.speed,
-        plan_price: plan.price,
+        plan_price: finalPrice,
         phone_number: phone.trim() || null,
         status: "active",
         data_used: 0,
         data_total: dataNum,
         expires_at: expiresAt.toISOString(),
-      });
+        discount_code: discount?.code || null,
+        discount_amount: discountAmt,
+      }).select("id").single();
 
       if (orderError) {
         toast.error(orderError.message);
