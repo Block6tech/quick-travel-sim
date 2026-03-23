@@ -348,6 +348,32 @@ const translations: Record<Locale, Record<string, any>> = {
 
     gbRemaining: (n: string) => `${n} جيجابايت متبقية`,
     dRemaining: (n: number) => `${n} يوم`,
+
+    // Auth
+    authLogin: "مرحباً بعودتك",
+    authRegister: "إنشاء حساب",
+    authForgot: "استعادة كلمة المرور",
+    authLoginSub: "سجّل دخولك لإدارة شرائحك",
+    authRegisterSub: "ابدأ مع كاميل سيم",
+    authForgotSub: "سنرسل لك رابط الاستعادة",
+    authGoogle: "المتابعة بحساب Google",
+    authOr: "أو",
+    authForgotLink: "نسيت كلمة المرور؟",
+    authLoginBtn: "تسجيل الدخول",
+    authRegisterBtn: "إنشاء حساب",
+    authResetBtn: "إرسال رابط الاستعادة",
+    authNoAccount: "ليس لديك حساب؟",
+    authHaveAccount: "لديك حساب بالفعل؟",
+    authBackToLogin: "العودة لتسجيل الدخول",
+    authResetSent: "تم إرسال رابط الاستعادة! تحقق من بريدك.",
+    authCheckEmail: "تحقق من بريدك الإلكتروني لتفعيل حسابك.",
+    authNewPassword: "تعيين كلمة مرور جديدة",
+    authNewPasswordSub: "أدخل كلمة المرور الجديدة أدناه",
+    authNewPasswordLabel: "كلمة المرور الجديدة",
+    authUpdatePassword: "تحديث كلمة المرور",
+    authPasswordUpdated: "تم تحديث كلمة المرور!",
+    authRedirecting: "جاري التوجيه...",
+    authSignIn: "تسجيل الدخول",
   },
 } as const;
 
