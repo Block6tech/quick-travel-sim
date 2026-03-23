@@ -68,6 +68,7 @@ const Account = () => {
   useEffect(() => {
     if (!user) {
       setOrders(MOCK_ORDERS);
+      setReferralEarnings({ count: 3, value: 5, type: "fixed" });
       return;
     }
     supabase
