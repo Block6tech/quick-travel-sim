@@ -143,6 +143,14 @@ const translations: Record<Locale, Record<string, any>> = {
     contactSupport: "Contact Support (WhatsApp)",
     installationGuide: "Installation Guide",
     deviceCompatibility: "Device Compatibility",
+    compatibleDevices: [
+      { brand: "Apple", models: "iPhone XS, XR, 11, 12, 13, 14, 15, 16 series & iPad Pro/Air (2018+)" },
+      { brand: "Samsung", models: "Galaxy S20–S25, Z Flip/Fold series, Note 20, A54 5G" },
+      { brand: "Google", models: "Pixel 3, 4, 5, 6, 7, 8, 9 series" },
+      { brand: "Others", models: "Motorola Razr, Xiaomi 13 series, OPPO Find X5+" },
+    ],
+    contactWhatsApp: "Chat on WhatsApp",
+    contactEmail: "Email support@camelsim.com",
     faqCategories: [
       {
         title: "Getting Started",
