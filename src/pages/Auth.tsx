@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff, ArrowLeft, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, ArrowRight, Languages } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { lovable } from "@/integrations/lovable/index";
@@ -12,7 +12,7 @@ type AuthMode = "login" | "register" | "forgot";
 const Auth = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { t, isRTL } = useLanguage();
+  const { t, isRTL, locale, setLocale } = useLanguage();
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,9 +85,17 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-[480px] mx-auto">
       {/* Header */}
-      <header className="px-4 h-14 flex items-center">
+      <header className="px-4 h-14 flex items-center justify-between">
         <button onClick={() => navigate(-1)} className="touch-target btn-press" aria-label="Back">
           <BackArrow className="w-5 h-5 text-foreground" />
+        </button>
+        <button
+          onClick={() => setLocale(locale === "en" ? "ar" : "en")}
+          className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
+          aria-label="Switch language"
+        >
+          <Languages className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground">{locale === "en" ? "عربي" : "EN"}</span>
         </button>
       </header>
 
