@@ -120,9 +120,16 @@ const Account = () => {
               </span>
             </div>
             <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
-            <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
-              {tier.name} {t.tier}
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
+                {tier.name} {t.tier}
+              </span>
+              {referralEarnings && referralEarnings.count > 0 && (
+                <span className="px-2 py-0.5 text-[10px] font-bold rounded-sm bg-accent text-accent-foreground font-mono-data">
+                  💰 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.earned || "earned"}
+                </span>
+              )}
+            </div>
           </div>
         </motion.div>
 
