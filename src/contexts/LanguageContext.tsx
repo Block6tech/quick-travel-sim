@@ -515,6 +515,9 @@ const translations: Record<Locale, Record<string, any>> = {
     referralShare: "مشاركة",
     referralCount: (n: number) => `${n} إحالة`,
     referralReward: "خصم 10% للأصدقاء",
+    referralEarnings: "أرباحك",
+    referralEarningsDesc: (val: string, type: string) => `${val}${type === "percentage" ? "%" : "$"} مكافأة لكل إحالة`,
+    referralTotalEarned: (n: number) => `${n} مكافأة مكتسبة`,
   },
 } as const;
 

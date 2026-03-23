@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Gift, Copy, Share2, Check, Users } from "lucide-react";
+import { Gift, Copy, Share2, Check, Users, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
@@ -13,34 +13,44 @@ export default function ReferralSection({ userId }: Props) {
   const { t } = useLanguage();
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [referralCount, setReferralCount] = useState(0);
+  const [rewardValue, setRewardValue] = useState(10);
+  const [rewardType, setRewardType] = useState("percentage");
+  const [friendDiscountValue, setFriendDiscountValue] = useState(10);
+  const [friendDiscountType, setFriendDiscountType] = useState("percentage");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const loadOrCreate = async () => {
-      // Try to fetch existing code
       const { data } = await supabase
         .from("referral_codes")
-        .select("code, referral_count")
+        .select("code, referral_count, reward_value, reward_type, friend_discount_value, friend_discount_type")
         .eq("user_id", userId)
         .maybeSingle();
 
       if (data) {
         setReferralCode(data.code);
         setReferralCount(data.referral_count);
+        setRewardValue(data.reward_value);
+        setRewardType(data.reward_type);
+        setFriendDiscountValue(data.friend_discount_value);
+        setFriendDiscountType(data.friend_discount_type);
         return;
       }
 
-      // Create one
       const code = "CAMEL" + Math.random().toString(36).substring(2, 8).toUpperCase();
       const { data: newData, error } = await supabase
         .from("referral_codes")
         .insert({ user_id: userId, code })
-        .select("code, referral_count")
+        .select("code, referral_count, reward_value, reward_type, friend_discount_value, friend_discount_type")
         .single();
 
       if (!error && newData) {
         setReferralCode(newData.code);
         setReferralCount(newData.referral_count);
+        setRewardValue(newData.reward_value);
+        setRewardType(newData.reward_type);
+        setFriendDiscountValue(newData.friend_discount_value);
+        setFriendDiscountType(newData.friend_discount_type);
       }
     };
 
@@ -63,7 +73,7 @@ export default function ReferralSection({ userId }: Props) {
     try {
       await navigator.share({
         title: "CamelSim",
-        text: `Use my referral code ${referralCode} to get 10% off your first eSIM!`,
+        text: `Use my referral code ${referralCode} to get ${friendDiscountValue}${friendDiscountType === "percentage" ? "%" : "$"} off your first eSIM!`,
         url: window.location.origin,
       });
     } catch {
@@ -72,6 +82,8 @@ export default function ReferralSection({ userId }: Props) {
   };
 
   if (!referralCode) return null;
+
+  const totalEarned = referralCount;
 
   return (
     <motion.div
@@ -114,6 +126,22 @@ export default function ReferralSection({ userId }: Props) {
             <span className="text-[10px] font-medium">{t.referralCount(referralCount)}</span>
           </div>
           <span className="text-[10px] text-muted-foreground font-medium">{t.referralReward}</span>
+        </div>
+
+        {/* Earnings card */}
+        <div className="mt-1 p-3 rounded-lg bg-secondary/60 space-y-2">
+          <div className="flex items-center gap-1.5">
+            <TrendingUp className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="text-[11px] font-semibold">{t.referralEarnings}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-muted-foreground">
+              {t.referralEarningsDesc(String(rewardValue), rewardType)}
+            </span>
+            <span className="text-xs font-bold font-mono-data">
+              {t.referralTotalEarned(totalEarned)}
+            </span>
+          </div>
         </div>
       </div>
     </motion.div>
