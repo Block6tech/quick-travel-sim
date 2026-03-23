@@ -248,6 +248,21 @@ const translations: Record<Locale, Record<string, any>> = {
     authPasswordUpdated: "Password updated!",
     authRedirecting: "Redirecting...",
     authSignIn: "Sign in",
+
+    // Discount / Referral
+    discountCode: "Discount / Referral Code",
+    discountPlaceholder: "Enter code",
+    discountApply: "Apply",
+    discountApplied: "applied",
+    discountInvalid: "Invalid or expired code",
+    discountRemove: "Remove",
+    yourReferralCode: "Your Referral Code",
+    referralDesc: "Share your code — friends get 10% off, you earn rewards!",
+    referralCopied: "Copied!",
+    referralCopy: "Copy code",
+    referralShare: "Share",
+    referralCount: (n: number) => `${n} referral${n !== 1 ? "s" : ""}`,
+    referralReward: "10% off for friends",
   },
 
   ar: {
