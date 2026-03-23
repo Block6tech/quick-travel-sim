@@ -108,6 +108,7 @@ const Installation = () => {
               </div>
             ))}
           </div>
+        </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}>
           <button className="w-full h-12 bg-secondary text-secondary-foreground font-medium rounded-lg btn-press transition-all duration-200 touch-target text-sm flex items-center justify-center gap-2">
