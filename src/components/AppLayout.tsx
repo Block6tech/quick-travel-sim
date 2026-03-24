@@ -58,25 +58,25 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
         {children}
       </main>
 
-      {/* Bottom Nav — Minimal notch style */}
+      {/* Bottom Nav — Segmented capsule */}
       {showNav && (
-        <div className="sticky bottom-0 px-6 pb-3 pt-1 pointer-events-none">
-          <nav className="pointer-events-auto mx-auto bg-card/90 backdrop-blur-2xl rounded-[20px] border border-border/60 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
-            <div className="flex items-center justify-around h-[56px]">
+        <div className="sticky bottom-0 px-5 pb-4 pt-2 pointer-events-none">
+          <nav className="pointer-events-auto mx-auto bg-foreground rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+            <div className="flex items-center h-[52px] px-1.5 gap-1">
               <NavItem
-                icon={<Search strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                icon={<Search strokeWidth={2.5} className="w-[18px] h-[18px]" />}
                 label={t.navExplore}
                 active={location.pathname === "/"}
                 onClick={() => navigate("/")}
               />
               <NavItem
-                icon={<Wifi strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                icon={<Wifi strokeWidth={2.5} className="w-[18px] h-[18px]" />}
                 label={t.navMyEsims}
                 active={location.pathname === "/dashboard"}
                 onClick={() => navigate("/dashboard")}
               />
               <NavItem
-                icon={<User strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                icon={<User strokeWidth={2.5} className="w-[18px] h-[18px]" />}
                 label={t.navAccount}
                 active={location.pathname === "/account"}
                 onClick={() => navigate("/account")}
@@ -99,16 +99,15 @@ interface NavItemProps {
 const NavItem = ({ icon, label, active, onClick }: NavItemProps) => (
   <button
     onClick={onClick}
-    className="relative flex flex-col items-center justify-center w-20 h-full btn-press"
+    className={`flex-1 flex items-center justify-center gap-1.5 h-[42px] rounded-full transition-all duration-300 btn-press ${
+      active
+        ? "bg-background text-foreground shadow-sm"
+        : "text-primary-foreground/50 hover:text-primary-foreground/70"
+    }`}
   >
-    {active && (
-      <span className="absolute top-1.5 w-6 h-[3px] rounded-full bg-foreground animate-in fade-in zoom-in-50 duration-200" />
-    )}
-    <div className={`transition-all duration-200 ${active ? "text-foreground" : "text-muted-foreground"}`}>
-      {icon}
-    </div>
-    <span className={`text-[10px] mt-0.5 transition-all duration-200 ${
-      active ? "font-bold text-foreground" : "font-medium text-muted-foreground"
+    {icon}
+    <span className={`text-[11px] font-semibold transition-all duration-300 ${
+      active ? "max-w-[80px] opacity-100" : "max-w-0 opacity-0 overflow-hidden"
     }`}>
       {label}
     </span>
