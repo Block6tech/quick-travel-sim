@@ -53,9 +53,37 @@ export default function AdminUsers() {
     (u) => u.email?.toLowerCase().includes(search.toLowerCase()) || u.id.includes(search)
   );
 
+  const handleExportCSV = () => {
+    const headers = ["Email", "User ID", "Orders", "Total Spent", "Joined", "Last Sign In"];
+    const rows = filtered.map((u) => {
+      const s = orderSummaries[u.id];
+      return [u.email, u.id.slice(0, 8), String(s?.count || 0), `$${(s?.total || 0).toFixed(2)}`, new Date(u.created_at).toLocaleDateString(), u.last_sign_in_at ? new Date(u.last_sign_in_at).toLocaleDateString() : "—"];
+    });
+    exportToCSV("users", headers, rows);
+  };
+
+  const handleExportPDF = () => {
+    const headers = ["Email", "User ID", "Orders", "Total Spent", "Joined", "Last Sign In"];
+    const rows = filtered.map((u) => {
+      const s = orderSummaries[u.id];
+      return [u.email, u.id.slice(0, 8), String(s?.count || 0), `$${(s?.total || 0).toFixed(2)}`, new Date(u.created_at).toLocaleDateString(), u.last_sign_in_at ? new Date(u.last_sign_in_at).toLocaleDateString() : "—"];
+    });
+    exportToPDF("Users Report", headers, rows, [{ label: "Total Users", value: String(filtered.length) }]);
+  };
+
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold tracking-display">Users</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-bold tracking-display">Users</h1>
+        <div className="flex gap-1.5">
+          <button onClick={handleExportCSV} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <Download className="w-3 h-3" /> CSV
+          </button>
+          <button onClick={handleExportPDF} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <FileText className="w-3 h-3" /> PDF
+          </button>
+        </div>
+      </div>
 
       <div className="relative">
         <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

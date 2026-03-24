@@ -144,9 +144,37 @@ export default function AdminEsimManagement() {
     return acc;
   }, {});
 
+  const handleExportCSV = () => {
+    const headers = ["Order ID", "Country", "Plan", "Phone/ICCID", "Data Usage", "Status", "Expires", "Created"];
+    const rows = filtered.map((o) => [o.id.slice(0, 8), o.country, `${o.plan_data} · ${o.plan_speed}`, o.phone_number || "—", `${o.data_used}/${o.data_total}GB`, o.status, o.expires_at ? new Date(o.expires_at).toLocaleDateString() : "—", new Date(o.created_at).toLocaleDateString()]);
+    exportToCSV("esim-management", headers, rows);
+  };
+
+  const handleExportPDF = () => {
+    const headers = ["Country", "Plan", "Phone/ICCID", "Data Usage", "Status", "Expires"];
+    const rows = filtered.map((o) => [o.country, `${o.plan_data} · ${o.plan_speed}`, o.phone_number || "—", `${o.data_used}/${o.data_total}GB`, o.status, o.expires_at ? new Date(o.expires_at).toLocaleDateString() : "—"]);
+    const summary = [
+      { label: "Active", value: String(statusCounts["active"] || 0) },
+      { label: "Frozen", value: String(statusCounts["frozen"] || 0) },
+      { label: "Suspended", value: String(statusCounts["suspended"] || 0) },
+      { label: "Expired", value: String(statusCounts["expired"] || 0) },
+    ];
+    exportToPDF("eSIM Management Report", headers, rows, summary);
+  };
+
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold tracking-display">eSIM Management</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-bold tracking-display">eSIM Management</h1>
+        <div className="flex gap-1.5">
+          <button onClick={handleExportCSV} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <Download className="w-3 h-3" /> CSV
+          </button>
+          <button onClick={handleExportPDF} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <FileText className="w-3 h-3" /> PDF
+          </button>
+        </div>
+      </div>
 
       {/* Status summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">

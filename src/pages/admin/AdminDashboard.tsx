@@ -84,9 +84,51 @@ export default function AdminDashboard() {
       ]
     : [];
 
+  const handleExportCSV = () => {
+    const headers = ["Country", "Price", "Discount", "Status", "Date"];
+    const rows = orders.map((o) => [
+      o.country,
+      `$${o.plan_price}`,
+      o.discount_amount ? `-$${o.discount_amount}` : "—",
+      o.status,
+      new Date(o.created_at).toLocaleDateString(),
+    ]);
+    exportToCSV("revenue-report", headers, rows);
+  };
+
+  const handleExportPDF = () => {
+    const headers = ["Country", "Price", "Discount", "Status", "Date"];
+    const rows = orders.map((o) => [
+      o.country,
+      `$${o.plan_price}`,
+      o.discount_amount ? `-$${o.discount_amount}` : "—",
+      o.status,
+      new Date(o.created_at).toLocaleDateString(),
+    ]);
+    const summary = stats
+      ? [
+          { label: "Total Revenue", value: `$${Number(stats.total_revenue).toFixed(2)}` },
+          { label: "Total Orders", value: String(stats.total_orders) },
+          { label: "Active eSIMs", value: String(stats.active_orders) },
+          { label: "Total Users", value: String(stats.total_users) },
+        ]
+      : [];
+    exportToPDF("Revenue Report", headers, rows, summary);
+  };
+
   return (
     <div className="space-y-6">
-      <h1 className="text-lg font-bold tracking-display">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-bold tracking-display">Dashboard</h1>
+        <div className="flex gap-1.5">
+          <button onClick={handleExportCSV} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <Download className="w-3 h-3" /> CSV
+          </button>
+          <button onClick={handleExportPDF} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <FileText className="w-3 h-3" /> PDF
+          </button>
+        </div>
+      </div>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">

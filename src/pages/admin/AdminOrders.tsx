@@ -47,9 +47,31 @@ export default function AdminOrders() {
     return matchSearch && matchStatus;
   });
 
+  const handleExportCSV = () => {
+    const headers = ["Order ID", "Country", "Plan", "Price", "Discount", "Data Usage", "Status", "Date"];
+    const rows = filtered.map((o) => [o.id.slice(0, 8), o.country, `${o.plan_data} · ${o.plan_speed}`, `$${o.plan_price}`, o.discount_code ? `${o.discount_code} (-$${o.discount_amount})` : "—", `${o.data_used}/${o.data_total}GB`, o.status, new Date(o.created_at).toLocaleDateString()]);
+    exportToCSV("orders", headers, rows);
+  };
+
+  const handleExportPDF = () => {
+    const headers = ["Order ID", "Country", "Plan", "Price", "Discount", "Status", "Date"];
+    const rows = filtered.map((o) => [o.id.slice(0, 8), o.country, `${o.plan_data} · ${o.plan_speed}`, `$${o.plan_price}`, o.discount_code ? `${o.discount_code} (-$${o.discount_amount})` : "—", o.status, new Date(o.created_at).toLocaleDateString()]);
+    exportToPDF("Orders Report", headers, rows, [{ label: "Total Orders", value: String(filtered.length) }]);
+  };
+
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold tracking-display">Orders</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-bold tracking-display">Orders</h1>
+        <div className="flex gap-1.5">
+          <button onClick={handleExportCSV} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <Download className="w-3 h-3" /> CSV
+          </button>
+          <button onClick={handleExportPDF} className="h-7 px-2.5 flex items-center gap-1.5 rounded-md border border-border text-[10px] font-medium text-muted-foreground hover:bg-secondary transition-colors">
+            <FileText className="w-3 h-3" /> PDF
+          </button>
+        </div>
+      </div>
 
       <div className="flex gap-2">
         <div className="flex-1 relative">
