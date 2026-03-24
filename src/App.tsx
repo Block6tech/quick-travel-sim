@@ -23,6 +23,7 @@ import AdminOrders from "./pages/admin/AdminOrders.tsx";
 import AdminUsers from "./pages/admin/AdminUsers.tsx";
 import AdminDiscounts from "./pages/admin/AdminDiscounts.tsx";
 import AdminReferrals from "./pages/admin/AdminReferrals.tsx";
+import AdminEsimManagement from "./pages/admin/AdminEsimManagement.tsx";
 
 const queryClient = new QueryClient();
 
