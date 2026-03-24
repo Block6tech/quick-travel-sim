@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Search } from "lucide-react";
+import { Search, Download, FileText } from "lucide-react";
+import { exportToCSV, exportToPDF } from "@/utils/export";
 import { mockUsers, getMockOrderSummaries } from "@/data/admin-mock-data";
 
 interface UserRow {
