@@ -58,31 +58,32 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
         {children}
       </main>
 
-      {/* Bottom Nav — Glassmorphic with active pill */}
+      {/* Bottom Nav — Minimal notch style */}
       {showNav && (
-        <nav className="sticky bottom-0 bg-background/70 backdrop-blur-2xl border-t border-border/50">
-          <div className="flex items-center justify-around h-16 max-w-[360px] mx-auto">
-            <NavItem
-              icon={<Search className="w-5 h-5" />}
-              label={t.navExplore}
-              active={location.pathname === "/"}
-              onClick={() => navigate("/")}
-            />
-            <NavItem
-              icon={<Wifi className="w-5 h-5" />}
-              label={t.navMyEsims}
-              active={location.pathname === "/dashboard"}
-              onClick={() => navigate("/dashboard")}
-            />
-            <NavItem
-              icon={<User className="w-5 h-5" />}
-              label={t.navAccount}
-              active={location.pathname === "/account"}
-              onClick={() => navigate("/account")}
-            />
-          </div>
-          <div className="h-[env(safe-area-inset-bottom)]" />
-        </nav>
+        <div className="sticky bottom-0 px-6 pb-3 pt-1 pointer-events-none">
+          <nav className="pointer-events-auto mx-auto bg-card/90 backdrop-blur-2xl rounded-[20px] border border-border/60 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-around h-[56px]">
+              <NavItem
+                icon={<Search strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                label={t.navExplore}
+                active={location.pathname === "/"}
+                onClick={() => navigate("/")}
+              />
+              <NavItem
+                icon={<Wifi strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                label={t.navMyEsims}
+                active={location.pathname === "/dashboard"}
+                onClick={() => navigate("/dashboard")}
+              />
+              <NavItem
+                icon={<User strokeWidth={2.2} className="w-[21px] h-[21px]" />}
+                label={t.navAccount}
+                active={location.pathname === "/account"}
+                onClick={() => navigate("/account")}
+              />
+            </div>
+          </nav>
+        </div>
       )}
     </div>
   );
@@ -98,25 +99,19 @@ interface NavItemProps {
 const NavItem = ({ icon, label, active, onClick }: NavItemProps) => (
   <button
     onClick={onClick}
-    className="relative flex flex-col items-center justify-center w-20 h-14 btn-press group"
+    className="relative flex flex-col items-center justify-center w-20 h-full btn-press"
   >
-    <div
-      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300 ${
-        active
-          ? "bg-foreground text-primary-foreground shadow-md"
-          : "text-muted-foreground group-hover:text-foreground"
-      }`}
-    >
-      {icon}
-      {active && (
-        <span className="text-[11px] font-semibold tracking-tight animate-in slide-in-from-left-2 fade-in duration-300">
-          {label}
-        </span>
-      )}
-    </div>
-    {!active && (
-      <span className="text-[10px] font-medium text-muted-foreground mt-0.5">{label}</span>
+    {active && (
+      <span className="absolute top-1.5 w-6 h-[3px] rounded-full bg-foreground animate-in fade-in zoom-in-50 duration-200" />
     )}
+    <div className={`transition-all duration-200 ${active ? "text-foreground" : "text-muted-foreground"}`}>
+      {icon}
+    </div>
+    <span className={`text-[10px] mt-0.5 transition-all duration-200 ${
+      active ? "font-bold text-foreground" : "font-medium text-muted-foreground"
+    }`}>
+      {label}
+    </span>
   </button>
 );
 
