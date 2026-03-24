@@ -150,6 +150,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </div>
           </motion.nav>
         </div>
+      )}
     </div>
   );
 };
