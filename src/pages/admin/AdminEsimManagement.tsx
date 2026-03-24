@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Search, Snowflake, Play, XCircle, Clock, ChevronDown, ChevronUp, History } from "lucide-react";
+import { Search, Snowflake, Play, XCircle, Clock, ChevronDown, ChevronUp, History, Download, FileText } from "lucide-react";
+import { toast } from "sonner";
+import { mockOrders } from "@/data/admin-mock-data";
+import { exportToCSV, exportToPDF } from "@/utils/export";
 import { toast } from "sonner";
 import { mockOrders } from "@/data/admin-mock-data";
 
