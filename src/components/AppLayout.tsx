@@ -120,7 +120,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       </motion.div>
 
                       <span
-                        className={`text-[10px] font-semibold transition-colors duration-200 ${
+                        className={`text-[14px] font-semibold transition-colors duration-200 ${
                           isActive ? "text-primary-foreground" : "text-primary-foreground/40"
                         }`}
                       >
