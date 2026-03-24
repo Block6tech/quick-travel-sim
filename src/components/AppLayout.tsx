@@ -99,12 +99,23 @@ interface NavItemProps {
 const NavItem = ({ icon, label, active, onClick }: NavItemProps) => (
   <button
     onClick={onClick}
-    className={`flex flex-col items-center gap-0.5 touch-target justify-center btn-press ${
-      active ? "text-foreground" : "text-text-tertiary"
+    className={`relative flex flex-col items-center gap-0.5 w-16 h-11 justify-center rounded-xl transition-all duration-300 btn-press ${
+      active
+        ? "text-primary-foreground bg-primary-foreground/15"
+        : "text-primary-foreground/50 hover:text-primary-foreground/75"
     }`}
   >
-    {icon}
-    <span className="text-[10px] font-medium">{label}</span>
+    <div className={`transition-transform duration-300 ${active ? "scale-110 -translate-y-0.5" : ""}`}>
+      {icon}
+    </div>
+    <span className={`text-[10px] font-semibold tracking-wide transition-all duration-300 ${
+      active ? "opacity-100" : "opacity-60"
+    }`}>
+      {label}
+    </span>
+    {active && (
+      <span className="absolute -bottom-0.5 w-5 h-[3px] rounded-full bg-primary-foreground animate-in fade-in zoom-in-75 duration-300" />
+    )}
   </button>
 );
 
