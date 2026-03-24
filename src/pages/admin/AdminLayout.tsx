@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
-import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft } from "lucide-react";
+import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 
 const navItems = [
   { to: "/admin", icon: BarChart3, label: "Dashboard", end: true },
+  { to: "/admin/esim", icon: Smartphone, label: "eSIM Management" },
   { to: "/admin/orders", icon: ShoppingBag, label: "Orders" },
   { to: "/admin/users", icon: Users, label: "Users" },
   { to: "/admin/discounts", icon: Tag, label: "Discounts" },

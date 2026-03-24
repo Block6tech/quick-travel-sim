@@ -71,6 +71,47 @@ export type Database = {
         }
         Relationships: []
       }
+      esim_actions_log: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          new_status: string | null
+          notes: string | null
+          order_id: string
+          performed_by: string
+          previous_status: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          notes?: string | null
+          order_id: string
+          performed_by: string
+          previous_status?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          notes?: string | null
+          order_id?: string
+          performed_by?: string
+          previous_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "esim_actions_log_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           country: string
