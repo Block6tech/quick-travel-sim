@@ -106,7 +106,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       />
                     )}
 
-                    <div className="relative z-10 flex flex-col items-center gap-0.5">
+                    <div className="relative z-10 flex flex-col items-center gap-1">
                       <motion.div
                         animate={{ rotate: isActive ? [0, -8, 8, 0] : 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
@@ -126,16 +126,18 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       >
                         {item.label}
                       </span>
-                    </div>
 
-                    {/* Bottom indicator line — directly under label */}
-                    {isActive && (
-                      <motion.div
-                        layoutId="nav-glow"
-                        className="absolute bottom-[14px] left-1/2 -translate-x-1/2 w-6 h-[2.5px] rounded-full bg-primary-foreground/70"
-                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                      />
-                    )}
+                      {/* Indicator dot row — keeps space consistent */}
+                      <div className="h-[3px] flex items-center justify-center">
+                        {isActive && (
+                          <motion.div
+                            layoutId="nav-glow"
+                            className="w-5 h-[2.5px] rounded-full bg-primary-foreground/70"
+                            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                          />
+                        )}
+                      </div>
+                    </div>
                   </button>
                 );
               })}
