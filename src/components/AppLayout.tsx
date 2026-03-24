@@ -150,15 +150,6 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </div>
           </motion.nav>
         </div>
-      )}
-                    </AnimatePresence>
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
-        </div>
-      )}
     </div>
   );
 };
