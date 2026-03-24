@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { DollarSign, ShoppingBag, Users, Wifi, Gift } from "lucide-react";
+import { DollarSign, ShoppingBag, Users, Wifi, Gift, Download, FileText } from "lucide-react";
+import { exportToCSV, exportToPDF } from "@/utils/export";
 import { mockStats, mockOrders } from "@/data/admin-mock-data";
 
 interface Stats {
