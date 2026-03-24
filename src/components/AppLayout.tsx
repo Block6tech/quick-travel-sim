@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Search, Wifi, User, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -16,6 +17,12 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
   const { t, isRTL, locale, setLocale } = useLanguage();
 
   const toggleLang = () => setLocale(locale === "en" ? "ar" : "en");
+
+  const navItems = [
+    { icon: Search, label: t.navExplore, path: "/" },
+    { icon: Wifi, label: t.navMyEsims, path: "/dashboard" },
+    { icon: User, label: t.navAccount, path: "/account" },
+  ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-[480px] mx-auto">
@@ -58,29 +65,103 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
         {children}
       </main>
 
-      {/* Bottom Nav — Segmented capsule */}
+      {/* Bottom Nav — Orbital Dock */}
       {showNav && (
-        <div className="sticky bottom-0 px-5 pb-4 pt-2 pointer-events-none">
-          <nav className="pointer-events-auto mx-auto bg-foreground rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
-            <div className="flex items-center h-[52px] px-1.5 gap-1">
-              <NavItem
-                icon={<Search strokeWidth={2.5} className="w-[18px] h-[18px]" />}
-                label={t.navExplore}
-                active={location.pathname === "/"}
-                onClick={() => navigate("/")}
-              />
-              <NavItem
-                icon={<Wifi strokeWidth={2.5} className="w-[18px] h-[18px]" />}
-                label={t.navMyEsims}
-                active={location.pathname === "/dashboard"}
-                onClick={() => navigate("/dashboard")}
-              />
-              <NavItem
-                icon={<User strokeWidth={2.5} className="w-[18px] h-[18px]" />}
-                label={t.navAccount}
-                active={location.pathname === "/account"}
-                onClick={() => navigate("/account")}
-              />
+        <div className="sticky bottom-0 px-4 pb-5 pt-2 pointer-events-none">
+          <nav className="pointer-events-auto relative mx-auto">
+            {/* Glassmorphic base bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-[58px] bg-card/70 dark:bg-card/80 backdrop-blur-xl rounded-[20px] border border-border/50 shadow-[0_-4px_30px_rgba(0,0,0,0.08),0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_-4px_30px_rgba(0,0,0,0.3),0_8px_40px_rgba(0,0,0,0.4)]" />
+            
+            <div className="relative flex items-end justify-around px-6 h-[68px]">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
+                
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className="relative flex flex-col items-center btn-press focus:outline-none group"
+                    aria-label={item.label}
+                  >
+                    {/* Floating orb for active state */}
+                    <motion.div
+                      className="relative flex items-center justify-center"
+                      animate={{
+                        y: isActive ? -8 : 6,
+                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    >
+                      {/* Glow ring */}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            className="absolute inset-0 rounded-full"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          >
+                            <div className="w-[52px] h-[52px] rounded-full bg-foreground shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] flex items-center justify-center">
+                              {/* Inner pulse ring */}
+                              <motion.div
+                                className="absolute inset-[2px] rounded-full border-2 border-background/30"
+                                animate={{ scale: [1, 1.08, 1] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      
+                      {/* Icon */}
+                      <motion.div
+                        className="relative z-10"
+                        animate={{
+                          scale: isActive ? 1.15 : 1,
+                        }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      >
+                        <Icon
+                          strokeWidth={isActive ? 2.5 : 2}
+                          className={`w-[22px] h-[22px] transition-colors duration-300 ${
+                            isActive
+                              ? "text-primary-foreground"
+                              : "text-muted-foreground group-hover:text-foreground"
+                          }`}
+                        />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Label */}
+                    <motion.span
+                      className={`text-[10px] font-semibold mt-0.5 transition-colors duration-300 ${
+                        isActive ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                      animate={{
+                        y: isActive ? -4 : 2,
+                        opacity: isActive ? 1 : 0.6,
+                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    >
+                      {item.label}
+                    </motion.span>
+
+                    {/* Active dot indicator */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          className="absolute -bottom-[2px] w-1 h-1 rounded-full bg-foreground"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </button>
+                );
+              })}
             </div>
           </nav>
         </div>
@@ -88,30 +169,5 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
     </div>
   );
 };
-
-interface NavItemProps {
-  icon: ReactNode;
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}
-
-const NavItem = ({ icon, label, active, onClick }: NavItemProps) => (
-  <button
-    onClick={onClick}
-    className={`flex-1 flex items-center justify-center gap-1.5 h-[42px] rounded-full transition-all duration-300 btn-press ${
-      active
-        ? "bg-background text-foreground shadow-sm"
-        : "text-primary-foreground/50 hover:text-primary-foreground/70"
-    }`}
-  >
-    {icon}
-    <span className={`text-[11px] font-semibold transition-all duration-300 ${
-      active ? "max-w-[80px] opacity-100" : "max-w-0 opacity-0 overflow-hidden"
-    }`}>
-      {label}
-    </span>
-  </button>
-);
 
 export default AppLayout;
