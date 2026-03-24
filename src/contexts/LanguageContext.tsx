@@ -109,6 +109,14 @@ const translations: Record<Locale, Record<string, any>> = {
     step4Desc: "Settings → Cellular → your new plan → Data Roaming → On",
     watchHowToInstall: "Watch how to install",
     goToMyEsims: "Go to My eSIMs",
+    beforeFlightTitle: "Set up before your flight",
+    beforeFlightDesc: "Install your eSIM while connected to Wi-Fi before departing. Once you land, simply turn on data roaming and you're connected instantly — no searching for local SIM shops.",
+    howItWorksTitle: "How it works",
+    howItWorksSteps: [
+      { icon: "download", label: "Install eSIM", desc: "Scan QR or enter manually" },
+      { icon: "plane", label: "Board your flight", desc: "eSIM stays dormant until arrival" },
+      { icon: "signal", label: "Land & connect", desc: "Enable data roaming & go online" },
+    ],
 
     // Dashboard
     myEsims: "My eSIMs",
