@@ -85,8 +85,8 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             />
 
-            <div className="relative flex items-center h-[56px]">
-              {navItems.map((item, index) => {
+            <div className="relative flex items-center h-[60px]">
+              {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 const Icon = item.icon;
 
@@ -94,7 +94,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                   <button
                     key={item.path}
                     onClick={() => navigate(item.path)}
-                    className="relative flex-1 flex items-center justify-center h-full btn-press focus:outline-none"
+                    className="relative flex-1 flex flex-col items-center justify-center gap-1 h-full btn-press focus:outline-none"
                     aria-label={item.label}
                   >
                     {/* Active background pill */}
@@ -106,7 +106,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       />
                     )}
 
-                    <div className="relative z-10 flex items-center gap-2">
+                    <div className="relative z-10 flex flex-col items-center gap-0.5">
                       <motion.div
                         animate={{ rotate: isActive ? [0, -8, 8, 0] : 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
@@ -119,28 +119,20 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                         />
                       </motion.div>
 
-                      <AnimatePresence mode="popLayout">
-                        {isActive && (
-                          <motion.span
-                            key={item.path}
-                            className="text-[11px] font-bold text-primary-foreground tracking-wide uppercase"
-                            initial={{ width: 0, opacity: 0, filter: "blur(4px)" }}
-                            animate={{ width: "auto", opacity: 1, filter: "blur(0px)" }}
-                            exit={{ width: 0, opacity: 0, filter: "blur(4px)" }}
-                            transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                            style={{ overflow: "hidden", whiteSpace: "nowrap" }}
-                          >
-                            {item.label}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
+                      <span
+                        className={`text-[10px] font-semibold transition-colors duration-200 ${
+                          isActive ? "text-primary-foreground" : "text-primary-foreground/40"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
                     </div>
 
-                    {/* Top edge glow for active */}
+                    {/* Bottom indicator line */}
                     {isActive && (
                       <motion.div
                         layoutId="nav-glow"
-                        className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-primary-foreground/60"
+                        className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-8 h-[2.5px] rounded-full bg-primary-foreground/70"
                         transition={{ type: "spring", stiffness: 500, damping: 35 }}
                       />
                     )}
