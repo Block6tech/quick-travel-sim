@@ -5,7 +5,7 @@ import { useAdmin } from "@/hooks/useAdmin";
 
 const navItems = [
   { to: "/admin", icon: BarChart3, label: "Dashboard", end: true },
-  { to: "/admin/esim", icon: SimCard, label: "eSIM Management" },
+  { to: "/admin/esim", icon: Smartphone, label: "eSIM Management" },
   { to: "/admin/orders", icon: ShoppingBag, label: "Orders" },
   { to: "/admin/users", icon: Users, label: "Users" },
   { to: "/admin/discounts", icon: Tag, label: "Discounts" },
