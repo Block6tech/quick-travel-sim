@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
-import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, SimCard } from "lucide-react";
+import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 
 const navItems = [
