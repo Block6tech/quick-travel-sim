@@ -377,6 +377,14 @@ const translations: Record<Locale, Record<string, any>> = {
     step4Desc: "الإعدادات ← الخلوي ← خطتك الجديدة ← تجوال البيانات ← تشغيل",
     watchHowToInstall: "شاهد طريقة التثبيت",
     goToMyEsims: "اذهب إلى شرائحي",
+    beforeFlightTitle: "جهّز قبل رحلتك",
+    beforeFlightDesc: "ثبّت شريحة eSIM وأنت متصل بالواي فاي قبل السفر. بمجرد وصولك، فعّل تجوال البيانات واتصل فوراً — بدون البحث عن محلات شرائح محلية.",
+    howItWorksTitle: "كيف تعمل",
+    howItWorksSteps: [
+      { icon: "download", label: "ثبّت الشريحة", desc: "امسح QR أو أدخل يدوياً" },
+      { icon: "plane", label: "اركب طائرتك", desc: "الشريحة تبقى خاملة حتى الوصول" },
+      { icon: "signal", label: "حطّ واتصل", desc: "فعّل تجوال البيانات وابدأ التصفح" },
+    ],
 
     myEsims: "شرائحي",
     noEsimsYet: "لا توجد شرائح بعد",
