@@ -33,7 +33,9 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <aside className="w-56 border-e border-border bg-card flex flex-col">
-        <div className="p-4 border-b border-border">
+        <div className="p-4 border-b border-border flex items-center gap-2">
+          <img src="/logo.png" alt="CamelSim" className="w-6 h-6 dark:hidden" />
+          <img src="/logo-dark.png" alt="CamelSim" className="w-6 h-6 hidden dark:block" />
           <h1 className="text-sm font-bold tracking-display">CamelSim Admin</h1>
         </div>
         <nav className="flex-1 p-2 space-y-0.5">
