@@ -58,30 +58,32 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
         {children}
       </main>
 
-      {/* Bottom Nav */}
+      {/* Bottom Nav — Modern floating pill */}
       {showNav && (
-        <nav className="sticky bottom-0 bg-background/95 backdrop-blur-sm border-t border-border">
-          <div className="flex items-center justify-around h-14">
-            <NavItem
-              icon={<Search className="w-5 h-5" />}
-              label={t.navExplore}
-              active={location.pathname === "/"}
-              onClick={() => navigate("/")}
-            />
-            <NavItem
-              icon={<Wifi className="w-5 h-5" />}
-              label={t.navMyEsims}
-              active={location.pathname === "/dashboard"}
-              onClick={() => navigate("/dashboard")}
-            />
-            <NavItem
-              icon={<User className="w-5 h-5" />}
-              label={t.navAccount}
-              active={location.pathname === "/account"}
-              onClick={() => navigate("/account")}
-            />
-          </div>
-        </nav>
+        <div className="sticky bottom-0 pb-2 px-4 pt-1 pointer-events-none">
+          <nav className="pointer-events-auto mx-auto max-w-[360px] bg-foreground/95 backdrop-blur-xl rounded-2xl shadow-lg">
+            <div className="flex items-center justify-around h-[60px] px-2">
+              <NavItem
+                icon={<Search className="w-[22px] h-[22px]" />}
+                label={t.navExplore}
+                active={location.pathname === "/"}
+                onClick={() => navigate("/")}
+              />
+              <NavItem
+                icon={<Wifi className="w-[22px] h-[22px]" />}
+                label={t.navMyEsims}
+                active={location.pathname === "/dashboard"}
+                onClick={() => navigate("/dashboard")}
+              />
+              <NavItem
+                icon={<User className="w-[22px] h-[22px]" />}
+                label={t.navAccount}
+                active={location.pathname === "/account"}
+                onClick={() => navigate("/account")}
+              />
+            </div>
+          </nav>
+        </div>
       )}
     </div>
   );
