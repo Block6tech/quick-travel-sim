@@ -65,105 +65,90 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
         {children}
       </main>
 
-      {/* Bottom Nav — Orbital Dock */}
+      {/* Bottom Nav — Morphing Island */}
       {showNav && (
-        <div className="sticky bottom-0 px-4 pb-5 pt-2 pointer-events-none">
-          <nav className="pointer-events-auto relative mx-auto">
-            {/* Glassmorphic base bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[58px] bg-card/70 dark:bg-card/80 backdrop-blur-xl rounded-[20px] border border-border/50 shadow-[0_-4px_30px_rgba(0,0,0,0.08),0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_-4px_30px_rgba(0,0,0,0.3),0_8px_40px_rgba(0,0,0,0.4)]" />
-            
-            <div className="relative flex items-end justify-around px-6 h-[68px]">
-              {navItems.map((item) => {
+        <div className="sticky bottom-0 px-5 pb-5 pt-2 pointer-events-none">
+          <motion.nav
+            className="pointer-events-auto mx-auto relative overflow-hidden rounded-2xl bg-foreground"
+            style={{ boxShadow: "0 10px 50px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)" }}
+            layout
+            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+          >
+            {/* Ambient gradient sweep */}
+            <motion.div
+              className="absolute inset-0 opacity-[0.07]"
+              style={{
+                background: "linear-gradient(105deg, transparent 40%, hsl(var(--primary-foreground)) 50%, transparent 60%)",
+                backgroundSize: "200% 100%",
+              }}
+              animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            />
+
+            <div className="relative flex items-center h-[56px]">
+              {navItems.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 const Icon = item.icon;
-                
+
                 return (
                   <button
                     key={item.path}
                     onClick={() => navigate(item.path)}
-                    className="relative flex flex-col items-center btn-press focus:outline-none group"
+                    className="relative flex-1 flex items-center justify-center h-full btn-press focus:outline-none"
                     aria-label={item.label}
                   >
-                    {/* Floating orb for active state */}
-                    <motion.div
-                      className="relative flex items-center justify-center"
-                      animate={{
-                        y: isActive ? -8 : 6,
-                      }}
-                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    >
-                      {/* Glow ring */}
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.div
-                            className="absolute inset-0 rounded-full"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0, opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                          >
-                            <div className="w-[52px] h-[52px] rounded-full bg-foreground shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] flex items-center justify-center">
-                              {/* Inner pulse ring */}
-                              <motion.div
-                                className="absolute inset-[2px] rounded-full border-2 border-background/30"
-                                animate={{ scale: [1, 1.08, 1] }}
-                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                              />
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                      
-                      {/* Icon */}
+                    {/* Active background pill */}
+                    {isActive && (
                       <motion.div
-                        className="relative z-10"
-                        animate={{
-                          scale: isActive ? 1.15 : 1,
-                        }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        layoutId="nav-active-bg"
+                        className="absolute inset-y-[6px] inset-x-[6px] rounded-xl bg-primary-foreground/15"
+                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-2">
+                      <motion.div
+                        animate={{ rotate: isActive ? [0, -8, 8, 0] : 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
                       >
                         <Icon
-                          strokeWidth={isActive ? 2.5 : 2}
-                          className={`w-[22px] h-[22px] transition-colors duration-300 ${
-                            isActive
-                              ? "text-primary-foreground"
-                              : "text-muted-foreground group-hover:text-foreground"
+                          strokeWidth={isActive ? 2.5 : 1.8}
+                          className={`w-5 h-5 transition-colors duration-200 ${
+                            isActive ? "text-primary-foreground" : "text-primary-foreground/40"
                           }`}
                         />
                       </motion.div>
-                    </motion.div>
 
-                    {/* Label */}
-                    <motion.span
-                      className={`text-[10px] font-semibold mt-0.5 transition-colors duration-300 ${
-                        isActive ? "text-foreground" : "text-muted-foreground"
-                      }`}
-                      animate={{
-                        y: isActive ? -4 : 2,
-                        opacity: isActive ? 1 : 0.6,
-                      }}
-                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    >
-                      {item.label}
-                    </motion.span>
+                      <AnimatePresence mode="popLayout">
+                        {isActive && (
+                          <motion.span
+                            key={item.path}
+                            className="text-[11px] font-bold text-primary-foreground tracking-wide uppercase"
+                            initial={{ width: 0, opacity: 0, filter: "blur(4px)" }}
+                            animate={{ width: "auto", opacity: 1, filter: "blur(0px)" }}
+                            exit={{ width: 0, opacity: 0, filter: "blur(4px)" }}
+                            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                            style={{ overflow: "hidden", whiteSpace: "nowrap" }}
+                          >
+                            {item.label}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
 
-                    {/* Active dot indicator */}
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          className="absolute -bottom-[2px] w-1 h-1 rounded-full bg-foreground"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                        />
-                      )}
-                    </AnimatePresence>
+                    {/* Top edge glow for active */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-glow"
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-primary-foreground/60"
+                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                      />
+                    )}
                   </button>
                 );
               })}
             </div>
-          </nav>
+          </motion.nav>
         </div>
       )}
     </div>
