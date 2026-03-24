@@ -128,11 +128,11 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       </span>
                     </div>
 
-                    {/* Bottom indicator line */}
+                    {/* Bottom indicator line — directly under label */}
                     {isActive && (
                       <motion.div
                         layoutId="nav-glow"
-                        className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-8 h-[2.5px] rounded-full bg-primary-foreground/70"
+                        className="absolute bottom-[14px] left-1/2 -translate-x-1/2 w-6 h-[2.5px] rounded-full bg-primary-foreground/70"
                         transition={{ type: "spring", stiffness: 500, damping: 35 }}
                       />
                     )}
