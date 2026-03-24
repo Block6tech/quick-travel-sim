@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Search } from "lucide-react";
+import { mockUsers, getMockOrderSummaries } from "@/data/admin-mock-data";
 
 interface UserRow {
   id: string;
@@ -22,20 +23,28 @@ export default function AdminUsers() {
 
   useEffect(() => {
     supabase.rpc("admin_get_users").then(({ data }) => {
-      setUsers((data || []) as UserRow[]);
+      const real = (data || []) as UserRow[];
+      if (real.length <= 1) {
+        setUsers(mockUsers as UserRow[]);
+        setOrderSummaries(getMockOrderSummaries());
+      } else {
+        setUsers(real);
+      }
     });
 
     supabase
       .from("orders")
       .select("user_id, plan_price")
       .then(({ data }) => {
-        const summaries: Record<string, OrderSummary> = {};
-        (data || []).forEach((o: any) => {
-          if (!summaries[o.user_id]) summaries[o.user_id] = { user_id: o.user_id, count: 0, total: 0 };
-          summaries[o.user_id].count++;
-          summaries[o.user_id].total += Number(o.plan_price);
-        });
-        setOrderSummaries(summaries);
+        if (data && data.length > 0) {
+          const summaries: Record<string, OrderSummary> = {};
+          data.forEach((o: any) => {
+            if (!summaries[o.user_id]) summaries[o.user_id] = { user_id: o.user_id, count: 0, total: 0 };
+            summaries[o.user_id].count++;
+            summaries[o.user_id].total += Number(o.plan_price);
+          });
+          setOrderSummaries(summaries);
+        }
       });
   }, []);
 

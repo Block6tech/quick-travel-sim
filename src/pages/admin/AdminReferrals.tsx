@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { mockReferralCodes } from "@/data/admin-mock-data";
 
 interface ReferralCode {
   id: string;
@@ -21,7 +22,12 @@ export default function AdminReferrals() {
       .from("referral_codes")
       .select("*")
       .order("referral_count", { ascending: false })
-      .then(({ data }) => setCodes((data || []) as ReferralCode[]));
+      .then(({ data }) => {
+        const real = (data || []) as ReferralCode[];
+        // Use mock if no referrals have any activity
+        const hasActivity = real.some((c) => c.referral_count > 0);
+        setCodes(hasActivity || real.length > 2 ? real : mockReferralCodes as ReferralCode[]);
+      });
   }, []);
 
   const totalReferrals = codes.reduce((sum, c) => sum + c.referral_count, 0);
