@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Search } from "lucide-react";
+import { mockOrders } from "@/data/admin-mock-data";
 
 interface Order {
   id: string;
@@ -30,7 +31,10 @@ export default function AdminOrders() {
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => setOrders((data || []) as Order[]));
+      .then(({ data }) => {
+        const real = (data || []) as Order[];
+        setOrders(real.length > 0 ? real : mockOrders as Order[]);
+      });
   }, []);
 
   const filtered = orders.filter((o) => {

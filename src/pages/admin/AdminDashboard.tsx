@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { DollarSign, ShoppingBag, Users, Wifi, Gift } from "lucide-react";
+import { mockStats, mockOrders } from "@/data/admin-mock-data";
 
 interface Stats {
   total_orders: number;
@@ -28,13 +29,31 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     supabase.rpc("admin_get_stats").then(({ data }) => {
-      if (data && data.length > 0) setStats(data[0] as unknown as Stats);
+      if (data && data.length > 0) {
+        const d = data[0] as unknown as Stats;
+        // Use mock if DB is empty
+        if (d.total_orders === 0 && d.total_users <= 1) {
+          setStats(mockStats);
+          setOrders(mockOrders as Order[]);
+        } else {
+          setStats(d);
+        }
+      } else {
+        setStats(mockStats);
+        setOrders(mockOrders as Order[]);
+      }
     });
+
     supabase
       .from("orders")
       .select("country, country_code, plan_price, discount_amount, created_at, status")
       .order("created_at", { ascending: false })
-      .then(({ data }) => setOrders((data || []) as Order[]));
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setOrders(data as Order[]);
+        }
+        // If empty, mockOrders were already set above
+      });
   }, []);
 
   // Revenue by country
