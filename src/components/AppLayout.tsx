@@ -106,7 +106,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                       />
                     )}
 
-                    <div className="relative z-10 flex flex-col items-center gap-1">
+                    <div className="relative z-10 flex-col gap-1 flex items-center justify-center">
                       <motion.div
                         animate={{ rotate: isActive ? [0, -8, 8, 0] : 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
