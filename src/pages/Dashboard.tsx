@@ -75,7 +75,7 @@ const Dashboard = () => {
       <div className="px-4 pt-6 pb-4 space-y-6">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} className="flex items-center justify-between">
           <h1 className="text-xl font-bold tracking-display">{t.myEsims}</h1>
-          <button onClick={() => navigate("/")} className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center btn-press">
+          <button onClick={() => navigate("/add-esim")} className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center btn-press">
             <Plus className="w-4 h-4 text-primary-foreground" />
           </button>
         </motion.div>
