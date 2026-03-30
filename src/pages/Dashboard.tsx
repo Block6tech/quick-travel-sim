@@ -60,8 +60,7 @@ const Dashboard = () => {
         .from("orders")
         .select("*")
         .order("created_at", { ascending: false });
-      // Fall back to mock if no real orders yet
-      setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]);
+      setOrders((data ?? []) as Order[]);
       setLoading(false);
     };
     fetchOrders();

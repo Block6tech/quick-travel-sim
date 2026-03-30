@@ -77,7 +77,7 @@ const Account = () => {
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]));
+      .then(({ data }) => setOrders((data ?? []) as Order[]));
     
     supabase
       .from("referral_codes")
