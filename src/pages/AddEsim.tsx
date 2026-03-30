@@ -12,7 +12,7 @@ const POPULAR_CODES = ["AE", "TR", "GB", "US", "SA", "TH", "JP", "FR"];
 const AddEsim = () => {
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
-  const { format } = useCurrency();
+  const { formatPrice } = useCurrency();
   const [query, setQuery] = useState("");
 
   const popularCountries = useMemo(
