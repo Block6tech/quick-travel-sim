@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import SplashScreen from "@/components/SplashScreen";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
@@ -27,12 +29,21 @@ import AdminEsimManagement from "./pages/admin/AdminEsimManagement.tsx";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <LanguageProvider>
         <CurrencyProvider>
           <TooltipProvider>
+            <SplashScreen visible={showSplash} />
             <Toaster />
             <Sonner />
             <BrowserRouter>
@@ -63,6 +74,7 @@ const App = () => (
       </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
