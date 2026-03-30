@@ -132,7 +132,7 @@ const AddEsim = () => {
                       country={country}
                       index={i}
                       locale={locale}
-                      format={format}
+                      format={formatPrice}
                       from={t.from}
                       plans={t.plans}
                       onClick={() => navigate(`/plans/${country.code}`)}
