@@ -54,6 +54,7 @@ const App = () => {
                 <Route path="/plan/:id" element={<PlanDetails />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/installation" element={<Installation />} />
+                <Route path="/add-esim" element={<AddEsim />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/auth" element={<Auth />} />
