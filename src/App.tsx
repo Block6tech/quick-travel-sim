@@ -13,6 +13,7 @@ import CountryPlans from "./pages/CountryPlans.tsx";
 import PlanDetails from "./pages/PlanDetails.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Installation from "./pages/Installation.tsx";
+import AddEsim from "./pages/AddEsim.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Account from "./pages/Account.tsx";
 import Auth from "./pages/Auth.tsx";
