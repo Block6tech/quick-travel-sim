@@ -51,8 +51,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      // Show mock data for demo
-      setOrders(MOCK_ORDERS);
+      setOrders([]);
       setLoading(false);
       return;
     }
