@@ -106,39 +106,56 @@ const Account = () => {
     <AppLayout>
       <div className="px-4 pt-6 pb-8 space-y-6">
         {/* Identity */}
-        <motion.div {...anim(0)} className="flex items-center gap-4">
-          <div className="relative">
+        {user ? (
+          <motion.div {...anim(0)} className="flex items-center gap-4">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
+                {tier.emoji}
+              </div>
+              <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
+                <Shield className="w-3 h-3 text-primary-foreground" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-bold tracking-display truncate">{displayName}</h1>
+                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
+                  {t.verified}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
+                  {tier.name} {t.tier}
+                </span>
+                {referralEarnings && referralEarnings.count > 0 ? (
+                  <span className="px-2 py-0.5 text-[10px] font-bold rounded-sm bg-accent text-accent-foreground font-mono-data">
+                    🎁 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.referralEarnedLabel}
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 text-[10px] font-medium rounded-sm bg-secondary text-muted-foreground">
+                    🎁 {t.referralPotentialLabel}
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.button
+            {...anim(0)}
+            onClick={() => navigate("/")}
+            className="w-full flex items-center gap-4 p-4 rounded-xl bg-card shadow-card btn-press text-start"
+          >
             <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
-              {tier.emoji}
+              🌍
             </div>
-            <div className="absolute -bottom-0.5 -end-0.5 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
-              <Shield className="w-3 h-3 text-primary-foreground" />
+            <div className="flex-1 min-w-0">
+              <h1 className="text-base font-bold tracking-display">{t.startJourney || "Start your first journey with us"}</h1>
+              <p className="text-xs text-muted-foreground mt-1">{t.startJourneyDesc || "Browse eSIM plans and get connected instantly"}</p>
             </div>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <h1 className="text-lg font-bold tracking-display truncate">{displayName}</h1>
-              <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-foreground text-primary-foreground rounded-sm">
-                {t.verified}
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm bg-secondary text-secondary-foreground">
-                {tier.name} {t.tier}
-              </span>
-              {referralEarnings && referralEarnings.count > 0 ? (
-                <span className="px-2 py-0.5 text-[10px] font-bold rounded-sm bg-accent text-accent-foreground font-mono-data">
-                  🎁 ${(referralEarnings.count * referralEarnings.value).toFixed(0)} {t.referralEarnedLabel}
-                </span>
-              ) : (
-                <span className="px-2 py-0.5 text-[10px] font-medium rounded-sm bg-secondary text-muted-foreground">
-                  🎁 {t.referralPotentialLabel}
-                </span>
-              )}
-            </div>
-          </div>
-        </motion.div>
+            <Chevron className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+          </motion.button>
+        )}
 
         {/* Phone prompt */}
         {!userPhone && (
