@@ -151,7 +151,7 @@ const AddEsim = () => {
 interface CountryRowProps {
   country: { name: string; code: string; startingPrice: number; planCount: number };
   index: number;
-  locale: string;
+  locale: Locale;
   format: (n: number) => string;
   from: string;
   plans: (n: number) => string;
