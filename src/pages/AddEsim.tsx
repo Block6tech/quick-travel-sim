@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Globe, Sparkles, ArrowRight } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
-import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName, type Locale } from "@/contexts/LanguageContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { countries } from "@/data/esim-data";
 
