@@ -69,15 +69,15 @@ const Account = () => {
 
   useEffect(() => {
     if (!user) {
-      setOrders(MOCK_ORDERS);
-      setReferralEarnings({ count: 3, value: 5, type: "fixed" });
+      setOrders([]);
+      setReferralEarnings(null);
       return;
     }
     supabase
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => setOrders((data && data.length > 0 ? data : MOCK_ORDERS) as Order[]));
+      .then(({ data }) => setOrders((data ?? []) as Order[]));
     
     supabase
       .from("referral_codes")
@@ -92,8 +92,8 @@ const Account = () => {
   const { currency, setCurrencyByCode, formatPrice } = useCurrency();
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
 
-  const displayName = user?.email?.split("@")[0] || MOCK_USER.name;
-  const displayEmail = user?.email || MOCK_USER.email;
+  const displayName = user?.email?.split("@")[0] || t.guest || "Guest";
+  const displayEmail = user?.email || "";
   const tier = getUserTier(orders.length);
   const userPhone = user?.user_metadata?.phone || "";
 
