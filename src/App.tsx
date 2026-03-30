@@ -43,6 +43,7 @@ const App = () => {
       <LanguageProvider>
         <CurrencyProvider>
           <TooltipProvider>
+            <SplashScreen visible={showSplash} />
             <Toaster />
             <Sonner />
             <BrowserRouter>
@@ -73,6 +74,7 @@ const App = () => {
       </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
