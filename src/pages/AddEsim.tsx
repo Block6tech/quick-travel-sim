@@ -7,6 +7,12 @@ import { useLanguage, getCountryName, type Locale } from "@/contexts/LanguageCon
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { countries } from "@/data/esim-data";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
+}
+
 const POPULAR_CODES = ["AE", "TR", "GB", "US", "SA", "TH", "JP", "FR"];
 
 const AddEsim = () => {
@@ -167,8 +173,8 @@ function CountryRow({ country, index, locale, format, from, plans, onClick }: Co
       onClick={onClick}
       className="w-full flex items-center gap-3 p-3 bg-card rounded-xl shadow-card btn-press"
     >
-      <div className="w-10 h-10 rounded-lg bg-foreground flex items-center justify-center shrink-0">
-        <span className="text-primary-foreground text-xs font-bold font-mono-data">{country.code}</span>
+      <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+        <span className="text-lg leading-none">{countryFlag(country.code)}</span>
       </div>
       <div className="flex-1 text-left">
         <p className="text-sm font-medium">{getCountryName(country.code, country.name, locale)}</p>
