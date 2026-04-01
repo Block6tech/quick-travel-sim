@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Wifi, Smartphone, Signal } from "lucide-react";
+import { Check, Wifi, Smartphone, Signal, AlertTriangle } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
