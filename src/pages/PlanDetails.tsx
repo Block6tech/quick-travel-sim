@@ -91,8 +91,8 @@ const PlanDetails = () => {
                 <div key={i} className="flex items-start gap-3 p-3">
                   <span className="text-base leading-none mt-0.5">{c.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">{c.label}</p>
-                    <p className="text-xs text-muted-foreground leading-body mt-0.5">{c.detail}</p>
+                    <p className="text-sm font-medium">{t.conditionLabels?.[c.label] || c.label}</p>
+                    <p className="text-xs text-muted-foreground leading-body mt-0.5">{t.conditionDetails?.[c.detail] || c.detail}</p>
                   </div>
                 </div>
               ))}
