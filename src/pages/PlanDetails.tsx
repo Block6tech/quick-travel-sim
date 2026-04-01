@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Wifi, Smartphone, Signal } from "lucide-react";
+import { Check, Wifi, Smartphone, Signal, AlertTriangle } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -79,6 +79,26 @@ const PlanDetails = () => {
             ))}
           </div>
         </motion.div>
+
+        {plan.conditions && plan.conditions.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.13, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-2">
+            <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5" />
+              {t.conditions ?? "Conditions"}
+            </h2>
+            <div className="bg-card rounded-lg shadow-card divide-y divide-border">
+              {plan.conditions.map((c, i) => (
+                <div key={i} className="flex items-start gap-3 p-3">
+                  <span className="text-base leading-none mt-0.5">{c.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{c.label}</p>
+                    <p className="text-xs text-muted-foreground leading-body mt-0.5">{c.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }} className="bg-secondary rounded-lg p-4 space-y-2">
           <div className="flex items-center gap-2">
