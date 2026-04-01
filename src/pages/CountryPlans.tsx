@@ -5,6 +5,12 @@ import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
+}
+
 const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
   const country = [...countries, ...regionalBundles].find((c) => c.code === code);
@@ -30,9 +36,9 @@ const CountryPlans = () => {
           transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
         >
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-12 h-12 rounded-lg bg-foreground flex items-center justify-center">
-              <span className="text-primary-foreground text-sm font-bold font-mono-data">
-                {country.code}
+            <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
+              <span className="text-2xl leading-none">
+                {countryFlag(country.code)}
               </span>
             </div>
             <div>
