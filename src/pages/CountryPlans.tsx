@@ -5,6 +5,12 @@ import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
+}
+
 const CountryPlans = () => {
   const { code } = useParams<{ code: string }>();
   const country = [...countries, ...regionalBundles].find((c) => c.code === code);
