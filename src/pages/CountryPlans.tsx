@@ -30,9 +30,9 @@ const CountryPlans = () => {
           transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
         >
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-12 h-12 rounded-lg bg-foreground flex items-center justify-center">
-              <span className="text-primary-foreground text-sm font-bold font-mono-data">
-                {country.code}
+            <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
+              <span className="text-2xl leading-none">
+                {countryFlag(country.code)}
               </span>
             </div>
             <div>
