@@ -1,3 +1,9 @@
+export interface PlanCondition {
+  icon: string;
+  label: string;
+  detail: string;
+}
+
 export interface EsimPlan {
   id: string;
   country: string;
@@ -10,6 +16,7 @@ export interface EsimPlan {
   hotspot: boolean;
   isBestValue?: boolean;
   isMostPopular?: boolean;
+  conditions?: PlanCondition[];
 }
 
 export interface EsimCountry {
@@ -58,35 +65,35 @@ export const regionalBundles: EsimCountry[] = [
 
 export const plansForCountry: Record<string, EsimPlan[]> = {
   GB: [
-    { id: "gb-1", country: "United Kingdom", countryCode: "GB", data: "1GB", validity: "7 days", price: 4, speed: "4G/LTE", networks: ["Vodafone", "O2", "Three"], hotspot: true },
+    { id: "gb-1", country: "United Kingdom", countryCode: "GB", data: "1GB", validity: "7 days", price: 4, speed: "4G/LTE", networks: ["Vodafone", "O2", "Three"], hotspot: true, conditions: [{ icon: "⏳", label: "Data expires", detail: "Unused data expires at the end of validity period" }] },
     { id: "gb-2", country: "United Kingdom", countryCode: "GB", data: "3GB", validity: "15 days", price: 8, speed: "4G/LTE", networks: ["Vodafone", "O2", "Three"], hotspot: true },
-    { id: "gb-3", country: "United Kingdom", countryCode: "GB", data: "5GB", validity: "30 days", price: 12, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true, isMostPopular: true },
+    { id: "gb-3", country: "United Kingdom", countryCode: "GB", data: "5GB", validity: "30 days", price: 12, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true, isMostPopular: true, conditions: [{ icon: "📶", label: "5G where available", detail: "Falls back to 4G/LTE in areas without 5G coverage" }] },
     { id: "gb-4", country: "United Kingdom", countryCode: "GB", data: "10GB", validity: "30 days", price: 19, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true, isBestValue: true },
-    { id: "gb-5", country: "United Kingdom", countryCode: "GB", data: "20GB", validity: "30 days", price: 29, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true },
-    { id: "gb-6", country: "United Kingdom", countryCode: "GB", data: "Unlimited", validity: "30 days", price: 45, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true },
+    { id: "gb-5", country: "United Kingdom", countryCode: "GB", data: "20GB", validity: "30 days", price: 29, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true, conditions: [{ icon: "🔄", label: "Top-up available", detail: "Add more data anytime before plan expires" }] },
+    { id: "gb-6", country: "United Kingdom", countryCode: "GB", data: "Unlimited", validity: "30 days", price: 45, speed: "5G", networks: ["Vodafone", "O2", "Three", "EE"], hotspot: true, conditions: [{ icon: "🐢", label: "Fair usage policy", detail: "Speed reduced to 2 Mbps after 2GB/day, resets daily at midnight" }, { icon: "📵", label: "No VoIP calls", detail: "Voice-over-IP services (WhatsApp calls, FaceTime) not supported" }] },
   ],
   US: [
     { id: "us-1", country: "United States", countryCode: "US", data: "1GB", validity: "7 days", price: 5, speed: "4G/LTE", networks: ["T-Mobile", "AT&T"], hotspot: true },
-    { id: "us-2", country: "United States", countryCode: "US", data: "3GB", validity: "15 days", price: 10, speed: "4G/LTE", networks: ["T-Mobile", "AT&T"], hotspot: true },
+    { id: "us-2", country: "United States", countryCode: "US", data: "3GB", validity: "15 days", price: 10, speed: "4G/LTE", networks: ["T-Mobile", "AT&T"], hotspot: true, conditions: [{ icon: "📍", label: "Coverage zones", detail: "Best coverage in metro areas; rural coverage may be limited" }] },
     { id: "us-3", country: "United States", countryCode: "US", data: "5GB", validity: "30 days", price: 15, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true, isMostPopular: true },
-    { id: "us-4", country: "United States", countryCode: "US", data: "10GB", validity: "30 days", price: 24, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true, isBestValue: true },
-    { id: "us-5", country: "United States", countryCode: "US", data: "20GB", validity: "30 days", price: 35, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true },
-    { id: "us-6", country: "United States", countryCode: "US", data: "Unlimited", validity: "30 days", price: 50, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true },
+    { id: "us-4", country: "United States", countryCode: "US", data: "10GB", validity: "30 days", price: 24, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true, isBestValue: true, conditions: [{ icon: "🔄", label: "Top-up available", detail: "Add more data anytime before plan expires" }] },
+    { id: "us-5", country: "United States", countryCode: "US", data: "20GB", validity: "30 days", price: 35, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true, conditions: [{ icon: "📡", label: "Hotspot cap", detail: "Hotspot/tethering limited to 5GB; remaining data is device-only" }] },
+    { id: "us-6", country: "United States", countryCode: "US", data: "Unlimited", validity: "30 days", price: 50, speed: "5G", networks: ["T-Mobile", "AT&T"], hotspot: true, conditions: [{ icon: "🐢", label: "Fair usage policy", detail: "Speed reduced to 3 Mbps after 1.5GB/day, resets daily" }, { icon: "📡", label: "Hotspot cap", detail: "Hotspot/tethering limited to 10GB total" }] },
   ],
   AE: [
-    { id: "ae-1", country: "United Arab Emirates", countryCode: "AE", data: "1GB", validity: "7 days", price: 4.5, speed: "4G/LTE", networks: ["du", "Etisalat"], hotspot: true },
-    { id: "ae-2", country: "United Arab Emirates", countryCode: "AE", data: "3GB", validity: "15 days", price: 9, speed: "5G", networks: ["du", "Etisalat"], hotspot: true },
-    { id: "ae-3", country: "United Arab Emirates", countryCode: "AE", data: "5GB", validity: "30 days", price: 14, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, isMostPopular: true },
-    { id: "ae-4", country: "United Arab Emirates", countryCode: "AE", data: "10GB", validity: "30 days", price: 22, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, isBestValue: true },
-    { id: "ae-5", country: "United Arab Emirates", countryCode: "AE", data: "20GB", validity: "30 days", price: 32, speed: "5G", networks: ["du", "Etisalat"], hotspot: true },
-    { id: "ae-6", country: "United Arab Emirates", countryCode: "AE", data: "Unlimited", validity: "30 days", price: 48, speed: "5G", networks: ["du", "Etisalat"], hotspot: true },
+    { id: "ae-1", country: "United Arab Emirates", countryCode: "AE", data: "1GB", validity: "7 days", price: 4.5, speed: "4G/LTE", networks: ["du", "Etisalat"], hotspot: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }] },
+    { id: "ae-2", country: "United Arab Emirates", countryCode: "AE", data: "3GB", validity: "15 days", price: 9, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }] },
+    { id: "ae-3", country: "United Arab Emirates", countryCode: "AE", data: "5GB", validity: "30 days", price: 14, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, isMostPopular: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }, { icon: "📱", label: "Social media included", detail: "WhatsApp messaging, Instagram & TikTok don't count toward data" }] },
+    { id: "ae-4", country: "United Arab Emirates", countryCode: "AE", data: "10GB", validity: "30 days", price: 22, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, isBestValue: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }] },
+    { id: "ae-5", country: "United Arab Emirates", countryCode: "AE", data: "20GB", validity: "30 days", price: 32, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }, { icon: "🔄", label: "Top-up available", detail: "Add more data anytime before plan expires" }] },
+    { id: "ae-6", country: "United Arab Emirates", countryCode: "AE", data: "Unlimited", validity: "30 days", price: 48, speed: "5G", networks: ["du", "Etisalat"], hotspot: true, conditions: [{ icon: "🚫", label: "VoIP restricted", detail: "WhatsApp calls, FaceTime & Skype are blocked by local regulations" }, { icon: "🐢", label: "Daily speed cap", detail: "Speed drops to 2 Mbps after 1GB/day; resets at midnight local time" }, { icon: "📡", label: "No hotspot", detail: "Tethering/hotspot is disabled on this plan" }] },
   ],
   TR: [
     { id: "tr-1", country: "Turkey", countryCode: "TR", data: "1GB", validity: "7 days", price: 5, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true },
-    { id: "tr-2", country: "Turkey", countryCode: "TR", data: "3GB", validity: "15 days", price: 9, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true },
-    { id: "tr-3", country: "Turkey", countryCode: "TR", data: "5GB", validity: "30 days", price: 13, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, isMostPopular: true },
-    { id: "tr-4", country: "Turkey", countryCode: "TR", data: "10GB", validity: "30 days", price: 20, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, isBestValue: true },
-    { id: "tr-5", country: "Turkey", countryCode: "TR", data: "20GB", validity: "30 days", price: 30, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true },
+    { id: "tr-2", country: "Turkey", countryCode: "TR", data: "3GB", validity: "15 days", price: 9, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, conditions: [{ icon: "🌙", label: "Night bonus", detail: "Unlimited data between 1 AM – 7 AM local time" }] },
+    { id: "tr-3", country: "Turkey", countryCode: "TR", data: "5GB", validity: "30 days", price: 13, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, isMostPopular: true, conditions: [{ icon: "📱", label: "Social media bonus", detail: "Extra 2GB for WhatsApp, Instagram & YouTube" }] },
+    { id: "tr-4", country: "Turkey", countryCode: "TR", data: "10GB", validity: "30 days", price: 20, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, isBestValue: true, conditions: [{ icon: "🔄", label: "Top-up available", detail: "Add more data anytime before plan expires" }] },
+    { id: "tr-5", country: "Turkey", countryCode: "TR", data: "20GB", validity: "30 days", price: 30, speed: "4G/LTE", networks: ["Turkcell", "Vodafone TR"], hotspot: true, conditions: [{ icon: "🐢", label: "Fair usage", detail: "Speed throttled to 1.5 Mbps after daily 3GB limit" }] },
   ],
 };
 
@@ -94,9 +101,9 @@ export const plansForCountry: Record<string, EsimPlan[]> = {
 export const defaultPlans = (country: string, code: string): EsimPlan[] => [
   { id: `${code.toLowerCase()}-1`, country, countryCode: code, data: "1GB", validity: "7 days", price: 4.5, speed: "4G/LTE", networks: ["Local Network"], hotspot: true },
   { id: `${code.toLowerCase()}-2`, country, countryCode: code, data: "3GB", validity: "15 days", price: 9, speed: "4G/LTE", networks: ["Local Network"], hotspot: true },
-  { id: `${code.toLowerCase()}-3`, country, countryCode: code, data: "5GB", validity: "30 days", price: 14, speed: "5G", networks: ["Local Network"], hotspot: true, isMostPopular: true },
+  { id: `${code.toLowerCase()}-3`, country, countryCode: code, data: "5GB", validity: "30 days", price: 14, speed: "5G", networks: ["Local Network"], hotspot: true, isMostPopular: true, conditions: [{ icon: "📶", label: "5G where available", detail: "Falls back to 4G/LTE in areas without 5G coverage" }] },
   { id: `${code.toLowerCase()}-4`, country, countryCode: code, data: "10GB", validity: "30 days", price: 22, speed: "5G", networks: ["Local Network"], hotspot: true, isBestValue: true },
-  { id: `${code.toLowerCase()}-5`, country, countryCode: code, data: "20GB", validity: "30 days", price: 32, speed: "5G", networks: ["Local Network"], hotspot: true },
+  { id: `${code.toLowerCase()}-5`, country, countryCode: code, data: "20GB", validity: "30 days", price: 32, speed: "5G", networks: ["Local Network"], hotspot: true, conditions: [{ icon: "🔄", label: "Top-up available", detail: "Add more data anytime before plan expires" }] },
 ];
 
 export const getPlansForCountry = (code: string): EsimPlan[] => {
