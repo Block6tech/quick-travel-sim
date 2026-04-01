@@ -4,6 +4,9 @@ import AppLayout from "@/components/AppLayout";
 import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
+import { ContinentIcon } from "@/components/ContinentIcons";
+
+const REGIONAL_CODES = ["EU", "AS", "ME", "GL", "GP"];
 
 function countryFlag(code: string): string {
   if (code.length !== 2) return "";
@@ -37,9 +40,11 @@ const CountryPlans = () => {
         >
           <div className="flex items-center gap-3 mb-1">
             <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-              <span className="text-2xl leading-none">
-                {countryFlag(country.code)}
-              </span>
+              {REGIONAL_CODES.includes(country.code) ? (
+                <ContinentIcon code={country.code} className="w-7 h-7" />
+              ) : (
+                <span className="text-2xl leading-none">{countryFlag(country.code)}</span>
+              )}
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-display">
