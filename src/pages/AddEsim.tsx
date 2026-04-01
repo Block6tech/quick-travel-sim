@@ -7,6 +7,12 @@ import { useLanguage, getCountryName, type Locale } from "@/contexts/LanguageCon
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { countries } from "@/data/esim-data";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(code.charCodeAt(0) + offset, code.charCodeAt(1) + offset);
+}
+
 const POPULAR_CODES = ["AE", "TR", "GB", "US", "SA", "TH", "JP", "FR"];
 
 const AddEsim = () => {
