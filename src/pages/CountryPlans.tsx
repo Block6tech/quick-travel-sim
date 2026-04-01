@@ -4,6 +4,9 @@ import AppLayout from "@/components/AppLayout";
 import PlanCard from "@/components/PlanCard";
 import { countries, regionalBundles, getPlansForCountry } from "@/data/esim-data";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
+import { ContinentIcon } from "@/components/ContinentIcons";
+
+const REGIONAL_CODES = ["EU", "AS", "ME", "GL", "GP"];
 
 function countryFlag(code: string): string {
   if (code.length !== 2) return "";
