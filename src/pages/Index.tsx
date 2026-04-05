@@ -199,6 +199,7 @@ function BundleCard({ country, formatPrice: fp }: {country: {name: string;code: 
 
 }
 
+// Continent tabs for All Destinations section
 function ContinentTabs({ groups, formatPrice: fp }: {
   groups: { key: string; countries: { name: string; code: string; startingPrice: number; planCount: number }[] }[];
   formatPrice: (n: number) => string;
