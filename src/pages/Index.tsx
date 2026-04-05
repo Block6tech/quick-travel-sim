@@ -105,13 +105,10 @@ const Index = () => {
               {allBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
             </SwipeSection>
 
-            {/* All Destinations — Grouped by continent */}
-            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-4">
+            {/* All Destinations — Tabs */}
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
               <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.allDestinations}</h2>
-
-              {continentGroups.map(({ key, countries: group }) =>
-            <ContinentSection key={key} label={t.continents[key]} emoji={continentEmojis[key]} countries={group} formatPrice={formatPrice} />
-            )}
+              <ContinentTabs groups={continentGroups} formatPrice={formatPrice} />
             </motion.div>
           </>
         }
