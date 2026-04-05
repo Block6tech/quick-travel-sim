@@ -199,52 +199,65 @@ function BundleCard({ country, formatPrice: fp }: {country: {name: string;code: 
 
 }
 
-function ContinentSection({ label, emoji, countries: group, formatPrice: fp
-
-
-
-}: {label: string;emoji: string;countries: {name: string;code: string;startingPrice: number;planCount: number;}[];formatPrice: (n: number) => string;}) {
-  const [open, setOpen] = useState(true);
+function ContinentTabs({ groups, formatPrice: fp }: {
+  groups: { key: string; countries: { name: string; code: string; startingPrice: number; planCount: number }[] }[];
+  formatPrice: (n: number) => string;
+}) {
+  const [active, setActive] = useState(groups[0]?.key ?? "");
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
 
+  const tabLabels: Record<string, string> = {
+    middleEast: t.continents.middleEast,
+    europe: t.continents.europe,
+    asiaPacific: t.continents.asiaPacific,
+    americas: t.continents.americas,
+  };
+
+  const activeGroup = groups.find((g) => g.key === active)?.countries ?? [];
+
   return (
-    <div className="rounded-xl bg-card shadow-card overflow-hidden">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-3 px-4 py-3 text-start hover:bg-accent/30 transition-colors">
-        
-        <span className="text-lg">{emoji}</span>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold">{label}</p>
-          <p className="text-[10px] text-muted-foreground">{t.plans(group.length).replace(/\d+/, String(group.length))} {group.length > 1 ? "" : ""}</p>
-        </div>
-        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${open ? "" : "-rotate-90 rtl:rotate-90"}`} />
-      </button>
-      {open &&
-      <div className="divide-y divide-border/50 border-t border-border/50">
-          {group.map((c) => {
+    <div className="space-y-2">
+      {/* Tab bar */}
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
+        {groups.map(({ key }) => (
+          <button
+            key={key}
+            onClick={() => setActive(key)}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 ${
+              active === key
+                ? "bg-foreground text-background"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {tabLabels[key] || key}
+          </button>
+        ))}
+      </div>
+
+      {/* Country list */}
+      <div className="rounded-xl bg-card shadow-card overflow-hidden divide-y divide-border/50">
+        {activeGroup.map((c) => {
           const flag = countryFlag(c.code);
           const name = getCountryName(c.code, c.name, locale);
           return (
             <button
               key={c.code}
               onClick={() => navigate(`/plans/${c.code}`)}
-              className="flex items-center gap-3 w-full px-4 py-2.5 text-start hover:bg-accent/50 transition-colors active:bg-accent">
-              
-                <span className="text-xl leading-none">{flag}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{name}</p>
-                </div>
-                <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(c.startingPrice)}</p>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 flex-shrink-0 rtl:rotate-180" />
-              </button>);
-
+              className="flex items-center gap-3 w-full px-4 py-2.5 text-start hover:bg-accent/50 transition-colors active:bg-accent"
+            >
+              <span className="text-xl leading-none">{flag}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">{name}</p>
+              </div>
+              <p className="text-xs font-mono-data font-medium text-muted-foreground">{fp(c.startingPrice)}</p>
+              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 flex-shrink-0 rtl:rotate-180" />
+            </button>
+          );
         })}
-        </div>
-      }
-    </div>);
-
+      </div>
+    </div>
+  );
 }
 
 export default Index;
