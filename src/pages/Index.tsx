@@ -13,12 +13,7 @@ import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
 const popularCodes = ["AE", "TR", "GB", "US", "TH", "SA"];
 
-const globalBundles = [
-{ name: "Global", code: "GL", startingPrice: 15, planCount: 4 },
-{ name: "Global Plus", code: "GP", startingPrice: 25, planCount: 3 }];
-
-
-const regionOnly = regionalBundles.filter((b) => b.code !== "GL");
+const allBundles = regionalBundles;
 
 /** Map each country code to its continent group */
 const continentMap: Record<string, string> = {
@@ -107,11 +102,7 @@ const Index = () => {
             </SwipeSection>
 
             <SwipeSection title={t.regionalBundles} delay={0.15}>
-              {regionOnly.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
-            </SwipeSection>
-
-            <SwipeSection title={t.globalBundles} delay={0.2}>
-              {globalBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
+              {allBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
             </SwipeSection>
 
             {/* All Destinations — Grouped by continent */}
