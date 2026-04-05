@@ -102,11 +102,7 @@ const Index = () => {
             </SwipeSection>
 
             <SwipeSection title={t.regionalBundles} delay={0.15}>
-              {regionOnly.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
-            </SwipeSection>
-
-            <SwipeSection title={t.globalBundles} delay={0.2}>
-              {globalBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
+              {allBundles.map((c) => <BundleCard key={c.code} country={c} formatPrice={formatPrice} />)}
             </SwipeSection>
 
             {/* All Destinations — Grouped by continent */}
