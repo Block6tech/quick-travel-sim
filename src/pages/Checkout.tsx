@@ -95,9 +95,8 @@ const Checkout = () => {
         return;
       }
 
-      // Parse data amount for data_total
-      const dataNum = parseFloat(plan.data) || 0;
-      const validityDays = parseInt(plan.validity) || 30;
+      // Parse validity for expiration
+      const validityDays = plan.days || parseInt(plan.validity) || 30;
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + validityDays);
 
@@ -121,7 +120,7 @@ const Checkout = () => {
         phone_number: phone.trim() || null,
         status: "active",
         data_used: 0,
-        data_total: dataNum,
+        data_total: 0,
         expires_at: expiresAt.toISOString(),
         discount_code: discount?.code || null,
         discount_amount: discountAmt,

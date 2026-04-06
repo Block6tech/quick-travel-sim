@@ -25,18 +25,18 @@ interface Order {
 
 const MOCK_ORDERS: Order[] = [
   {
-    id: "mock-1", country: "United Kingdom", country_code: "GB", plan_data: "10GB", plan_validity: "30 days",
-    plan_speed: "5G", plan_price: 19, status: "active", data_used: 3.2, data_total: 10,
+    id: "mock-1", country: "United Kingdom", country_code: "GB", plan_data: "Unlimited", plan_validity: "30 days",
+    plan_speed: "5G", plan_price: 48, status: "active", data_used: 3.2, data_total: 0,
     expires_at: new Date(Date.now() + 18 * 864e5).toISOString(), created_at: "2026-03-01",
   },
   {
-    id: "mock-2", country: "Turkey", country_code: "TR", plan_data: "5GB", plan_validity: "30 days",
-    plan_speed: "4G/LTE", plan_price: 13, status: "active", data_used: 1.1, data_total: 5,
+    id: "mock-2", country: "Turkey", country_code: "TR", plan_data: "Unlimited", plan_validity: "7 days",
+    plan_speed: "4G/LTE", plan_price: 22.5, status: "active", data_used: 1.1, data_total: 0,
     expires_at: new Date(Date.now() + 25 * 864e5).toISOString(), created_at: "2026-02-20",
   },
   {
-    id: "mock-3", country: "United Arab Emirates", country_code: "AE", plan_data: "3GB", plan_validity: "15 days",
-    plan_speed: "5G", plan_price: 9, status: "expired", data_used: 3, data_total: 3,
+    id: "mock-3", country: "United Arab Emirates", country_code: "AE", plan_data: "Unlimited", plan_validity: "3 days",
+    plan_speed: "5G", plan_price: 10.8, status: "expired", data_used: 0, data_total: 0,
     expires_at: new Date(Date.now() - 5 * 864e5).toISOString(), created_at: "2025-12-20",
   },
 ];
