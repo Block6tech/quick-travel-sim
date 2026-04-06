@@ -26,9 +26,9 @@ const PlanCard = ({ plan, delay = 0 }: PlanCardProps) => {
           <span className="text-[10px] font-mono-data uppercase tracking-wider text-muted-foreground">
             {plan.speed}
           </span>
-          <h3 className="text-2xl font-bold tracking-display">{plan.data}</h3>
+          <h3 className="text-2xl font-bold tracking-display">{plan.validity}</h3>
           <p className="text-xs text-muted-foreground">
-            {plan.validity} · <Wifi className="w-3 h-3 inline" /> {plan.hotspot ? t.hotspot : t.noHotspot}
+            {plan.data} · <Wifi className="w-3 h-3 inline" /> {plan.hotspot ? t.hotspot : t.noHotspot}
           </p>
         </div>
       </div>
