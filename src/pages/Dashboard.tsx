@@ -262,8 +262,8 @@ function DetailsSheet({ order, locale, t, onClose, onExtend }: {
   const daysLeft = order.expires_at
     ? Math.max(0, Math.ceil((new Date(order.expires_at).getTime() - Date.now()) / 864e5))
     : 0;
-  const expiresDate = order.expires_at ? new Date(order.expires_at).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" }) : "—";
-  const activatedDate = new Date(order.created_at).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
+  const expiresDate = order.expires_at ? new Date(order.expires_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "—";
+  const activatedDate = new Date(order.created_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
