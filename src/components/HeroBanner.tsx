@@ -7,13 +7,29 @@ import bannerTravel from "@/assets/banner-travel-easy.jpg";
 export interface BannerSlide {
   id: string;
   image: string;
-  alt: string;
+  title: string;
+  subtitle: string;
 }
 
 const mockSlides: BannerSlide[] = [
-  { id: "1", image: travelersImg, alt: "Stay connected anywhere" },
-  { id: "2", image: bannerGlobal, alt: "Global eSIM coverage" },
-  { id: "3", image: bannerTravel, alt: "Travel made easy" },
+  {
+    id: "1",
+    image: travelersImg,
+    title: "Stay connected,\nanywhere you go",
+    subtitle: "Instant eSIM activation. No roaming fees.",
+  },
+  {
+    id: "2",
+    image: bannerGlobal,
+    title: "Global coverage\nin 120+ countries",
+    subtitle: "One tap setup. Unlimited data plans.",
+  },
+  {
+    id: "3",
+    image: bannerTravel,
+    title: "Travel smarter\nwith eSIM",
+    subtitle: "Skip the SIM card hassle. Connect instantly.",
+  },
 ];
 
 const AUTO_PLAY_MS = 4000;
@@ -41,16 +57,26 @@ export default function HeroBanner() {
       {/* Banner */}
       <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-secondary">
         <AnimatePresence mode="wait">
-          <motion.img
+          <motion.div
             key={slides[active].id}
-            src={slides[active].image}
-            alt={slides[active].alt}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+            className="absolute inset-0 flex flex-col items-center justify-center px-4"
+          >
+            <img
+              src={slides[active].image}
+              alt={slides[active].title}
+              className="w-20 h-20 object-contain"
+            />
+            <h2 className="text-base font-bold text-foreground text-center whitespace-pre-line leading-tight mt-2">
+              {slides[active].title}
+            </h2>
+            <p className="text-xs text-muted-foreground text-center mt-1">
+              {slides[active].subtitle}
+            </p>
+          </motion.div>
         </AnimatePresence>
       </div>
 
