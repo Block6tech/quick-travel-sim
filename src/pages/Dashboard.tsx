@@ -4,7 +4,7 @@ import travelerImg from "@/assets/traveler-connected.png";
 import { useNavigate } from "react-router-dom";
 import { Plus, Clock, Zap, ChevronRight, Infinity } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
-import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
+import { useLanguage, getCountryName, type Locale } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
