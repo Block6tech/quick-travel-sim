@@ -146,7 +146,7 @@ const Dashboard = () => {
 };
 
 function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
-  order: Order; index: number; locale: string; t: any;
+  order: Order; index: number; locale: Locale; t: any;
   onExtend: () => void; onDetails: () => void;
 }) {
   const flag = countryFlag(order.country_code);
@@ -228,7 +228,7 @@ function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
 }
 
 function ExpiredCard({ order, index, locale, onRebuy }: {
-  order: Order; index: number; locale: string; onRebuy: () => void;
+  order: Order; index: number; locale: Locale; onRebuy: () => void;
 }) {
   const flag = countryFlag(order.country_code);
   const name = getCountryName(order.country_code, order.country, locale);
@@ -255,7 +255,7 @@ function ExpiredCard({ order, index, locale, onRebuy }: {
 }
 
 function DetailsSheet({ order, locale, t, onClose, onExtend }: {
-  order: Order; locale: string; t: any; onClose: () => void; onExtend: () => void;
+  order: Order; locale: Locale; t: any; onClose: () => void; onExtend: () => void;
 }) {
   const flag = countryFlag(order.country_code);
   const name = getCountryName(order.country_code, order.country, locale);
