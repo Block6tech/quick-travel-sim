@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import travelersImg from "@/assets/travelers-esim.png";
 import bannerGlobal from "@/assets/banner-global-connect.jpg";
 import bannerTravel from "@/assets/banner-travel-easy.jpg";
@@ -12,10 +13,16 @@ interface BannerSlide {
   image_url: string;
 }
 
-const fallbackSlides: BannerSlide[] = [
+const fallbackSlidesEn: BannerSlide[] = [
   { id: "1", image_url: "", title: "Stay connected,\nanywhere you go", subtitle: "Instant eSIM activation. No roaming fees." },
   { id: "2", image_url: "", title: "Global coverage\nin 120+ countries", subtitle: "One tap setup. Unlimited data plans." },
   { id: "3", image_url: "", title: "Travel smarter\nwith eSIM", subtitle: "Skip the SIM card hassle. Connect instantly." },
+];
+
+const fallbackSlidesAr: BannerSlide[] = [
+  { id: "1", image_url: "", title: "ابقَ متصلاً،\nأينما ذهبت", subtitle: "تفعيل فوري لشريحة eSIM. بدون رسوم تجوال." },
+  { id: "2", image_url: "", title: "تغطية عالمية\nفي أكثر من 120 دولة", subtitle: "إعداد بنقرة واحدة. باقات بيانات غير محدودة." },
+  { id: "3", image_url: "", title: "سافر بذكاء\nمع eSIM", subtitle: "تخلّص من عناء الشرائح. اتصل فوراً." },
 ];
 
 const fallbackImages: Record<string, string> = { "1": travelersImg, "2": bannerGlobal, "3": bannerTravel };
@@ -23,8 +30,10 @@ const fallbackImages: Record<string, string> = { "1": travelersImg, "2": bannerG
 const AUTO_PLAY_MS = 4000;
 
 export default function HeroBanner() {
+  const { locale } = useLanguage();
   const [active, setActive] = useState(0);
-  const [slides, setSlides] = useState<BannerSlide[]>(fallbackSlides);
+  const fallback = locale === "ar" ? fallbackSlidesAr : fallbackSlidesEn;
+  const [slides, setSlides] = useState<BannerSlide[]>(fallback);
 
   useEffect(() => {
     supabase
