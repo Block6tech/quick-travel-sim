@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Lock, Wifi, Eye, EyeOff, Phone } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Lock, Wifi, Eye, EyeOff, Phone, X, ChevronDown, ChevronUp } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -10,6 +10,38 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DiscountCodeInput, { type DiscountResult } from "@/components/DiscountCodeInput";
+
+const TERMS_CONTENT = `Last updated: April 2026
+
+1. ACCEPTANCE OF TERMS
+By purchasing and using CamelSim eSIM services, you agree to these Terms & Conditions. If you do not agree, do not use our services.
+
+2. SERVICE DESCRIPTION
+CamelSim provides digital eSIM data plans for international travel. Plans are delivered electronically via QR code and activated on compatible devices.
+
+3. ELIGIBILITY
+You must have an eSIM-compatible device. You must be at least 18 years old or have parental consent.
+
+4. PRICING & PAYMENT
+All prices are displayed in your selected currency. Payment is processed securely. Prices may vary by region and are subject to change.
+
+5. DATA PLANS
+Plans provide unlimited data for the selected duration. Fair usage policies may apply. Speed may be reduced after excessive usage as outlined in plan conditions.
+
+6. REFUND POLICY
+Unused eSIMs may be refunded within 7 days of purchase. Once data has been consumed, the plan is non-refundable.
+
+7. PRIVACY
+We collect only necessary information to provide our services. Your data is protected and never sold to third parties.
+
+8. LIABILITY
+CamelSim is not liable for network outages, device compatibility issues, or service interruptions caused by local carriers.
+
+9. CHANGES TO TERMS
+We may update these terms at any time. Continued use constitutes acceptance of updated terms.
+
+10. CONTACT
+For questions, contact support@camelsim.com.`;
 
 const Checkout = () => {
   const location = useLocation();
@@ -28,6 +60,9 @@ const Checkout = () => {
   const [processing, setProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [discount, setDiscount] = useState<DiscountResult | null>(null);
+  const [wantAccount, setWantAccount] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   if (!plan) {
     return (
@@ -41,10 +76,14 @@ const Checkout = () => {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!user) {
+    if (!acceptedTerms) e.terms = t.termsRequired;
+    if (!user && wantAccount) {
       if (!email.trim()) e.email = "Required";
       if (password.length < 6) e.password = t.passwordTooShort;
       if (password !== confirmPassword) e.confirmPassword = t.passwordMismatch;
+    }
+    if (!user && !wantAccount) {
+      if (!email.trim()) e.email = "Required";
     }
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -57,9 +96,8 @@ const Checkout = () => {
     try {
       let currentUser = user;
 
-      // If not logged in, sign up or sign in
-      if (!currentUser) {
-        // Try sign up first
+      if (!currentUser && wantAccount) {
+        // Sign up
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,
@@ -67,7 +105,6 @@ const Checkout = () => {
         });
 
         if (signUpError) {
-          // If user already exists, try signing in
           if (signUpError.message.includes("already registered") || signUpError.message.includes("already been registered")) {
             const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
               email: email.trim(),
@@ -87,6 +124,27 @@ const Checkout = () => {
         } else {
           currentUser = signUpData.user;
         }
+      } else if (!currentUser && !wantAccount) {
+        // Guest: sign up silently with a random password
+        const guestPassword = crypto.randomUUID();
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email: email.trim(),
+          password: guestPassword,
+          options: { data: { phone: phone.trim() || null, is_guest: true } },
+        });
+
+        if (signUpError) {
+          if (signUpError.message.includes("already registered") || signUpError.message.includes("already been registered")) {
+            toast.error(t.accountExists);
+            setWantAccount(true);
+            setProcessing(false);
+            return;
+          }
+          toast.error(signUpError.message);
+          setProcessing(false);
+          return;
+        }
+        currentUser = signUpData.user;
       }
 
       if (!currentUser) {
@@ -95,12 +153,10 @@ const Checkout = () => {
         return;
       }
 
-      // Parse validity for expiration
       const validityDays = plan.days || parseInt(plan.validity) || 30;
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + validityDays);
 
-      // Calculate discount
       const discountAmt = discount
         ? discount.discount_type === "percentage"
           ? (plan.price * discount.discount_value) / 100
@@ -108,7 +164,6 @@ const Checkout = () => {
         : 0;
       const finalPrice = Math.max(0, plan.price - discountAmt);
 
-      // Create order
       const { data: orderData, error: orderError } = await supabase.from("orders").insert({
         user_id: currentUser.id,
         country: plan.country,
@@ -132,7 +187,6 @@ const Checkout = () => {
         return;
       }
 
-      // Track referral usage
       if (discount?.source === "referral" && orderData) {
         const { data: refCode } = await supabase
           .from("referral_codes")
@@ -160,13 +214,13 @@ const Checkout = () => {
   };
 
   const isLoggedIn = !!user;
-  const canPurchase = isLoggedIn || (email.trim() && password.length >= 6 && password === confirmPassword);
+  const canPurchase = acceptedTerms && (isLoggedIn || email.trim()) && (!wantAccount || (password.length >= 6 && password === confirmPassword));
 
   return (
     <AppLayout showBack showNav={false} title={t.checkout}>
       <div className="px-4 pt-6 pb-8 space-y-6">
         {/* Order Summary */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="space-y-3">
           <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.orderSummary}</h2>
           <div className="bg-card rounded-lg shadow-card p-4">
             <div className="flex items-center gap-3">
@@ -175,7 +229,7 @@ const Checkout = () => {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
-                <p className="text-xs text-muted-foreground">{plan.data} · {plan.validity} · {plan.speed}</p>
+                <p className="text-xs text-muted-foreground">{plan.data === "Unlimited" ? t.unlimited : plan.data} · {t.days(plan.days)} · {plan.speed}</p>
               </div>
               <div className="flex items-center gap-3">
                 <p className={`text-lg font-mono-data font-bold ${discount ? "line-through text-muted-foreground text-sm" : ""}`}>{formatPrice(plan.price)}</p>
@@ -190,89 +244,123 @@ const Checkout = () => {
         </motion.div>
 
         {/* Discount Code */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.03, ease: [0.2, 0.8, 0.2, 1] }}>
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.03 }}>
           <DiscountCodeInput planPrice={plan.price} onApply={setDiscount} userId={user?.id} />
         </motion.div>
 
-        {/* Account Section */}
+        {/* Account Section — only if not logged in */}
         {!isLoggedIn && (
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
-            <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.createAccount}</h2>
-            <div className="space-y-3">
-              {/* Email */}
-              <div>
-                <input
-                  type="email"
-                  placeholder={t.emailPlaceholder}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-12 px-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
-                />
-                {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
-              </div>
-
-              {/* Password */}
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder={t.passwordPlaceholder}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full h-12 px-4 pe-12 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-                {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
-              </div>
-
-              {/* Confirm Password */}
-              <div className="relative">
-                <input
-                  type={showConfirm ? "text" : "password"}
-                  placeholder={t.confirmPasswordPlaceholder}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full h-12 px-4 pe-12 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-                {errors.confirmPassword && <p className="text-xs text-destructive mt-1">{errors.confirmPassword}</p>}
-              </div>
-
-              {/* Phone (optional) */}
-              <div>
-                <div className="relative">
-                  <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <input
-                    type="tel"
-                    placeholder={t.phonePlaceholder}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full h-12 ps-10 pe-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
-                  />
-                </div>
-                <p className="text-[10px] text-muted-foreground mt-1.5 flex items-center gap-1">
-                  <span>📱</span> {t.phoneHint}
-                </p>
-              </div>
-
-              <p className="text-[10px] text-muted-foreground text-center">{t.accountExists}</p>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05 }} className="space-y-3">
+            {/* Email (always required) */}
+            <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.emailForReceipt}</h2>
+            <div>
+              <input
+                type="email"
+                placeholder={t.emailPlaceholder}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-12 px-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
+              />
+              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
             </div>
+
+            {/* Phone (optional) */}
+            <div>
+              <div className="relative">
+                <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <input
+                  type="tel"
+                  placeholder={t.phonePlaceholder}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full h-12 ps-10 pe-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
+                />
+              </div>
+              <p className="text-[10px] text-muted-foreground mt-1.5 flex items-center gap-1">
+                <span>📱</span> {t.phoneHint}
+              </p>
+            </div>
+
+            {/* Optional account toggle */}
+            <button
+              onClick={() => setWantAccount(!wantAccount)}
+              className="w-full flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${wantAccount ? "bg-foreground border-foreground" : "border-muted-foreground/40"}`}>
+                  {wantAccount && <svg className="w-2.5 h-2.5 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                </div>
+                <div className="text-start">
+                  <p className="text-xs font-medium">{t.wantToCreateAccount}</p>
+                  <p className="text-[10px] text-muted-foreground">{t.createAccountHint}</p>
+                </div>
+              </div>
+              {wantAccount ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+            </button>
+
+            {/* Password fields — only if wants account */}
+            <AnimatePresence>
+              {wantAccount && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden space-y-3"
+                >
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder={t.passwordPlaceholder}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full h-12 px-4 pe-12 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
+                    />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                    {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={showConfirm ? "text" : "password"}
+                      placeholder={t.confirmPasswordPlaceholder}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full h-12 px-4 pe-12 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
+                    />
+                    <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                      {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                    {errors.confirmPassword && <p className="text-xs text-destructive mt-1">{errors.confirmPassword}</p>}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
 
+        {/* Terms & Conditions */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
+          <div className="flex items-start gap-2.5">
+            <button
+              onClick={() => setAcceptedTerms(!acceptedTerms)}
+              className={`mt-0.5 w-4 h-4 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${acceptedTerms ? "bg-foreground border-foreground" : "border-muted-foreground/40"}`}
+            >
+              {acceptedTerms && <svg className="w-2.5 h-2.5 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+            </button>
+            <p className="text-xs text-muted-foreground">
+              {t.acceptTerms}{" "}
+              <button onClick={() => setShowTerms(true)} className="underline text-foreground font-medium hover:opacity-80">
+                {t.termsAndConditions}
+              </button>
+            </p>
+          </div>
+          {errors.terms && <p className="text-xs text-destructive mt-1 ms-6">{errors.terms}</p>}
+        </motion.div>
+
         {/* Payment */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.1 }} className="space-y-3">
           <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.payment}</h2>
           <button
             onClick={handlePurchase}
@@ -308,7 +396,7 @@ const Checkout = () => {
           </button>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }} className="flex items-center justify-center gap-4 pt-2">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.15 }} className="flex items-center justify-center gap-4 pt-2">
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <Lock className="w-3 h-3" />
             <span className="text-[10px] uppercase tracking-wider">{t.securePayment}</span>
@@ -319,6 +407,41 @@ const Checkout = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* T&C Modal */}
+      <AnimatePresence>
+        {showTerms && (
+          <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={() => setShowTerms(false)}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-foreground/40" />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-lg bg-card rounded-t-2xl max-h-[80vh] flex flex-col"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-border">
+                <h3 className="text-sm font-bold">{t.termsTitle}</h3>
+                <button onClick={() => setShowTerms(false)} className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center hover:bg-accent transition-colors">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4">
+                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{TERMS_CONTENT}</pre>
+              </div>
+              <div className="p-4 border-t border-border">
+                <button
+                  onClick={() => { setAcceptedTerms(true); setShowTerms(false); }}
+                  className="w-full h-10 bg-foreground text-primary-foreground font-medium rounded-lg btn-press text-sm touch-target"
+                >
+                  {t.acceptTerms} {t.termsAndConditions}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </AppLayout>
   );
 };
