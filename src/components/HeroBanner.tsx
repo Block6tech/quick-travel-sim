@@ -43,8 +43,9 @@ export default function HeroBanner() {
       .order("sort_order", { ascending: true })
       .then(({ data }) => {
         if (data && data.length > 0) setSlides(data);
+        else setSlides(fallback);
       });
-  }, []);
+  }, [locale]);
 
   const next = useCallback(() => {
     setActive((i) => (i + 1) % slides.length);
