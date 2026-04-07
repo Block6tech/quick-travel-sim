@@ -121,7 +121,7 @@ const Dashboard = () => {
             {/* Expired Plans */}
             {expiredOrders.length > 0 && (
               <div className="space-y-2">
-                <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Expired</h2>
+                <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.expiredSection}</h2>
                 <div className="space-y-2">
                   {expiredOrders.map((order, i) => (
                     <ExpiredCard key={order.id} order={order} index={i} locale={locale} onRebuy={() => navigate(`/plans/${order.country_code}`)} />
@@ -177,7 +177,7 @@ function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
               <p className="text-sm font-semibold">{name}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <Infinity className="w-3 h-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">Unlimited</span>
+                <span className="text-xs text-muted-foreground">{t.unlimited}</span>
                 <span className="text-xs text-muted-foreground">·</span>
                 <Zap className="w-3 h-3 text-muted-foreground" />
                 <span className="text-xs text-muted-foreground">{order.plan_speed}</span>
@@ -196,7 +196,7 @@ function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
               <span className={`text-3xl font-bold font-mono-data tracking-tight ${isLow ? "text-destructive" : "text-foreground"}`}>
                 {daysLeft}
               </span>
-              <span className="text-sm text-muted-foreground">days left</span>
+              <span className="text-sm text-muted-foreground">{daysLeft === 1 ? t.dayLeft : t.daysLeft}</span>
             </div>
             <div className="flex items-center gap-1 text-muted-foreground">
               <Clock className="w-3 h-3" />
@@ -216,10 +216,10 @@ function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
         {/* Actions */}
         <div className="flex gap-2">
           <button onClick={onExtend} className="flex-1 h-10 bg-foreground text-primary-foreground font-medium rounded-lg btn-press text-sm touch-target">
-            Extend Plan
+            {t.extendPlan}
           </button>
           <button onClick={onDetails} className="h-10 px-4 bg-secondary text-secondary-foreground font-medium rounded-lg btn-press text-sm touch-target flex items-center gap-1">
-            Details <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
+            {t.detailsBtn} <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
           </button>
         </div>
       </div>
@@ -230,6 +230,7 @@ function EsimCard({ order, index, locale, t, onExtend, onDetails }: {
 function ExpiredCard({ order, index, locale, onRebuy }: {
   order: Order; index: number; locale: Locale; onRebuy: () => void;
 }) {
+  const { t } = useLanguage();
   const flag = countryFlag(order.country_code);
   const name = getCountryName(order.country_code, order.country, locale);
 
@@ -245,10 +246,10 @@ function ExpiredCard({ order, index, locale, onRebuy }: {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{name}</p>
-        <p className="text-[10px] text-muted-foreground">Unlimited · {order.plan_validity} · Expired</p>
+        <p className="text-[10px] text-muted-foreground">{t.unlimited} · {order.plan_validity} · {t.expired}</p>
       </div>
       <button onClick={onRebuy} className="px-3 py-1.5 text-xs font-medium bg-secondary rounded-lg hover:bg-accent transition-colors">
-        Rebuy
+        {t.rebuy}
       </button>
     </motion.div>
   );
@@ -286,23 +287,23 @@ function DetailsSheet({ order, locale, t, onClose, onExtend }: {
           </div>
           <div>
             <p className="text-base font-bold">{name}</p>
-            <p className="text-xs text-muted-foreground">Unlimited · {order.plan_speed}</p>
+            <p className="text-xs text-muted-foreground">{t.unlimited} · {order.plan_speed}</p>
           </div>
         </div>
 
         {/* Info grid */}
         <div className="grid grid-cols-2 gap-3">
-          <InfoItem label="Status" value={order.status === "active" ? "Active" : "Expired"} />
-          <InfoItem label="Days Left" value={`${daysLeft} days`} />
-          <InfoItem label="Plan Duration" value={order.plan_validity} />
-          <InfoItem label="Speed" value={order.plan_speed} />
-          <InfoItem label="Activated" value={activatedDate} />
-          <InfoItem label="Expires" value={expiresDate} />
+          <InfoItem label={t.status} value={order.status === "active" ? t.active : t.expired} />
+          <InfoItem label={t.daysLeft} value={t.days(daysLeft)} />
+          <InfoItem label={t.planDuration} value={order.plan_validity} />
+          <InfoItem label={t.speed} value={order.plan_speed} />
+          <InfoItem label={t.activated} value={activatedDate} />
+          <InfoItem label={t.expires} value={expiresDate} />
         </div>
 
         {/* Extend button */}
         <button onClick={onExtend} className="w-full h-11 bg-foreground text-primary-foreground font-medium rounded-lg btn-press text-sm touch-target">
-          Extend Plan
+          {t.extendPlan}
         </button>
       </motion.div>
     </div>
