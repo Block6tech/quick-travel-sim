@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Trash2, Pencil, GripVertical, Eye, EyeOff, Upload, X, Check } from "lucide-react";
 import { toast } from "sonner";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface BannerSlide {
   id: string;
@@ -199,38 +202,14 @@ export default function AdminBanners() {
         </div>
       )}
 
-      {/* Slides list */}
-      <div className="rounded-lg border border-border bg-card divide-y divide-border overflow-hidden">
-        {slides.length === 0 && (
-          <p className="text-sm text-muted-foreground text-center py-8">No banner slides yet</p>
-        )}
-        {slides.map((slide) => (
-          <div key={slide.id} className="flex items-center gap-3 px-4 py-3">
-            <GripVertical className="w-4 h-4 text-muted-foreground/40 flex-shrink-0" />
-            <div className="w-16 h-10 rounded-md overflow-hidden bg-secondary flex-shrink-0">
-              {slide.image_url ? (
-                <img src={slide.image_url} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-[10px]">No img</div>
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{slide.title.replace(/\n/g, " ")}</p>
-              <p className="text-xs text-muted-foreground truncate">{slide.subtitle}</p>
-            </div>
-            <span className="text-[10px] font-mono text-muted-foreground">#{slide.sort_order}</span>
-            <button onClick={() => toggleActive(slide)} className="p-1.5 rounded-md hover:bg-secondary transition-colors" title={slide.active ? "Active" : "Inactive"}>
-              {slide.active ? <Eye className="w-3.5 h-3.5 text-foreground" /> : <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />}
-            </button>
-            <button onClick={() => startEdit(slide)} className="p-1.5 rounded-md hover:bg-secondary transition-colors">
-              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-            </button>
-            <button onClick={() => handleDelete(slide.id)} className="p-1.5 rounded-md hover:bg-destructive/10 transition-colors">
-              <Trash2 className="w-3.5 h-3.5 text-destructive" />
-            </button>
-          </div>
-        ))}
-      </div>
+      {/* Slides list with drag-and-drop */}
+      <DndSortableList
+        slides={slides}
+        onReorder={handleReorder}
+        onToggleActive={toggleActive}
+        onEdit={startEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
