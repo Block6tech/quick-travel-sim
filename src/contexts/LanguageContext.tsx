@@ -82,7 +82,7 @@ const translations: Record<Locale, Record<string, any>> = {
     confirmPasswordPlaceholder: "Re-enter your password",
     phoneOptional: "Phone number (optional)",
     phonePlaceholder: "+965 XXXX XXXX",
-    phoneHint: "Receive your eSIM QR code via WhatsApp",
+    phoneHint: "Receive your eSIM QR code via WhatsApp (Optional)",
     passwordMismatch: "Passwords don't match",
     passwordTooShort: "Password must be at least 6 characters",
     accountExists: "Account already exists? We'll log you in.",
