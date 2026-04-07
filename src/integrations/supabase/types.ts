@@ -40,7 +40,9 @@ export type Database = {
           image_url: string
           sort_order: number
           subtitle: string
+          subtitle_ar: string
           title: string
+          title_ar: string
           updated_at: string
         }
         Insert: {
@@ -50,7 +52,9 @@ export type Database = {
           image_url?: string
           sort_order?: number
           subtitle?: string
+          subtitle_ar?: string
           title?: string
+          title_ar?: string
           updated_at?: string
         }
         Update: {
@@ -60,7 +64,9 @@ export type Database = {
           image_url?: string
           sort_order?: number
           subtitle?: string
+          subtitle_ar?: string
           title?: string
+          title_ar?: string
           updated_at?: string
         }
         Relationships: []
