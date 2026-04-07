@@ -38,12 +38,21 @@ export default function HeroBanner() {
   useEffect(() => {
     supabase
       .from("banner_slides")
-      .select("id, title, subtitle, image_url")
+      .select("id, title, subtitle, title_ar, subtitle_ar, image_url")
       .eq("active", true)
       .order("sort_order", { ascending: true })
       .then(({ data }) => {
-        if (data && data.length > 0) setSlides(data);
-        else setSlides(fallback);
+        if (data && data.length > 0) {
+          const mapped = data.map((s: any) => ({
+            id: s.id,
+            image_url: s.image_url,
+            title: locale === "ar" && s.title_ar ? s.title_ar : s.title,
+            subtitle: locale === "ar" && s.subtitle_ar ? s.subtitle_ar : s.subtitle,
+          }));
+          setSlides(mapped);
+        } else {
+          setSlides(fallback);
+        }
       });
   }, [locale]);
 
