@@ -105,6 +105,17 @@ export default function AdminBanners() {
     });
   };
 
+  const handleReorder = async (oldIndex: number, newIndex: number) => {
+    const reordered = arrayMove(slides, oldIndex, newIndex);
+    setSlides(reordered);
+    // Update sort_order for all items
+    const updates = reordered.map((s, i) =>
+      supabase.from("banner_slides").update({ sort_order: i + 1 }).eq("id", s.id)
+    );
+    await Promise.all(updates);
+    load();
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
