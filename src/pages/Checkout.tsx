@@ -82,9 +82,6 @@ const Checkout = () => {
       if (password.length < 6) e.password = t.passwordTooShort;
       if (password !== confirmPassword) e.confirmPassword = t.passwordMismatch;
     }
-    if (!user && !wantAccount) {
-      if (!email.trim()) e.email = "Required";
-    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -214,7 +211,7 @@ const Checkout = () => {
   };
 
   const isLoggedIn = !!user;
-  const canPurchase = acceptedTerms && (isLoggedIn || email.trim()) && (!wantAccount || (password.length >= 6 && password === confirmPassword));
+  const canPurchase = acceptedTerms && (isLoggedIn || !wantAccount || (email.trim() && password.length >= 6 && password === confirmPassword));
 
   return (
     <AppLayout showBack showNav={false} title={t.checkout}>
@@ -251,20 +248,8 @@ const Checkout = () => {
         {/* Account Section — only if not logged in */}
         {!isLoggedIn && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.05 }} className="space-y-3">
-            {/* Email (always required) */}
-            <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.emailForReceipt}</h2>
-            <div>
-              <input
-                type="email"
-                placeholder={t.emailPlaceholder}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-12 px-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
-              />
-              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
-            </div>
-
             {/* Phone (optional) */}
+            <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.phoneOptional}</h2>
             <div>
               <div className="relative">
                 <Phone className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -277,7 +262,7 @@ const Checkout = () => {
                 />
               </div>
               <p className="text-[10px] text-muted-foreground mt-1.5 flex items-center gap-1">
-                <span>📱</span> {t.phoneHint}
+                <span>💬</span> {t.phoneHint}
               </p>
             </div>
 
