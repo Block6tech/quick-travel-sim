@@ -104,6 +104,13 @@ const Installation = () => {
             </div>
           </div>
           <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t.scanWithCamera}</p>
+          <button
+            onClick={() => {/* deep link or install action */}}
+            className="w-full h-12 bg-foreground text-primary-foreground font-semibold rounded-lg btn-press transition-all duration-200 touch-target text-sm flex items-center justify-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            {t.installEsim}
+          </button>
         </motion.div>
 
         {/* Manual Entry */}
