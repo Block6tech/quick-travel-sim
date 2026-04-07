@@ -48,7 +48,7 @@ const PlanDetails = () => {
           <div className="flex items-end justify-between">
             <div>
             <h1 className="text-4xl font-bold tracking-display">{plan.validity}</h1>
-              <p className="text-sm text-muted-foreground mt-1">{plan.data}</p>
+              <p className="text-sm text-muted-foreground mt-1">{plan.data === "Unlimited" ? t.unlimited : plan.data}</p>
             </div>
             <div className="text-end">
               {plan.isBestValue && (
