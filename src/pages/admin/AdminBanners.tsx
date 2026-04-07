@@ -10,6 +10,8 @@ interface BannerSlide {
   id: string;
   title: string;
   subtitle: string;
+  title_ar: string;
+  subtitle_ar: string;
   image_url: string;
   sort_order: number;
   active: boolean;
@@ -21,7 +23,7 @@ export default function AdminBanners() {
   const [editing, setEditing] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [form, setForm] = useState({ title: "", subtitle: "", image_url: "", sort_order: 0, active: true });
+  const [form, setForm] = useState({ title: "", subtitle: "", title_ar: "", subtitle_ar: "", image_url: "", sort_order: 0, active: true });
 
   const load = async () => {
     const { data } = await supabase
@@ -56,13 +58,15 @@ export default function AdminBanners() {
     const { error } = await supabase.from("banner_slides").insert({
       title: form.title,
       subtitle: form.subtitle,
+      title_ar: form.title_ar,
+      subtitle_ar: form.subtitle_ar,
       image_url: form.image_url,
       sort_order: form.sort_order || slides.length + 1,
       active: form.active,
     });
     if (error) return toast.error(error.message);
     toast.success("Slide created");
-    setForm({ title: "", subtitle: "", image_url: "", sort_order: 0, active: true });
+    setForm({ title: "", subtitle: "", title_ar: "", subtitle_ar: "", image_url: "", sort_order: 0, active: true });
     setShowForm(false);
     load();
   };
@@ -71,6 +75,8 @@ export default function AdminBanners() {
     const { error } = await supabase.from("banner_slides").update({
       title: form.title,
       subtitle: form.subtitle,
+      title_ar: form.title_ar,
+      subtitle_ar: form.subtitle_ar,
       image_url: form.image_url,
       sort_order: form.sort_order,
       active: form.active,
@@ -99,6 +105,8 @@ export default function AdminBanners() {
     setForm({
       title: slide.title,
       subtitle: slide.subtitle,
+      title_ar: slide.title_ar,
+      subtitle_ar: slide.subtitle_ar,
       image_url: slide.image_url,
       sort_order: slide.sort_order,
       active: slide.active,
@@ -124,7 +132,7 @@ export default function AdminBanners() {
           <p className="text-xs text-muted-foreground mt-0.5">Manage homepage banner carousel</p>
         </div>
         <button
-          onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ title: "", subtitle: "", image_url: "", sort_order: slides.length + 1, active: true }); }}
+          onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ title: "", subtitle: "", title_ar: "", subtitle_ar: "", image_url: "", sort_order: slides.length + 1, active: true }); }}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
         >
           <Plus className="w-3.5 h-3.5" /> Add Slide
@@ -157,7 +165,7 @@ export default function AdminBanners() {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-medium text-muted-foreground">Title</label>
+              <label className="text-xs font-medium text-muted-foreground">Title (English)</label>
               <textarea
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
@@ -167,13 +175,38 @@ export default function AdminBanners() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium text-muted-foreground">Subtitle</label>
+              <label className="text-xs font-medium text-muted-foreground">Subtitle (English)</label>
               <textarea
                 value={form.subtitle}
                 onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))}
                 rows={2}
                 className="w-full px-3 py-1.5 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 placeholder="Instant eSIM activation."
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">العنوان (عربي)</label>
+              <textarea
+                value={form.title_ar}
+                onChange={(e) => setForm((f) => ({ ...f, title_ar: e.target.value }))}
+                rows={2}
+                dir="rtl"
+                className="w-full px-3 py-1.5 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="ابقَ متصلاً،&#10;أينما ذهبت"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">الوصف (عربي)</label>
+              <textarea
+                value={form.subtitle_ar}
+                onChange={(e) => setForm((f) => ({ ...f, subtitle_ar: e.target.value }))}
+                rows={2}
+                dir="rtl"
+                className="w-full px-3 py-1.5 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="تفعيل فوري لشريحة eSIM."
               />
             </div>
           </div>
