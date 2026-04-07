@@ -27,6 +27,7 @@ import AdminUsers from "./pages/admin/AdminUsers.tsx";
 import AdminDiscounts from "./pages/admin/AdminDiscounts.tsx";
 import AdminReferrals from "./pages/admin/AdminReferrals.tsx";
 import AdminEsimManagement from "./pages/admin/AdminEsimManagement.tsx";
+import AdminBanners from "./pages/admin/AdminBanners.tsx";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const App = () => {
                 <Route path="/help" element={<HelpCenter />} />
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<AdminDashboard />} />
+                  <Route path="banners" element={<AdminBanners />} />
                   <Route path="esim" element={<AdminEsimManagement />} />
                   <Route path="orders" element={<AdminOrders />} />
                   <Route path="users" element={<AdminUsers />} />
