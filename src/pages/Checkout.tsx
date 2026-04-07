@@ -122,21 +122,16 @@ const Checkout = () => {
           currentUser = signUpData.user;
         }
       } else if (!currentUser && !wantAccount) {
-        // Guest: sign up silently with a random password
+        // Guest: sign up silently with a random email + password
+        const guestEmail = `guest_${crypto.randomUUID()}@camelsim.guest`;
         const guestPassword = crypto.randomUUID();
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-          email: email.trim(),
+          email: guestEmail,
           password: guestPassword,
           options: { data: { phone: phone.trim() || null, is_guest: true } },
         });
 
         if (signUpError) {
-          if (signUpError.message.includes("already registered") || signUpError.message.includes("already been registered")) {
-            toast.error(t.accountExists);
-            setWantAccount(true);
-            setProcessing(false);
-            return;
-          }
           toast.error(signUpError.message);
           setProcessing(false);
           return;
