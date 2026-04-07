@@ -407,7 +407,7 @@ const translations: Record<Locale, Record<string, any>> = {
     confirmPasswordPlaceholder: "أعد إدخال كلمة المرور",
     phoneOptional: "رقم الهاتف (اختياري)",
     phonePlaceholder: "+965 XXXX XXXX",
-    phoneHint: "استقبل رمز QR لشريحتك عبر واتساب",
+    phoneHint: "استقبل رمز QR لشريحتك عبر واتساب (اختياري)",
     passwordMismatch: "كلمتا المرور غير متطابقتين",
     passwordTooShort: "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
     accountExists: "لديك حساب بالفعل؟ سنسجل دخولك.",
