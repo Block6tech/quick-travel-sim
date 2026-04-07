@@ -133,6 +133,18 @@ const translations: Record<Locale, Record<string, any>> = {
     detailsBtn: "Details",
     active: "active",
     expired: "expired",
+    unlimited: "Unlimited",
+    daysLeft: "days left",
+    dayLeft: "day left",
+    extendPlan: "Extend Plan",
+    rebuy: "Rebuy",
+    expiredSection: "Expired",
+    status: "Status",
+    planDuration: "Plan Duration",
+    activated: "Activated",
+    expires: "Expires",
+    day: "day",
+    days: (n: number) => `${n} ${n === 1 ? "day" : "days"}`,
 
     // Account
     verified: "Verified",
