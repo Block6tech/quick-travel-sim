@@ -143,7 +143,7 @@ export default function HeroBanner() {
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => goTo(i, i > active ? 1 : -1)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === active ? "w-5 bg-foreground" : "w-1.5 bg-muted-foreground/30"
               }`}
