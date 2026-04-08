@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Wifi, User, Languages } from "lucide-react";
+import { Search, Wifi, User, Languages, DollarSign, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AppLayoutProps {
