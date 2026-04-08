@@ -267,7 +267,7 @@ const Checkout = () => {
                   className="w-full h-12 ps-10 pe-4 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all touch-target"
                 />
               </div>
-              <p className="text-[10px] text-muted-foreground mt-1.5 flex items-center gap-1">
+              <p className="text-muted-foreground mt-1.5 flex items-center gap-1 font-medium text-sm">
                 <span>💬</span> {t.phoneHint}
               </p>
             </div>
