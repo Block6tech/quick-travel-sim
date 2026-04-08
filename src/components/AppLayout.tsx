@@ -40,11 +40,11 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
               </svg>
             </button>
           ) : (
-            <div className="flex items-center gap-2">
+            <button onClick={() => navigate("/")} className="flex items-center gap-2 btn-press">
               <img src="/logo.png" alt="CamelSim" className="w-7 h-7 dark:hidden" />
               <img src="/logo-dark.png" alt="CamelSim" className="w-7 h-7 hidden dark:block" />
               <span className="text-lg font-bold tracking-display">{t.appName}</span>
-            </div>
+            </button>
           )}
           {title && (
             <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2">{title}</h1>
