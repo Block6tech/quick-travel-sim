@@ -56,6 +56,7 @@ const translations: Record<Locale, Record<string, any>> = {
     worksOn: "Works on",
     worksInstantly: "Works instantly when you land",
     worksInstantlyDesc: "Turn on data roaming and you're connected. No physical SIM swap needed.",
+    activateWarning: "Activate the plan before landing in the desired country",
     conditions: "Conditions",
     conditionLabels: {} as Record<string, string>,
     conditionDetails: {} as Record<string, string>,
@@ -351,6 +352,7 @@ const translations: Record<Locale, Record<string, any>> = {
     worksOn: "تعمل على",
     worksInstantly: "تعمل فوراً عند وصولك",
     worksInstantlyDesc: "فعّل التجوال وستكون متصلاً. لا حاجة لتبديل شريحة فعلية.",
+    activateWarning: "قم بتفعيل الباقة قبل الوصول إلى البلد المطلوب",
     conditions: "الشروط",
     conditionLabels: {
       "Data expires": "انتهاء البيانات",
