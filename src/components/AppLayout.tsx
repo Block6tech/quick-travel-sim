@@ -91,16 +91,19 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                 className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
                 aria-label="Select currency"
               >
-<svg className="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    {/* Euro circle */}
-                    <circle cx="8" cy="12" r="6" />
-                    <text x="4.5" y="16" fontSize="11" fontWeight="bold" strokeWidth="0" fill="currentColor">€</text>
-                    {/* Dollar circle */}
-                    <circle cx="16" cy="12" r="6" />
-                    <text x="12.8" y="16" fontSize="11" fontWeight="bold" strokeWidth="0" fill="currentColor">$</text>
-                    {/* Exchange arrows */}
-                    <path d="M14 6l2-2 2 2" strokeWidth="1.5" />
-                    <path d="M10 18l-2 2-2-2" strokeWidth="1.5" />
+                  <svg className="w-5 h-5 text-muted-foreground" viewBox="0 0 32 32" fill="none">
+                    {/* Euro coin */}
+                    <circle cx="11" cy="16" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <text x="11" y="20" fontSize="12" fontWeight="600" fill="currentColor" textAnchor="middle" strokeWidth="0">€</text>
+                    {/* Dollar coin */}
+                    <circle cx="21" cy="16" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <text x="21" y="20" fontSize="12" fontWeight="600" fill="currentColor" textAnchor="middle" strokeWidth="0">$</text>
+                    {/* Top arrow (right-pointing) */}
+                    <path d="M18 5.5l2.5-2.5L23 5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                    <line x1="13" y1="3" x2="20.5" y2="3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    {/* Bottom arrow (left-pointing) */}
+                    <path d="M14 26.5l-2.5 2.5L9 26.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                    <line x1="19" y1="29" x2="11.5" y2="29" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
                 <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
                 <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
