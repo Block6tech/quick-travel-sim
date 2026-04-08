@@ -237,7 +237,17 @@ const Checkout = () => {
 
         {/* Discount Code */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.03 }}>
-          <DiscountCodeInput planPrice={plan.price} onApply={setDiscount} userId={user?.id} />
+          {!showPromo && !discount ? (
+            <button
+              type="button"
+              onClick={() => setShowPromo(true)}
+              className="text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
+            >
+              {t.havePromoCode}
+            </button>
+          ) : (
+            <DiscountCodeInput planPrice={plan.price} onApply={setDiscount} userId={user?.id} />
+          )}
         </motion.div>
 
         {/* Account Section — only if not logged in */}
