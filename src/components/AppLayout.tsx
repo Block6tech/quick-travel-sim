@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Wifi, User, Languages } from "lucide-react";
+import { Search, Wifi, User, Languages, DollarSign, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AppLayoutProps {
@@ -15,8 +16,22 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
   const navigate = useNavigate();
   const location = useLocation();
   const { t, isRTL, locale, setLocale } = useLanguage();
+  const { currency, setCurrencyByCode } = useCurrency();
+  const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+  const currencyRef = useRef<HTMLDivElement>(null);
 
   const toggleLang = () => setLocale(locale === "en" ? "ar" : "en");
+
+  // Close currency picker on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
+        setShowCurrencyPicker(false);
+      }
+    };
+    if (showCurrencyPicker) document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showCurrencyPicker]);
 
   const navItems = [
     { icon: Search, label: t.navExplore, path: "/" },
@@ -68,14 +83,45 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
           {title && (
             <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2">{title}</h1>
           )}
-          <button
-            onClick={toggleLang}
-            className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
-            aria-label="Switch language"
-          >
-            <Languages className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground">{locale === "en" ? "عربي" : "EN"}</span>
-          </button>
+          <div className="flex items-center gap-1">
+            {/* Currency selector */}
+            <div ref={currencyRef} className="relative">
+              <button
+                onClick={() => setShowCurrencyPicker(!showCurrencyPicker)}
+                className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
+                aria-label="Select currency"
+              >
+                <DollarSign className="w-3.5 h-3.5 text-muted-foreground" />
+                <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
+                <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
+              </button>
+              {showCurrencyPicker && (
+                <div className="absolute end-0 top-full mt-1 w-48 rounded-lg bg-card shadow-lg border border-border z-50 overflow-hidden">
+                  <div className="max-h-56 overflow-y-auto">
+                    {currencies.map((c) => (
+                      <button
+                        key={c.code}
+                        onClick={() => { setCurrencyByCode(c.code); setShowCurrencyPicker(false); }}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-accent/50 transition-colors ${c.code === currency.code ? "font-bold bg-accent/30" : ""}`}
+                      >
+                        <span>{c.symbol} {c.name}</span>
+                        <span className="text-muted-foreground font-mono-data">{c.code}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* Language toggle */}
+            <button
+              onClick={toggleLang}
+              className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
+              aria-label="Switch language"
+            >
+              <Languages className="w-4 h-4 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground">{locale === "en" ? "عربي" : "EN"}</span>
+            </button>
+          </div>
         </div>
       </header>
 
