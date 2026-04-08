@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import travelersImg from "@/assets/travelers-esim.png";
-import bannerGlobal from "@/assets/banner-global-connect.jpg";
-import bannerTravel from "@/assets/banner-travel-easy.jpg";
+import bannerGlobal from "@/assets/banner-global-connect.png";
+import bannerTravel from "@/assets/banner-travel-easy.png";
 
 interface BannerSlide {
   id: string;
