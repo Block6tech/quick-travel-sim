@@ -40,7 +40,7 @@ const Installation = () => {
   const howItWorksSteps = t.howItWorksSteps as { icon: string; label: string; desc: string }[];
 
   return (
-    <AppLayout showBack={false} showNav={false} title={undefined}>
+    <AppLayout showBack={false} showNav={false}>
       <div className="px-4 pt-6 pb-8 space-y-6">
         {/* Success Header */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }} className="text-center space-y-3">
