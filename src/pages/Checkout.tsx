@@ -60,6 +60,7 @@ const Checkout = () => {
   const [processing, setProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [discount, setDiscount] = useState<DiscountResult | null>(null);
+  const [showPromo, setShowPromo] = useState(false);
   const [wantAccount, setWantAccount] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
