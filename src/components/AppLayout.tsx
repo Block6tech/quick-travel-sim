@@ -16,8 +16,22 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
   const navigate = useNavigate();
   const location = useLocation();
   const { t, isRTL, locale, setLocale } = useLanguage();
+  const { currency, setCurrencyByCode } = useCurrency();
+  const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+  const currencyRef = useRef<HTMLDivElement>(null);
 
   const toggleLang = () => setLocale(locale === "en" ? "ar" : "en");
+
+  // Close currency picker on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
+        setShowCurrencyPicker(false);
+      }
+    };
+    if (showCurrencyPicker) document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showCurrencyPicker]);
 
   const navItems = [
     { icon: Search, label: t.navExplore, path: "/" },
