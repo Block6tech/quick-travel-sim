@@ -4,7 +4,6 @@ import { Search, Wifi, User, Languages, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
-import currencyIcon from "@/assets/currency-icon.png";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -92,7 +91,19 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                 className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
                 aria-label="Select currency"
               >
-                  <img src={currencyIcon} alt="Currency" className="w-5 h-5 object-contain dark:brightness-100 brightness-0 dark:invert-0 mix-blend-screen dark:mix-blend-normal rounded-sm" style={{ filter: 'brightness(0) invert(0.45)' }} />
+                  <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Euro circle - bottom left */}
+                    <circle cx="17" cy="28" r="12" />
+                    <text x="17" y="33" textAnchor="middle" fontSize="15" fontWeight="600" fill="currentColor" stroke="none" fontFamily="sans-serif">€</text>
+                    {/* Dollar circle - top right */}
+                    <circle cx="31" cy="20" r="12" />
+                    <text x="31" y="25" textAnchor="middle" fontSize="15" fontWeight="600" fill="currentColor" stroke="none" fontFamily="sans-serif">$</text>
+                    {/* Arrow top-left pointing down-left */}
+                    <path d="M8 10 L8 4 L14 4" strokeWidth="2.8" fill="none" />
+                    <line x1="8" y1="4" x2="20" y2="4" strokeWidth="0" />
+                    {/* Arrow bottom-right pointing up-right */}
+                    <path d="M40 38 L40 44 L34 44" strokeWidth="2.8" fill="none" />
+                  </svg>
                 <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
                 <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
               </button>
