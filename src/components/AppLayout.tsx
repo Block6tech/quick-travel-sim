@@ -92,7 +92,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                 className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
                 aria-label="Select currency"
               >
-                  <img src={currencyIcon} alt="Currency" className="w-4 h-4 dark:invert-0 invert" />
+                  <img src={currencyIcon} alt="Currency" className="w-5 h-5 object-contain dark:brightness-100 brightness-0 dark:invert-0 mix-blend-screen dark:mix-blend-normal rounded-sm" style={{ filter: 'brightness(0) invert(0.45)' }} />
                 <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
                 <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
               </button>
