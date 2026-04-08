@@ -55,6 +55,35 @@ export const countries: EsimCountry[] = [
   { name: "Singapore", code: "SG", startingPrice: 4, planCount: 8 },
   { name: "Australia", code: "AU", startingPrice: 5, planCount: 8 },
   { name: "South Korea", code: "KR", startingPrice: 4.5, planCount: 8 },
+  // Americas
+  { name: "Canada", code: "CA", startingPrice: 5, planCount: 8 },
+  { name: "Mexico", code: "MX", startingPrice: 4, planCount: 8 },
+  { name: "Brazil", code: "BR", startingPrice: 4.5, planCount: 8 },
+  { name: "Colombia", code: "CO", startingPrice: 4, planCount: 8 },
+  { name: "Argentina", code: "AR", startingPrice: 4, planCount: 8 },
+  { name: "Chile", code: "CL", startingPrice: 4.5, planCount: 8 },
+  { name: "Peru", code: "PE", startingPrice: 4, planCount: 8 },
+  // More Europe
+  { name: "Netherlands", code: "NL", startingPrice: 4.5, planCount: 8 },
+  { name: "Switzerland", code: "CH", startingPrice: 5.5, planCount: 8 },
+  { name: "Portugal", code: "PT", startingPrice: 4, planCount: 8 },
+  { name: "Greece", code: "GR", startingPrice: 4, planCount: 8 },
+  { name: "Poland", code: "PL", startingPrice: 3.5, planCount: 8 },
+  { name: "Sweden", code: "SE", startingPrice: 4.5, planCount: 8 },
+  { name: "Austria", code: "AT", startingPrice: 4.5, planCount: 8 },
+  // More Asia Pacific
+  { name: "Indonesia", code: "ID", startingPrice: 3, planCount: 8 },
+  { name: "India", code: "IN", startingPrice: 3, planCount: 8 },
+  { name: "Vietnam", code: "VN", startingPrice: 3, planCount: 8 },
+  { name: "Philippines", code: "PH", startingPrice: 3.5, planCount: 8 },
+  { name: "New Zealand", code: "NZ", startingPrice: 5, planCount: 8 },
+  // More Middle East & Africa
+  { name: "Qatar", code: "QA", startingPrice: 5, planCount: 8 },
+  { name: "Kuwait", code: "KW", startingPrice: 5, planCount: 8 },
+  { name: "Bahrain", code: "BH", startingPrice: 4.5, planCount: 8 },
+  { name: "Jordan", code: "JO", startingPrice: 4, planCount: 8 },
+  { name: "Morocco", code: "MA", startingPrice: 4, planCount: 8 },
+  { name: "South Africa", code: "ZA", startingPrice: 4, planCount: 8 },
 ];
 
 export const regionalBundles: EsimCountry[] = [

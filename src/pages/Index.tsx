@@ -18,10 +18,16 @@ const allBundles = regionalBundles;
 /** Map each country code to its continent group */
 const continentMap: Record<string, string> = {
   AE: "middleEast", SA: "middleEast", EG: "middleEast", TR: "middleEast",
+  QA: "middleEast", KW: "middleEast", BH: "middleEast", JO: "middleEast",
+  MA: "middleEast", ZA: "middleEast",
   GB: "europe", FR: "europe", DE: "europe", ES: "europe", IT: "europe",
+  NL: "europe", CH: "europe", PT: "europe", GR: "europe", PL: "europe",
+  SE: "europe", AT: "europe",
   TH: "asiaPacific", JP: "asiaPacific", MY: "asiaPacific", SG: "asiaPacific",
-  AU: "asiaPacific", KR: "asiaPacific",
-  US: "americas"
+  AU: "asiaPacific", KR: "asiaPacific", ID: "asiaPacific", IN: "asiaPacific",
+  VN: "asiaPacific", PH: "asiaPacific", NZ: "asiaPacific",
+  US: "americas", CA: "americas", MX: "americas", BR: "americas",
+  CO: "americas", AR: "americas", CL: "americas", PE: "americas",
 };
 
 const continentOrder = ["middleEast", "europe", "asiaPacific", "americas"] as const;
