@@ -86,7 +86,13 @@ export default function HeroBanner() {
             transition={{ duration: 0.3 }}
             className="absolute inset-0 flex flex-col items-center justify-center px-4"
           >
-            <img src={imgSrc} alt={current.title} className="w-20 h-20 object-contain" />
+            <motion.img
+              src={imgSrc}
+              alt={current.title}
+              className="w-20 h-20 object-contain"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            />
             <h2 className="text-base font-bold text-foreground text-center whitespace-pre-line leading-tight mt-2">
               {current.title}
             </h2>
