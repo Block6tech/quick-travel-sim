@@ -23,7 +23,7 @@ const translations: Record<Locale, Record<string, any>> = {
     globalBundles: "Global bundles",
     allDestinations: "All destinations",
     continents: {
-      middleEast: "Middle East",
+      middleEast: "Middle East & Africa",
       europe: "Europe",
       asiaPacific: "Asia Pacific",
       americas: "Americas",
@@ -323,7 +323,7 @@ const translations: Record<Locale, Record<string, any>> = {
     globalBundles: "الباقات العالمية",
     allDestinations: "جميع الوجهات",
     continents: {
-      middleEast: "الشرق الأوسط",
+      middleEast: "الشرق الأوسط وأفريقيا",
       europe: "أوروبا",
       asiaPacific: "آسيا والمحيط الهادئ",
       americas: "الأمريكتين",
