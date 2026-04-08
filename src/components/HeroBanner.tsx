@@ -25,7 +25,7 @@ const fallbackSlidesAr: BannerSlide[] = [
   { id: "3", image_url: "", title: "سافر بذكاء\nمع eSIM", subtitle: "تخلّص من عناء الشرائح. اتصل فوراً." },
 ];
 
-const fallbackImages: Record<string, string> = { "1": travelersImg, "2": bannerGlobal, "3": bannerTravel };
+const fallbackImages = [travelersImg, bannerGlobal, bannerTravel];
 
 const AUTO_PLAY_MS = 4000;
 
@@ -56,6 +56,12 @@ export default function HeroBanner() {
       });
   }, [locale]);
 
+  useEffect(() => {
+    if (active >= slides.length) {
+      setActive(0);
+    }
+  }, [active, slides.length]);
+
   const next = useCallback(() => {
     setActive((i) => (i + 1) % slides.length);
   }, [slides.length]);
@@ -67,7 +73,7 @@ export default function HeroBanner() {
   }, [next, slides.length]);
 
   const current = slides[active];
-  const imgSrc = current.image_url || fallbackImages[current.id] || travelersImg;
+  const imgSrc = current.image_url || fallbackImages[active] || travelersImg;
 
   return (
     <motion.div
