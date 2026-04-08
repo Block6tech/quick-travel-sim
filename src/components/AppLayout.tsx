@@ -31,10 +31,12 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
 
       {/* WhatsApp floating button — hidden on checkout */}
       {!isCheckout && (
-        <a
+        <motion.a
           href="https://wa.me/96599550255"
           target="_blank"
           rel="noopener noreferrer"
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="fixed bottom-24 end-4 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform btn-press"
           aria-label="Chat on WhatsApp"
         >
