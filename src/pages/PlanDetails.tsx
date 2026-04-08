@@ -7,6 +7,12 @@ import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { useLanguage, getCountryName } from "@/contexts/LanguageContext";
 
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(...[...code.toUpperCase()].map(c => c.charCodeAt(0) + offset));
+}
+
 const PlanDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -41,8 +47,8 @@ const PlanDetails = () => {
       <div className="px-4 pt-6 pb-28 space-y-6">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} className="space-y-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-foreground flex items-center justify-center">
-              <span className="text-primary-foreground text-[10px] font-bold font-mono-data">{plan.countryCode}</span>
+            <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center">
+              <span className="text-lg leading-none">{countryFlag(plan.countryCode)}</span>
             </div>
             <span className="text-sm text-muted-foreground">{getCountryName(plan.countryCode, plan.country, locale)}</span>
           </div>
