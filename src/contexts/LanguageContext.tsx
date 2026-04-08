@@ -284,6 +284,7 @@ const translations: Record<Locale, Record<string, any>> = {
     authSignIn: "Sign in",
 
     // Discount / Referral
+    havePromoCode: "I have a promo code",
     discountCode: "Discount / Referral Code",
     discountPlaceholder: "Enter code",
     discountApply: "Apply",
@@ -605,6 +606,7 @@ const translations: Record<Locale, Record<string, any>> = {
     authSignIn: "تسجيل الدخول",
 
     // Discount / Referral
+    havePromoCode: "لدي كود خصم",
     discountCode: "كود خصم / إحالة",
     discountPlaceholder: "أدخل الكود",
     discountApply: "تطبيق",
