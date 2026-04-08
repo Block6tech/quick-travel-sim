@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -75,6 +75,30 @@ export default function HeroBanner() {
   const current = slides[active];
   const imgSrc = current.image_url || fallbackImages[active] || travelersImg;
 
+  const [direction, setDirection] = useState(0);
+  const touchStart = useRef<number | null>(null);
+
+  const goTo = useCallback((index: number, dir: number) => {
+    setDirection(dir);
+    setActive(index);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStart.current;
+    touchStart.current = null;
+    if (Math.abs(diff) < 40) return;
+    if (diff < 0) {
+      goTo((active + 1) % slides.length, 1);
+    } else {
+      goTo((active - 1 + slides.length) % slides.length, -1);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -82,14 +106,19 @@ export default function HeroBanner() {
       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
       className="space-y-2"
     >
-      <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-secondary">
-        <AnimatePresence mode="wait">
+      <div
+        className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-secondary touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={current.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            custom={direction}
+            initial={{ opacity: 0, x: direction * 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction * -60 }}
+            transition={{ duration: 0.25 }}
             className="absolute inset-0 flex flex-col items-center justify-center px-4"
           >
             <motion.img
@@ -114,7 +143,7 @@ export default function HeroBanner() {
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => goTo(i, i > active ? 1 : -1)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === active ? "w-5 bg-foreground" : "w-1.5 bg-muted-foreground/30"
               }`}
