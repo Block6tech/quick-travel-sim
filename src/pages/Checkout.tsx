@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Wifi, Eye, EyeOff, Phone, X, ChevronDown, ChevronUp } from "lucide-react";
+
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  const offset = 0x1f1e6 - 65;
+  return String.fromCodePoint(...[...code.toUpperCase()].map(c => c.charCodeAt(0) + offset));
+}
 import AppLayout from "@/components/AppLayout";
 import { EsimPlan } from "@/data/esim-data";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -217,8 +223,8 @@ const Checkout = () => {
           <h2 className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{t.orderSummary}</h2>
           <div className="bg-card rounded-lg shadow-card p-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-md bg-foreground flex items-center justify-center">
-                <span className="text-primary-foreground text-xs font-bold font-mono-data">{plan.countryCode}</span>
+              <div className="w-10 h-10 rounded-md bg-secondary flex items-center justify-center">
+                <span className="text-xl leading-none">{countryFlag(plan.countryCode)}</span>
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">{getCountryName(plan.countryCode, plan.country, locale)}</p>
