@@ -1,6 +1,6 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Wifi, User, Languages, DollarSign, ChevronDown } from "lucide-react";
+import { Search, Wifi, User, Languages, Globe, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -91,7 +91,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                 className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
                 aria-label="Select currency"
               >
-                <DollarSign className="w-3.5 h-3.5 text-muted-foreground" />
+                <Globe className="w-3.5 h-3.5 text-muted-foreground" />
                 <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
                 <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
               </button>
