@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export interface CurrencyInfo {
   code: string;
@@ -45,15 +46,17 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const { locale } = useLanguage();
+
   const formatPrice = useCallback(
     (usdPrice: number) => {
       const converted = usdPrice * currency.rate;
-      // For currencies with large values, show no decimals; otherwise 2
       const decimals = converted >= 100 ? 0 : currency.rate >= 10 ? 0 : 2;
       const formatted = converted.toFixed(decimals);
-      return `${currency.symbol} ${formatted}`;
+      const label = locale === "ar" ? currency.symbol : currency.code;
+      return `${label} ${formatted}`;
     },
-    [currency]
+    [currency, locale]
   );
 
   return (
