@@ -35,7 +35,7 @@ const CurrencyContext = createContext<CurrencyContextType | null>(null);
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrency] = useState<CurrencyInfo>(() => {
     const saved = localStorage.getItem("currency");
-    return currencies.find((c) => c.code === saved) || currencies[0]; // KWD default
+    return currencies.find((c) => c.code === saved) || currencies.find((c) => c.code === "USD")!;
   });
 
   const setCurrencyByCode = useCallback((code: string) => {
