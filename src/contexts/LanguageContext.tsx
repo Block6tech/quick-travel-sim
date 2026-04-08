@@ -352,6 +352,7 @@ const translations: Record<Locale, Record<string, any>> = {
     worksOn: "تعمل على",
     worksInstantly: "تعمل فوراً عند وصولك",
     worksInstantlyDesc: "فعّل التجوال وستكون متصلاً. لا حاجة لتبديل شريحة فعلية.",
+    activateWarning: "قم بتفعيل الباقة قبل الوصول إلى البلد المطلوب",
     conditions: "الشروط",
     conditionLabels: {
       "Data expires": "انتهاء البيانات",

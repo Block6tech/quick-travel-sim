@@ -108,6 +108,11 @@ const PlanDetails = () => {
           </motion.div>
         )}
 
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.13, ease: [0.2, 0.8, 0.2, 1] }} className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-destructive mt-0.5 shrink-0" />
+          <p className="text-sm text-destructive font-medium">{t.activateWarning}</p>
+        </motion.div>
+
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }} className="bg-secondary rounded-lg p-4 space-y-2">
           <div className="flex items-center gap-2">
             <Check className="w-4 h-4 text-foreground" />
