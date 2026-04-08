@@ -91,9 +91,16 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
                 className="flex items-center gap-0.5 px-2 py-1 rounded-md hover:bg-accent/50 transition-colors btn-press touch-target"
                 aria-label="Select currency"
               >
-<svg className="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <text x="2" y="17" fontSize="14" fontWeight="bold" strokeWidth="0" fill="currentColor">€</text>
-                    <text x="13" y="17" fontSize="14" fontWeight="bold" strokeWidth="0" fill="currentColor">$</text>
+<svg className="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Euro circle */}
+                    <circle cx="8" cy="12" r="6" />
+                    <text x="4.5" y="16" fontSize="11" fontWeight="bold" strokeWidth="0" fill="currentColor">€</text>
+                    {/* Dollar circle */}
+                    <circle cx="16" cy="12" r="6" />
+                    <text x="12.8" y="16" fontSize="11" fontWeight="bold" strokeWidth="0" fill="currentColor">$</text>
+                    {/* Exchange arrows */}
+                    <path d="M14 6l2-2 2 2" strokeWidth="1.5" />
+                    <path d="M10 18l-2 2-2-2" strokeWidth="1.5" />
                   </svg>
                 <span className="text-xs font-medium text-muted-foreground">{currency.code}</span>
                 <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${showCurrencyPicker ? "rotate-180" : ""}`} />
