@@ -457,7 +457,7 @@ const Checkout = () => {
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-4">
-                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{TERMS_CONTENT}</pre>
+                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{locale === "ar" ? TERMS_CONTENT_AR : TERMS_CONTENT_EN}</pre>
               </div>
               <div className="p-4 border-t border-border">
                 <button
