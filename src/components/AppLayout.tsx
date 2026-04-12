@@ -63,7 +63,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
       )}
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="flex items-center justify-between px-4 h-14">
+        <div className={`grid items-center px-4 h-14 gap-2 ${title ? "grid-cols-[auto,minmax(0,1fr),auto]" : "grid-cols-[1fr,auto]"}`}>
           {showBack ? (
             <button
               onClick={() => navigate(-1)}
@@ -82,9 +82,9 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </button>
           )}
           {title && (
-            <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2 max-w-[50%] truncate text-center">{title}</h1>
+            <h1 className="min-w-0 truncate text-center text-sm font-semibold">{title}</h1>
           )}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center justify-end gap-1 shrink-0">
             {/* Currency selector */}
             <div ref={currencyRef} className="relative">
               <button
