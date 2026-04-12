@@ -17,7 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DiscountCodeInput, { type DiscountResult } from "@/components/DiscountCodeInput";
 
-const TERMS_CONTENT = `Last updated: April 2026
+const TERMS_CONTENT_EN = `Last updated: April 2026
 
 1. ACCEPTANCE OF TERMS
 By purchasing and using CamelSim eSIM services, you agree to these Terms & Conditions. If you do not agree, do not use our services.
@@ -49,6 +49,38 @@ We may update these terms at any time. Continued use constitutes acceptance of u
 10. CONTACT
 For questions, contact support@camelsim.com.`;
 
+const TERMS_CONTENT_AR = `آخر تحديث: أبريل 2026
+
+1. قبول الشروط
+بشرائك واستخدامك لخدمات CamelSim للشرائح الإلكترونية (eSIM)، فإنك توافق على هذه الشروط والأحكام. إذا كنت لا توافق، يرجى عدم استخدام خدماتنا.
+
+2. وصف الخدمة
+توفر CamelSim باقات بيانات eSIM رقمية للسفر الدولي. يتم تسليم الباقات إلكترونيًا عبر رمز QR ويتم تفعيلها على الأجهزة المتوافقة.
+
+3. الأهلية
+يجب أن يكون لديك جهاز متوافق مع eSIM. يجب أن يكون عمرك 18 عامًا على الأقل أو أن تحصل على موافقة ولي الأمر.
+
+4. الأسعار والدفع
+يتم عرض جميع الأسعار بالعملة التي تختارها. تتم معالجة الدفع بشكل آمن. قد تختلف الأسعار حسب المنطقة وهي قابلة للتغيير.
+
+5. باقات البيانات
+توفر الباقات بيانات غير محدودة للمدة المحددة. قد تنطبق سياسات الاستخدام العادل. قد يتم تقليل السرعة بعد الاستخدام المفرط كما هو موضح في شروط الباقة.
+
+6. سياسة الاسترداد
+يمكن استرداد قيمة الشرائح غير المستخدمة خلال 7 أيام من الشراء. بمجرد استهلاك البيانات، لا يمكن استرداد قيمة الباقة.
+
+7. الخصوصية
+نجمع فقط المعلومات الضرورية لتقديم خدماتنا. بياناتك محمية ولا يتم بيعها لأطراف ثالثة.
+
+8. المسؤولية
+لا تتحمل CamelSim مسؤولية انقطاع الشبكة أو مشاكل توافق الأجهزة أو انقطاع الخدمة الناجم عن شركات الاتصالات المحلية.
+
+9. تغييرات على الشروط
+قد نقوم بتحديث هذه الشروط في أي وقت. يعتبر استمرار الاستخدام موافقة على الشروط المحدثة.
+
+10. التواصل
+للأسئلة، تواصل معنا عبر support@camelsim.com.`;
+
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -68,7 +100,7 @@ const Checkout = () => {
   const [discount, setDiscount] = useState<DiscountResult | null>(null);
   const [showPromo, setShowPromo] = useState(false);
   const [wantAccount, setWantAccount] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
 
   if (!plan) {
@@ -425,7 +457,7 @@ const Checkout = () => {
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-4">
-                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{TERMS_CONTENT}</pre>
+                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{locale === "ar" ? TERMS_CONTENT_AR : TERMS_CONTENT_EN}</pre>
               </div>
               <div className="p-4 border-t border-border">
                 <button
