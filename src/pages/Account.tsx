@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Wifi, ShoppingBag, CreditCard, HelpCircle, Settings, ChevronRight, ChevronLeft,
-  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun, Lock, ChevronDown,
+  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun, Lock, ChevronDown, Gift,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import ReferralSection from "@/components/ReferralSection";
