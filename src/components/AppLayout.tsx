@@ -82,7 +82,7 @@ const AppLayout = ({ children, title, showBack = false, showNav = true }: AppLay
             </button>
           )}
           {title && (
-            <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2">{title}</h1>
+            <h1 className="text-sm font-semibold absolute left-1/2 -translate-x-1/2 max-w-[50%] truncate text-center">{title}</h1>
           )}
           <div className="flex items-center gap-1">
             {/* Currency selector */}
