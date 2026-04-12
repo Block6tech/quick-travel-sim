@@ -68,7 +68,7 @@ const Checkout = () => {
   const [discount, setDiscount] = useState<DiscountResult | null>(null);
   const [showPromo, setShowPromo] = useState(false);
   const [wantAccount, setWantAccount] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
 
   if (!plan) {
