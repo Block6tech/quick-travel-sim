@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Search, Wifi, User, Languages, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useCurrency, currencies } from "@/contexts/CurrencyContext";
+import currencyExchangeIcon from "@/assets/currency-exchange-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AppLayoutProps {
