@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Wifi, ShoppingBag, CreditCard, HelpCircle, Settings, ChevronRight, ChevronLeft,
-  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun, Lock,
+  LogOut, Bell, Globe, DollarSign, MessageCircle, BookOpen, Smartphone, Phone, Plus, Shield, Moon, Sun, Lock, ChevronDown,
 } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import ReferralSection from "@/components/ReferralSection";
 import { Switch } from "@/components/ui/switch";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import TierProgress from "@/components/TierProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUserTier } from "@/data/esim-data";
@@ -157,30 +158,30 @@ const Account = () => {
           </motion.button>
         )}
 
-        {/* Phone prompt */}
-        {!userPhone && (
-          <motion.button
-            {...anim(0.04)}
-            className="w-full flex items-center gap-3 p-3 rounded-lg bg-secondary text-start btn-press touch-target"
-          >
-            <div className="w-9 h-9 rounded-full bg-foreground flex items-center justify-center flex-shrink-0">
-              <Phone className="w-4 h-4 text-primary-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium">{t.addPhoneNumber}</p>
-              <p className="text-[10px] text-muted-foreground">{t.addPhoneDesc}</p>
-            </div>
-            <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-          </motion.button>
-        )}
 
         {/* Tier Progress */}
         <motion.div {...anim(0.06)}>
           <TierProgress orderCount={orders.length} />
         </motion.div>
 
-        {/* Referral Code */}
-        {user && <ReferralSection userId={user.id} />}
+        {user && (
+          <motion.div {...anim(0.08)}>
+            <Collapsible>
+              <CollapsibleTrigger className="w-full flex items-center justify-between gap-2 group">
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground"><Gift className="w-4 h-4" /></span>
+                  <h2 className="text-xs uppercase tracking-wider font-medium text-muted-foreground">{t.yourReferralCode}</h2>
+                </div>
+                <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="mt-3">
+                  <ReferralSection userId={user.id} />
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </motion.div>
+        )}
 
         {/* My eSIMs */}
         <Section title={t.myEsimsSection} icon={<Wifi className="w-4 h-4" />} delay={0.08}>
