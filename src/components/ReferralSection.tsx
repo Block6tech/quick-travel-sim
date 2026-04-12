@@ -92,10 +92,6 @@ export default function ReferralSection({ userId }: Props) {
       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
       className="space-y-3"
     >
-      <div className="flex items-center gap-2">
-        <Gift className="w-4 h-4 text-muted-foreground" />
-        <h2 className="text-xs uppercase tracking-wider font-medium text-muted-foreground">{t.yourReferralCode}</h2>
-      </div>
 
       <div className="p-4 rounded-lg bg-card shadow-card space-y-3">
         <p className="text-xs text-muted-foreground">{t.referralDesc}</p>
