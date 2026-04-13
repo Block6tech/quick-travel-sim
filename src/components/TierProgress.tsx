@@ -110,6 +110,15 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
     return tierItem.perks;
   };
 
+  const getTierDisplayName = (name: string) => {
+    if (locale === "ar") {
+      if (name === "Bronze Camel") return "الجمل البرونزي";
+      if (name === "Golden Camel") return "الجمل الذهبي";
+      if (name === "Red Camel") return "الاحمر";
+    }
+    return name;
+  };
+
   return (
     <div className="space-y-0">
       <button
@@ -167,7 +176,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                     >
                       <div className="text-center space-y-1.5">
                         <div className="flex justify-center"><CamelIcon tier={tierItem.level} /></div>
-                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? c.text : "text-muted-foreground"}`}>{tierItem.name}</p>
+                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? c.text : "text-muted-foreground"}`}>{getTierDisplayName(tierItem.name)}</p>
                         {tierItem.discount > 0 && (
                           <p className={`text-[10px] font-bold ${isActive ? c.text : "text-muted-foreground"}`}>{t.off(tierItem.discount)}</p>
                         )}
