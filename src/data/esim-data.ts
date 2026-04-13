@@ -205,7 +205,7 @@ export interface TierInfo {
 }
 
 export const tiers: TierInfo[] = [
-  { level: 1, name: "Bronze Camel", emoji: "🐪", minOrders: 0, discount: 0, perks: ["Access to all plans", "Email support"] },
+  { level: 1, name: "الجمل البرونزي", emoji: "🐪", minOrders: 0, discount: 0, perks: ["Access to all plans", "Email support"] },
   { level: 2, name: "Golden Camel", emoji: "🐫", minOrders: 5, discount: 5, perks: ["5% off all plans", "Priority support", "Early access to deals"] },
   { level: 3, name: "Red Camel", emoji: "🏆🐫", minOrders: 15, discount: 10, perks: ["10% off all plans", "VIP WhatsApp support", "Exclusive bundles", "Free top-ups"] },
 ];
