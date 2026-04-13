@@ -28,6 +28,7 @@ import AdminDiscounts from "./pages/admin/AdminDiscounts.tsx";
 import AdminReferrals from "./pages/admin/AdminReferrals.tsx";
 import AdminEsimManagement from "./pages/admin/AdminEsimManagement.tsx";
 import AdminBanners from "./pages/admin/AdminBanners.tsx";
+import AdminTerms from "./pages/admin/AdminTerms.tsx";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ const App = () => {
                   <Route path="users" element={<AdminUsers />} />
                   <Route path="discounts" element={<AdminDiscounts />} />
                   <Route path="referrals" element={<AdminReferrals />} />
+                  <Route path="terms" element={<AdminTerms />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

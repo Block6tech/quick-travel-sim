@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
-import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone, Image } from "lucide-react";
+import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone, Image, FileText } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { to: "/admin/users", icon: Users, label: "Users" },
   { to: "/admin/discounts", icon: Tag, label: "Discounts" },
   { to: "/admin/referrals", icon: Gift, label: "Referrals" },
+  { to: "/admin/terms", icon: FileText, label: "Terms & Conditions" },
 ];
 
 export default function AdminLayout() {
