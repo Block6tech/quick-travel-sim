@@ -569,7 +569,11 @@ const translations: Record<Locale, Record<string, any>> = {
       if (name === "Red Camel") return "مستوى الحالي: الأحمر";
       return `مستوى ${name}`;
     },
-    ordersTo: (n: number, name: string) => `${n} طلب للوصول إلى ${name}`,
+    ordersTo: (n: number, name: string) => {
+      const translatedName = name === "Golden Camel" ? "المستوى الذهبي" : name === "Red Camel" ? "المستوى الأحمر" : name;
+      const unit = n >= 3 && n <= 10 ? "طلبات" : "طلب";
+      return `${n} ${unit} متبقيه للوصول إلى ${translatedName}`;
+    },
     maxTier: "أعلى مستوى — استمتع بجميع المزايا!",
     unlockAt: (name: string) => `افتح عند ${name}`,
     yourPerks: "مزاياك",
