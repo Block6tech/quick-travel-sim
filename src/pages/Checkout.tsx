@@ -39,6 +39,23 @@ const Checkout = () => {
   const [wantAccount, setWantAccount] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
+  const [termsEn, setTermsEn] = useState("");
+  const [termsAr, setTermsAr] = useState("");
+
+  useEffect(() => {
+    supabase
+      .from("terms_conditions")
+      .select("content_en, content_ar")
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          setTermsEn(data.content_en);
+          setTermsAr(data.content_ar);
+        }
+      });
+  }, []);
 
   if (!plan) {
     return (
