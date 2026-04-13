@@ -142,20 +142,28 @@ const Account = () => {
             </div>
           </motion.div>
         ) : (
-          <motion.button
-            {...anim(0)}
-            onClick={() => navigate("/")}
-            className="w-full flex items-center gap-4 p-4 rounded-xl bg-card shadow-card btn-press text-start"
-          >
-            <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
-              🌍
+          <motion.div {...anim(0)}>
+            <button
+              onClick={() => navigate("/")}
+              className="w-full flex items-center gap-4 p-4 rounded-xl bg-card shadow-card btn-press text-start"
+            >
+              <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
+                🐪
+              </div>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-base font-bold tracking-display">{t.startJourney}</h1>
+                <p className="text-xs text-muted-foreground mt-1">{t.startJourneyDesc}</p>
+              </div>
+              <Chevron className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+            </button>
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <span>🐪 {t.tierBronzeLabel}</span>
+              <span>→</span>
+              <span>✨ {t.tierGoldenLabel}</span>
+              <span>→</span>
+              <span>👑 {t.tierRedLabel}</span>
             </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-base font-bold tracking-display">{t.startJourney || "Start your first journey with us"}</h1>
-              <p className="text-xs text-muted-foreground mt-1">{t.startJourneyDesc || "Browse eSIM plans and get connected instantly"}</p>
-            </div>
-            <Chevron className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-          </motion.button>
+          </motion.div>
         )}
 
 
