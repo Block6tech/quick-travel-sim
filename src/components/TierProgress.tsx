@@ -110,6 +110,15 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
     return tierItem.perks;
   };
 
+  const getTierDisplayName = (name: string) => {
+    if (locale === "ar") {
+      if (name === "Bronze Camel") return "الجمل البرونزي";
+      if (name === "Golden Camel") return "الجمل الذهبي";
+      if (name === "Red Camel") return "الاحمر";
+    }
+    return name;
+  };
+
   return (
     <div className="space-y-0">
       <button
