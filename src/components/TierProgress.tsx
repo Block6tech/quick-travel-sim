@@ -192,7 +192,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                 <div className="p-3 rounded-lg bg-secondary/30 space-y-1.5">
                   <div className="flex items-center gap-1.5">
                     <Gift className={`w-3.5 h-3.5 ${(tierColors[next.level] || tierColors[1]).text}`} />
-                    <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">{t.unlockAt(next.name)}</p>
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">{t.unlockAt(getTierDisplayName(next.name))}</p>
                   </div>
                   {getPerks(next).map((perk) => (
                     <div key={perk} className="flex items-center gap-2">
