@@ -142,13 +142,6 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
         </motion.div>
       </button>
 
-      <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground mt-2 px-1 my-[12px]">
-        <span className={current.level >= 1 ? "text-amber-700 dark:text-amber-400 font-bold" : ""}>🐪 {locale === "ar" ? "الجمل البرونزي" : "Bronze Camel"}</span>
-        <span>{isRTL ? "←" : "→"}</span>
-        <span className={current.level >= 2 ? "text-yellow-600 dark:text-yellow-400 font-bold" : ""}>✨ {locale === "ar" ? "الجمل الذهبي" : "Golden Camel"}</span>
-        <span>{isRTL ? "←" : "→"}</span>
-        <span className={current.level >= 3 ? "text-red-600 dark:text-red-400 font-bold" : ""}>👑 {locale === "ar" ? "الاحمر" : "Red Camel"}</span>
-      </div>
 
       <AnimatePresence>
         {expanded && (
