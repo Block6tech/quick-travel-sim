@@ -147,7 +147,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
         <span>{isRTL ? "←" : "→"}</span>
         <span className={current.level >= 2 ? "text-yellow-600 dark:text-yellow-400 font-bold" : ""}>✨ {locale === "ar" ? "الجمل الذهبي" : "Golden Camel"}</span>
         <span>{isRTL ? "←" : "→"}</span>
-        <span className={current.level >= 3 ? "text-red-600 dark:text-red-400 font-bold" : ""}>👑 {locale === "ar" ? "الجمل الأحمر" : "Red Camel"}</span>
+        <span className={current.level >= 3 ? "text-red-600 dark:text-red-400 font-bold" : ""}>👑 {locale === "ar" ? "الاحمر" : "الاحمر"}</span>
       </div>
 
       <AnimatePresence>
