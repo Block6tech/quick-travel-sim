@@ -119,7 +119,7 @@ export default function AdminSettings() {
         <p className="text-xs text-muted-foreground">These defaults apply to new referral codes created for users.</p>
 
         {referral && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg bg-card border border-border space-y-3">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Referrer Reward</p>
               <div className="flex gap-2">
@@ -183,9 +183,11 @@ export default function AdminSettings() {
         <div className="space-y-4">
           {tiers.map((tier, idx) => (
             <div key={tier.id} className="p-4 rounded-lg bg-card border border-border space-y-3">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-1">
                 <span className="text-2xl">{tier.emoji}</span>
-                <div className="flex-1 grid grid-cols-4 gap-3">
+                <p className="text-xs font-bold">{tier.name}</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div>
                     <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Name</label>
                     <input
@@ -220,9 +222,8 @@ export default function AdminSettings() {
                       className="w-full h-8 px-2 rounded-md bg-secondary text-foreground text-xs mt-1"
                     />
                   </div>
-                </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Perks (English, one per line)</label>
                   <textarea
