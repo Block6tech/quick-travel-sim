@@ -158,8 +158,11 @@ const translations: Record<Locale, Record<string, any>> = {
     days: (n: number) => `${n} ${n === 1 ? "day" : "days"}`,
 
     // Account
-    startJourney: "Start your first journey with us",
-    startJourneyDesc: "Browse eSIM plans and get connected instantly",
+    startJourney: "Unlock your Camel Tier rewards",
+    startJourneyDesc: "Buy eSIM plans to climb from Bronze → Golden → Red Camel",
+    tierBronzeLabel: "Bronze",
+    tierGoldenLabel: "Golden",
+    tierRedLabel: "Red",
     verified: "Verified",
     tier: "Tier",
     addPhoneNumber: "Add phone number",
@@ -485,8 +488,11 @@ const translations: Record<Locale, Record<string, any>> = {
     day: "يوم",
     days: (n: number) => `${n} يوم`,
 
-    startJourney: "ابدأ رحلتك الأولى معنا",
-    startJourneyDesc: "تصفّح باقات eSIM واتصل فوراً",
+    startJourney: "افتح مكافآت مستوى الجمل",
+    startJourneyDesc: "اشترِ باقات eSIM وارتقِ من البرونزي → الذهبي → الأحمر",
+    tierBronzeLabel: "برونزي",
+    tierGoldenLabel: "ذهبي",
+    tierRedLabel: "أحمر",
     verified: "موثّق",
     tier: "المستوى",
     addPhoneNumber: "أضف رقم هاتف",
