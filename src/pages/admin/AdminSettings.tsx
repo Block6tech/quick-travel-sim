@@ -222,9 +222,8 @@ export default function AdminSettings() {
                       className="w-full h-8 px-2 rounded-md bg-secondary text-foreground text-xs mt-1"
                     />
                   </div>
-                </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Perks (English, one per line)</label>
                   <textarea
