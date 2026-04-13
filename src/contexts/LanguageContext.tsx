@@ -159,10 +159,10 @@ const translations: Record<Locale, Record<string, any>> = {
 
     // Account
     startJourney: "Unlock your Camel Tier rewards",
-    startJourneyDesc: "Buy eSIM plans to climb from Bronze → Golden → Red Camel",
+    startJourneyDesc: "Buy eSIM plans to climb from Bronze → Golden → الاحمر",
     tierBronzeLabel: "Bronze",
     tierGoldenLabel: "Golden",
-    tierRedLabel: "Red",
+    tierRedLabel: "الاحمر",
     verified: "Verified",
     tier: "Tier",
     addPhoneNumber: "Add phone number",
@@ -489,10 +489,10 @@ const translations: Record<Locale, Record<string, any>> = {
     days: (n: number) => `${n} يوم`,
 
     startJourney: "افتح مكافآت مستوى الجمل",
-    startJourneyDesc: "اشترِ باقات eSIM وارتقِ من البرونزي ← الذهبي ← الأحمر",
+    startJourneyDesc: "اشترِ باقات eSIM وارتقِ من البرونزي ← الذهبي ← الاحمر",
     tierBronzeLabel: "برونزي",
     tierGoldenLabel: "ذهبي",
-    tierRedLabel: "أحمر",
+    tierRedLabel: "الاحمر",
     verified: "موثّق",
     tier: "المستوى",
     addPhoneNumber: "أضف رقم هاتف",
