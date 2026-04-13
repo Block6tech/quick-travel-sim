@@ -159,10 +159,10 @@ const translations: Record<Locale, Record<string, any>> = {
 
     // Account
     startJourney: "Unlock your Camel Tier rewards",
-    startJourneyDesc: "Buy eSIM plans to climb from Bronze → Golden → Red Camel",
+    startJourneyDesc: "Buy eSIM plans to climb from Bronze → Golden → الاحمر",
     tierBronzeLabel: "Bronze",
     tierGoldenLabel: "Golden",
-    tierRedLabel: "Red",
+    tierRedLabel: "الاحمر",
     verified: "Verified",
     tier: "Tier",
     addPhoneNumber: "Add phone number",
