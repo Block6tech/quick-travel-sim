@@ -563,7 +563,12 @@ const translations: Record<Locale, Record<string, any>> = {
     notifications: "الإشعارات",
     logOut: "تسجيل الخروج",
 
-    tierName: (name: string) => name === "Bronze Camel" ? "مستوى الحالي: البرونزي" : `مستوى ${name}`,
+    tierName: (name: string) => {
+      if (name === "Bronze Camel") return "مستوى الحالي: البرونزي";
+      if (name === "Golden Camel") return "مستوى الحالي: الذهبي";
+      if (name === "Red Camel") return "مستوى الحالي: الأحمر";
+      return `مستوى ${name}`;
+    },
     ordersTo: (n: number, name: string) => `${n} طلب للوصول إلى ${name}`,
     maxTier: "أعلى مستوى — استمتع بجميع المزايا!",
     unlockAt: (name: string) => `افتح عند ${name}`,
