@@ -283,6 +283,30 @@ export type Database = {
           },
         ]
       }
+      terms_conditions: {
+        Row: {
+          content_ar: string
+          content_en: string
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          content_ar: string
+          content_en: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string
+          content_en?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
