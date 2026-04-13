@@ -489,10 +489,10 @@ const translations: Record<Locale, Record<string, any>> = {
     days: (n: number) => `${n} يوم`,
 
     startJourney: "افتح مكافآت مستوى الجمل",
-    startJourneyDesc: "اشترِ باقات eSIM وارتقِ من البرونزي ← الذهبي ← الأحمر",
+    startJourneyDesc: "اشترِ باقات eSIM وارتقِ من البرونزي ← الذهبي ← الاحمر",
     tierBronzeLabel: "برونزي",
     tierGoldenLabel: "ذهبي",
-    tierRedLabel: "أحمر",
+    tierRedLabel: "الاحمر",
     verified: "موثّق",
     tier: "المستوى",
     addPhoneNumber: "أضف رقم هاتف",
