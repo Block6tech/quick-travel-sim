@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Wifi, Eye, EyeOff, Phone, X, ChevronDown, ChevronUp } from "lucide-react";
@@ -17,69 +17,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DiscountCodeInput, { type DiscountResult } from "@/components/DiscountCodeInput";
 
-const TERMS_CONTENT_EN = `Last updated: April 2026
-
-1. ACCEPTANCE OF TERMS
-By purchasing and using CamelSim eSIM services, you agree to these Terms & Conditions. If you do not agree, do not use our services.
-
-2. SERVICE DESCRIPTION
-CamelSim provides digital eSIM data plans for international travel. Plans are delivered electronically via QR code and activated on compatible devices.
-
-3. ELIGIBILITY
-You must have an eSIM-compatible device. You must be at least 18 years old or have parental consent.
-
-4. PRICING & PAYMENT
-All prices are displayed in your selected currency. Payment is processed securely. Prices may vary by region and are subject to change.
-
-5. DATA PLANS
-Plans provide unlimited data for the selected duration. Fair usage policies may apply. Speed may be reduced after excessive usage as outlined in plan conditions.
-
-6. REFUND POLICY
-Unused eSIMs may be refunded within 7 days of purchase. Once data has been consumed, the plan is non-refundable.
-
-7. PRIVACY
-We collect only necessary information to provide our services. Your data is protected and never sold to third parties.
-
-8. LIABILITY
-CamelSim is not liable for network outages, device compatibility issues, or service interruptions caused by local carriers.
-
-9. CHANGES TO TERMS
-We may update these terms at any time. Continued use constitutes acceptance of updated terms.
-
-10. CONTACT
-For questions, contact support@camelsim.com.`;
-
-const TERMS_CONTENT_AR = `آخر تحديث: أبريل 2026
-
-1. قبول الشروط
-بشرائك واستخدامك لخدمات CamelSim للشرائح الإلكترونية (eSIM)، فإنك توافق على هذه الشروط والأحكام. إذا كنت لا توافق، يرجى عدم استخدام خدماتنا.
-
-2. وصف الخدمة
-توفر CamelSim باقات بيانات eSIM رقمية للسفر الدولي. يتم تسليم الباقات إلكترونيًا عبر رمز QR ويتم تفعيلها على الأجهزة المتوافقة.
-
-3. الأهلية
-يجب أن يكون لديك جهاز متوافق مع eSIM. يجب أن يكون عمرك 18 عامًا على الأقل أو أن تحصل على موافقة ولي الأمر.
-
-4. الأسعار والدفع
-يتم عرض جميع الأسعار بالعملة التي تختارها. تتم معالجة الدفع بشكل آمن. قد تختلف الأسعار حسب المنطقة وهي قابلة للتغيير.
-
-5. باقات البيانات
-توفر الباقات بيانات غير محدودة للمدة المحددة. قد تنطبق سياسات الاستخدام العادل. قد يتم تقليل السرعة بعد الاستخدام المفرط كما هو موضح في شروط الباقة.
-
-6. سياسة الاسترداد
-يمكن استرداد قيمة الشرائح غير المستخدمة خلال 7 أيام من الشراء. بمجرد استهلاك البيانات، لا يمكن استرداد قيمة الباقة.
-
-7. الخصوصية
-نجمع فقط المعلومات الضرورية لتقديم خدماتنا. بياناتك محمية ولا يتم بيعها لأطراف ثالثة.
-
-8. المسؤولية
-لا تتحمل CamelSim مسؤولية انقطاع الشبكة أو مشاكل توافق الأجهزة أو انقطاع الخدمة الناجم عن شركات الاتصالات المحلية.
-
-9. تغييرات على الشروط
-قد نقوم بتحديث هذه الشروط في أي وقت. يعتبر استمرار الاستخدام موافقة على الشروط المحدثة.
-
-10. التواصل
-للأسئلة، تواصل معنا عبر support@camelsim.com.`;
 
 const Checkout = () => {
   const location = useLocation();
@@ -102,6 +39,23 @@ const Checkout = () => {
   const [wantAccount, setWantAccount] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
+  const [termsEn, setTermsEn] = useState("");
+  const [termsAr, setTermsAr] = useState("");
+
+  useEffect(() => {
+    supabase
+      .from("terms_conditions")
+      .select("content_en, content_ar")
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          setTermsEn(data.content_en);
+          setTermsAr(data.content_ar);
+        }
+      });
+  }, []);
 
   if (!plan) {
     return (
@@ -457,7 +411,7 @@ const Checkout = () => {
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-4">
-                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{locale === "ar" ? TERMS_CONTENT_AR : TERMS_CONTENT_EN}</pre>
+                <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">{locale === "ar" ? termsAr : termsEn}</pre>
               </div>
               <div className="p-4 border-t border-border">
                 <button
