@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gift, Lock, Check, ChevronDown, Trophy } from "lucide-react";
-import { tiers, getUserTier, getNextTier } from "@/data/esim-data";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import type { TierInfo, TierLevel } from "@/data/esim-data";
+import { tiers as fallbackTiers, getUserTier as fallbackGetUserTier, getNextTier as fallbackGetNextTier } from "@/data/esim-data";
 
 interface TierProgressProps {
   orderCount: number;
 }
 
-const tierColors: Record<number, { bg: string; accent: string; text: string; camel: string }> = {
-  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-amber-700 dark:text-amber-400", camel: "🐪" },
-  2: { bg: "bg-yellow-500/20", accent: "bg-yellow-500", text: "text-yellow-600 dark:text-yellow-400", camel: "🐫" },
-  3: { bg: "bg-red-500/20", accent: "bg-red-500", text: "text-red-600 dark:text-red-400", camel: "🐫" },
+const tierColors: Record<number, { bg: string; accent: string; text: string }> = {
+  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-amber-700 dark:text-amber-400" },
+  2: { bg: "bg-yellow-500/20", accent: "bg-yellow-500", text: "text-yellow-600 dark:text-yellow-400" },
+  3: { bg: "bg-red-500/20", accent: "bg-red-500", text: "text-red-600 dark:text-red-400" },
 };
 
 function CamelIcon({ tier }: { tier: number }) {
@@ -38,12 +40,75 @@ function CamelIcon({ tier }: { tier: number }) {
   );
 }
 
+interface DbTier {
+  level: number;
+  name: string;
+  emoji: string;
+  min_orders: number;
+  discount: number;
+  perks: string[];
+  perks_ar: string[];
+}
+
+function dbToTierInfo(db: DbTier): TierInfo {
+  return {
+    level: db.level as TierLevel,
+    name: db.name,
+    emoji: db.emoji,
+    minOrders: db.min_orders,
+    discount: db.discount,
+    perks: db.perks,
+  };
+}
+
 export default function TierProgress({ orderCount }: TierProgressProps) {
   const [expanded, setExpanded] = useState(false);
+  const { t, locale } = useLanguage();
+  const [tiers, setTiers] = useState<TierInfo[]>(fallbackTiers);
+  const [perksAr, setPerksAr] = useState<Record<number, string[]>>({});
+
+  useEffect(() => {
+    supabase
+      .from("camel_tiers")
+      .select("*")
+      .order("level", { ascending: true })
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const dbTiers = data as DbTier[];
+          setTiers(dbTiers.map(dbToTierInfo));
+          const arMap: Record<number, string[]> = {};
+          dbTiers.forEach((t) => { arMap[t.level] = t.perks_ar; });
+          setPerksAr(arMap);
+        }
+      });
+  }, []);
+
+  const getUserTier = (count: number): TierInfo => {
+    for (let i = tiers.length - 1; i >= 0; i--) {
+      if (count >= tiers[i].minOrders) return tiers[i];
+    }
+    return tiers[0];
+  };
+
+  const getNextTier = (count: number) => {
+    const current = getUserTier(count);
+    const idx = tiers.findIndex((t) => t.level === current.level);
+    if (idx === tiers.length - 1) return { next: null, ordersNeeded: 0, progress: 100 };
+    const next = tiers[idx + 1];
+    const ordersNeeded = next.minOrders - count;
+    const prevMin = current.minOrders;
+    const progress = ((count - prevMin) / (next.minOrders - prevMin)) * 100;
+    return { next, ordersNeeded, progress: Math.min(100, Math.max(0, progress)) };
+  };
+
   const current = getUserTier(orderCount);
   const { next, ordersNeeded, progress } = getNextTier(orderCount);
-  const colors = tierColors[current.level];
-  const { t } = useLanguage();
+  const colors = tierColors[current.level] || tierColors[1];
+
+  const getPerks = (tierItem: TierInfo) => {
+    if (locale === "ar" && perksAr[tierItem.level]?.length) return perksAr[tierItem.level];
+    return tierItem.perks;
+  };
 
   return (
     <div className="space-y-0">
@@ -58,7 +123,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
             <div className="mt-1 space-y-1">
               <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
                 <motion.div
-                  className={`h-full rounded-full ${tierColors[next.level].accent}`}
+                  className={`h-full rounded-full ${(tierColors[next.level] || tierColors[1]).accent}`}
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
@@ -91,7 +156,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                 {tiers.map((tierItem) => {
                   const isActive = current.level >= tierItem.level;
                   const isCurrent = current.level === tierItem.level;
-                  const c = tierColors[tierItem.level];
+                  const c = tierColors[tierItem.level] || tierColors[1];
                   return (
                     <div
                       key={tierItem.level}
@@ -116,10 +181,10 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
               {next && (
                 <div className="p-3 rounded-lg bg-secondary/30 space-y-1.5">
                   <div className="flex items-center gap-1.5">
-                    <Gift className={`w-3.5 h-3.5 ${tierColors[next.level].text}`} />
+                    <Gift className={`w-3.5 h-3.5 ${(tierColors[next.level] || tierColors[1]).text}`} />
                     <p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground">{t.unlockAt(next.name)}</p>
                   </div>
-                  {next.perks.map((perk) => (
+                  {getPerks(next).map((perk) => (
                     <div key={perk} className="flex items-center gap-2">
                       <Lock className="w-3 h-3 text-muted-foreground/50 flex-shrink-0" />
                       <span className="text-[11px] text-muted-foreground">{perk}</span>
@@ -128,10 +193,10 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                 </div>
               )}
 
-              {current.perks.length > 0 && (
+              {getPerks(current).length > 0 && (
                 <div className="space-y-1.5">
                   <p className="text-[10px] uppercase tracking-wider font-medium text-muted-foreground">{t.yourPerks}</p>
-                  {current.perks.map((perk) => (
+                  {getPerks(current).map((perk) => (
                     <div key={perk} className="flex items-center gap-2">
                       <Check className={`w-3 h-3 flex-shrink-0 ${colors.text}`} />
                       <span className="text-[11px]">{perk}</span>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
-import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone, Image, FileText } from "lucide-react";
+import { BarChart3, ShoppingBag, Users, Tag, Gift, LogOut, ArrowLeft, Smartphone, Image, FileText, Settings } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { to: "/admin/discounts", icon: Tag, label: "Discounts" },
   { to: "/admin/referrals", icon: Gift, label: "Referrals" },
   { to: "/admin/terms", icon: FileText, label: "Terms & Conditions" },
+  { to: "/admin/settings", icon: Settings, label: "Program Settings" },
 ];
 
 export default function AdminLayout() {
