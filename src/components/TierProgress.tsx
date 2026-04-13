@@ -176,7 +176,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                     >
                       <div className="text-center space-y-1.5">
                         <div className="flex justify-center"><CamelIcon tier={tierItem.level} /></div>
-                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? c.text : "text-muted-foreground"}`}>{tierItem.name}</p>
+                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? c.text : "text-muted-foreground"}`}>{getTierDisplayName(tierItem.name)}</p>
                         {tierItem.discount > 0 && (
                           <p className={`text-[10px] font-bold ${isActive ? c.text : "text-muted-foreground"}`}>{t.off(tierItem.discount)}</p>
                         )}
