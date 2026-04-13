@@ -11,7 +11,7 @@ interface TierProgressProps {
 }
 
 const tierColors: Record<number, { bg: string; accent: string; text: string }> = {
-  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-orange-600" },
+  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-yellow-800" },
   2: { bg: "bg-yellow-500/20", accent: "bg-yellow-500", text: "text-yellow-800 dark:text-yellow-400" },
   3: { bg: "bg-red-500/20", accent: "bg-red-500", text: "text-red-600 dark:text-red-400" },
 };
