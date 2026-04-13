@@ -71,6 +71,42 @@ export type Database = {
         }
         Relationships: []
       }
+      camel_tiers: {
+        Row: {
+          discount: number
+          emoji: string
+          id: string
+          level: number
+          min_orders: number
+          name: string
+          perks: string[]
+          perks_ar: string[]
+          updated_at: string
+        }
+        Insert: {
+          discount?: number
+          emoji?: string
+          id?: string
+          level: number
+          min_orders?: number
+          name: string
+          perks?: string[]
+          perks_ar?: string[]
+          updated_at?: string
+        }
+        Update: {
+          discount?: number
+          emoji?: string
+          id?: string
+          level?: number
+          min_orders?: number
+          name?: string
+          perks?: string[]
+          perks_ar?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       discount_codes: {
         Row: {
           active: boolean
@@ -241,6 +277,33 @@ export type Database = {
           reward_type?: string
           reward_value?: number
           user_id?: string
+        }
+        Relationships: []
+      }
+      referral_settings: {
+        Row: {
+          default_friend_discount_type: string
+          default_friend_discount_value: number
+          default_reward_type: string
+          default_reward_value: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          default_friend_discount_type?: string
+          default_friend_discount_value?: number
+          default_reward_type?: string
+          default_reward_value?: number
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          default_friend_discount_type?: string
+          default_friend_discount_value?: number
+          default_reward_type?: string
+          default_reward_value?: number
+          id?: string
+          updated_at?: string
         }
         Relationships: []
       }
