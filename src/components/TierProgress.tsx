@@ -11,7 +11,7 @@ interface TierProgressProps {
 }
 
 const tierColors: Record<number, { bg: string; accent: string; text: string }> = {
-  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-amber-700 dark:text-amber-400" },
+  1: { bg: "bg-amber-900/20", accent: "bg-amber-700", text: "text-orange-600" },
   2: { bg: "bg-yellow-500/20", accent: "bg-yellow-500", text: "text-yellow-600 dark:text-yellow-400" },
   3: { bg: "bg-red-500/20", accent: "bg-red-500", text: "text-red-600 dark:text-red-400" },
 };
@@ -174,7 +174,7 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
                     >
                       <div className="text-center space-y-1.5">
                         <div className="flex justify-center"><CamelIcon tier={tierItem.level} /></div>
-                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? "text-orange-600" : "text-muted-foreground"}`}>{tierItem.name}</p>
+                        <p className={`uppercase tracking-wider font-sans font-medium text-sm ${isCurrent ? c.text : "text-muted-foreground"}`}>{tierItem.name}</p>
                         {tierItem.discount > 0 && (
                           <p className={`text-[10px] font-bold ${isActive ? c.text : "text-muted-foreground"}`}>{t.off(tierItem.discount)}</p>
                         )}
