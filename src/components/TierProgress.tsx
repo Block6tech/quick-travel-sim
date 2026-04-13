@@ -63,7 +63,7 @@ function dbToTierInfo(db: DbTier): TierInfo {
 
 export default function TierProgress({ orderCount }: TierProgressProps) {
   const [expanded, setExpanded] = useState(false);
-  const { t, locale } = useLanguage();
+  const { t, locale, isRTL } = useLanguage();
   const [tiers, setTiers] = useState<TierInfo[]>(fallbackTiers);
   const [perksAr, setPerksAr] = useState<Record<number, string[]>>({});
 
