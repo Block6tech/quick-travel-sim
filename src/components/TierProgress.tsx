@@ -63,7 +63,7 @@ function dbToTierInfo(db: DbTier): TierInfo {
 
 export default function TierProgress({ orderCount }: TierProgressProps) {
   const [expanded, setExpanded] = useState(false);
-  const { t, locale } = useLanguage();
+  const { t, locale, isRTL } = useLanguage();
   const [tiers, setTiers] = useState<TierInfo[]>(fallbackTiers);
   const [perksAr, setPerksAr] = useState<Record<number, string[]>>({});
 
@@ -141,6 +141,14 @@ export default function TierProgress({ orderCount }: TierProgressProps) {
           <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
         </motion.div>
       </button>
+
+      <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground mt-2 px-1">
+        <span className={current.level >= 1 ? "text-amber-700 dark:text-amber-400 font-bold" : ""}>🐪 {locale === "ar" ? "الجمل البرونزي" : "Bronze Camel"}</span>
+        <span>{isRTL ? "←" : "→"}</span>
+        <span className={current.level >= 2 ? "text-yellow-600 dark:text-yellow-400 font-bold" : ""}>✨ {locale === "ar" ? "الجمل الذهبي" : "Golden Camel"}</span>
+        <span>{isRTL ? "←" : "→"}</span>
+        <span className={current.level >= 3 ? "text-red-600 dark:text-red-400 font-bold" : ""}>👑 {locale === "ar" ? "الجمل الأحمر" : "Red Camel"}</span>
+      </div>
 
       <AnimatePresence>
         {expanded && (

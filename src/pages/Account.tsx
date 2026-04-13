@@ -156,13 +156,6 @@ const Account = () => {
               </div>
               <Chevron className="w-5 h-5 text-muted-foreground flex-shrink-0" />
             </button>
-            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <span>🐪 {t.tierBronzeLabel}</span>
-              <span>→</span>
-              <span>✨ {t.tierGoldenLabel}</span>
-              <span>→</span>
-              <span>👑 {t.tierRedLabel}</span>
-            </div>
           </motion.div>
         )}
 
