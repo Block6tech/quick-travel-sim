@@ -34,12 +34,18 @@ import AdminSettings from "./pages/admin/AdminSettings.tsx";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(
+    () => typeof window !== "undefined" && sessionStorage.getItem("splashShown") !== "1"
+  );
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2000);
+    if (!showSplash) return;
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+      sessionStorage.setItem("splashShown", "1");
+    }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showSplash]);
 
   return (
   <QueryClientProvider client={queryClient}>
